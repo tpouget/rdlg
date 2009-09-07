@@ -9,7 +9,7 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 /**
  * The client side stub for the RPC service.
  */
-@RemoteServiceRelativePath("plat")
+@RemoteServiceRelativePath("meal")
 public interface MealService extends RemoteService {
 	public Meal persistPlat(Meal plat);
 	public List<Meal> persistPlats(List<Meal> plats);

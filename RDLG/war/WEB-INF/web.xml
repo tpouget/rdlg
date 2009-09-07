@@ -8,13 +8,13 @@ version="2.5">
   
   <!-- Servlets -->
   <servlet>
-    <servlet-name>platServlet</servlet-name>
-    <servlet-class>com.capgemini.rdlg.server.service.PlatServiceImpl</servlet-class>
+    <servlet-name>mealServlet</servlet-name>
+    <servlet-class>com.capgemini.rdlg.server.service.MealServiceImpl</servlet-class>
   </servlet>
   
   <servlet-mapping>
-    <servlet-name>platServlet</servlet-name>
-    <url-pattern>/rdlg/plat</url-pattern>
+    <servlet-name>mealServlet</servlet-name>
+    <url-pattern>/rdlg/meal</url-pattern>
   </servlet-mapping>
   
   

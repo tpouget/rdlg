@@ -74,9 +74,9 @@ public class OrdersPanel extends ContentPanel {
 		combo.setTriggerAction(TriggerAction.ALL);
 		//Load Entrée data
 		
-		combo.add(MealType.ENTREE);
-		combo.add(MealType.PLAT);
-		combo.add(MealType.DESSERT);
+//		combo.add(MealType.ENTREE);
+//		combo.add(MealType.PLAT);
+//		combo.add(MealType.DESSERT);
 		
 		combo.setValidator(new Validator() {
 			@Override
@@ -123,8 +123,8 @@ public class OrdersPanel extends ContentPanel {
 		editor = new CellEditor(dateField);
 		date.setEditor(editor);
 
-		final ColumnModel cm = new ColumnModel(Arrays.asList( entree,
-				plat, dessert, total, date));
+		final ColumnModel cm = new ColumnModel(Arrays.asList(date));
+		//entree,plat, dessert, total, 
 
 		view.setShowGroupedColumn(true);
 		view.setForceFit(true);
