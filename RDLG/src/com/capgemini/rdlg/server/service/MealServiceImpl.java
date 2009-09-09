@@ -32,7 +32,7 @@ public class MealServiceImpl extends RemoteServiceServlet implements
 				result.setNom(newPlat.getNom());
 				result.setPrix(newPlat.getPrix());
 				result.setDate(newPlat.getDate());
-				result.setTypePlat(newPlat.getTypePlat());
+				result.setMealType(newPlat.getMealType());
 				
 			} else
 				result = pm.makePersistent(newPlat);
@@ -58,9 +58,9 @@ public class MealServiceImpl extends RemoteServiceServlet implements
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		List<Meal> result = new ArrayList<Meal>();
 		try {
-			Query query = pm.newQuery(Meal.class, " typePlat == typeParam");
+			Query query = pm.newQuery(Meal.class, " mealType == typeParam");
 
-			query.declareParameters("TypePlat typeParam");
+			query.declareParameters("MealType typeParam");
 
 			List<Meal> results = new ArrayList<Meal>();
 

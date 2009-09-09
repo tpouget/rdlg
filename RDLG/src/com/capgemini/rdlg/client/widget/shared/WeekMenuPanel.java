@@ -244,7 +244,7 @@ public class WeekMenuPanel extends ContentPanel {
 		Meal plat = new Meal();
 		plat.setNom("Nouveau plat");
 		plat.setDate(new DateWrapper().clearTime().asDate());
-		plat.setTypePlat(MealType.ENTREE);
+		plat.setMealType(MealType.ENTREE);
 		plat.setPrix(0.0);
 		plat.updateProperties();
 		return plat;

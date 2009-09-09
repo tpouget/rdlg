@@ -31,7 +31,7 @@ public class Meal extends BaseModel{
 	private Double prix;
 	
 	@Persistent
-	private MealType typePlat;
+	private MealType mealType;
 	
 	@Persistent
 	private Date date;
@@ -42,7 +42,7 @@ public class Meal extends BaseModel{
 	public Meal(String nom, Double prix, MealType typePlat, Date date){
 		this.setNom(nom);
 		this.setPrix(prix);
-		this.setTypePlat(typePlat);
+		this.setMealType(typePlat);
 		this.setDate(date);
 		
 		
@@ -65,12 +65,12 @@ public class Meal extends BaseModel{
 		return prix;
 	}
 
-	public void setTypePlat(MealType typePlat) {
-		this.typePlat = typePlat;
+	public void setMealType(MealType typePlat) {
+		this.mealType = typePlat;
 	}
 
-	public MealType getTypePlat() {
-		return typePlat;
+	public MealType getMealType() {
+		return mealType;
 	}
 
 	public void setId(String id) {
@@ -93,7 +93,7 @@ public class Meal extends BaseModel{
 	public void updateProperties(){
 		set("id", getId());
 		set("date", getDate());
-		set("typePlat", getTypePlat());
+		set("typePlat", getMealType());
 		set("nom", getNom());
 		set("prix", getPrix());
 	}
@@ -102,6 +102,6 @@ public class Meal extends BaseModel{
 		setDate((Date)get("date"));
 		setNom((String)get("nom"));
 		setPrix((Double)get("prix"));
-		setTypePlat((MealType)get("typePlat"));
+		setMealType((MealType)get("typePlat"));
 	}
 }
