@@ -209,10 +209,9 @@ public class OrdersPanel extends ContentPanel {
 
 	public void getPanelHeading() {
 		if (PanelState.FRONTEND.equals(panelState))
-			setHeading("Mes commands");
+			setHeading("Mes commandes");
 		else if (PanelState.BACKEND.equals(panelState))
 			setHeading("Administration des commandes");
-
 	}
 
 	public GroupingView getView() {

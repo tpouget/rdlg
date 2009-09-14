@@ -83,7 +83,7 @@ public class WeekMenuPanel extends ContentPanel {
 		dble.setAllowBlank(true);
 		prix.setEditor(new CellEditor(dble));
 
-		ColumnConfig typePlat = new ColumnConfig("typePlat", "Type", 50);
+		ColumnConfig typePlat = new ColumnConfig("mealType", "Type", 50);
 
 		final SimpleComboBox<MealType> combo = new SimpleComboBox<MealType>();
 		combo.setForceSelection(true);
@@ -179,7 +179,6 @@ public class WeekMenuPanel extends ContentPanel {
 				re.startEditing(store.indexOf(plat), true);
 
 			}
-
 		});
 
 		toolBar.add(add);

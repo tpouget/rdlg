@@ -11,8 +11,10 @@ import java.util.List;
 
 import com.capgemini.rdlg.client.AppEvents;
 import com.capgemini.rdlg.client.model.Meal;
+import com.capgemini.rdlg.client.model.User;
 import com.capgemini.rdlg.client.mvc.AppView;
 import com.capgemini.rdlg.client.widget.backend.ReplacementMealPanel;
+import com.capgemini.rdlg.client.widget.backend.UserManagementPanel;
 import com.capgemini.rdlg.client.widget.shared.OrdersPanel;
 import com.capgemini.rdlg.client.widget.shared.PanelState;
 import com.capgemini.rdlg.client.widget.shared.WeekMenuPanel;
@@ -28,6 +30,7 @@ public class BackendView extends View {
 	private WeekMenuPanel backendWeekMenuPanel;
 	private ReplacementMealPanel backendReplacementMealPanel;
 	private OrdersPanel backendOrdersPanel;
+	private UserManagementPanel userManagementPanel;
 
 	public BackendView(Controller controller) {
 		super(controller);
@@ -38,6 +41,7 @@ public class BackendView extends View {
 		backendWeekMenuPanel = new WeekMenuPanel(PanelState.BACKEND);
 		backendReplacementMealPanel = new ReplacementMealPanel();
 		backendOrdersPanel = new OrdersPanel(PanelState.BACKEND);
+		userManagementPanel = new UserManagementPanel();
 	}
 
 	@Override
@@ -76,6 +80,18 @@ public class BackendView extends View {
 			wrapper.add(backendOrdersPanel);
 			wrapper.layout();
 
+		} else if (event.getType() == AppEvents.ViewUserManagement) {
+			LayoutContainer wrapper = 
+				(LayoutContainer) Registry.get(AppView.CENTER_PANEL);
+			wrapper.removeAll();
+			wrapper.add(userManagementPanel);
+			wrapper.layout();
+			
+			ListStore<User> store = userManagementPanel.getStore();
+			store.removeAll();
+			store.add(event.<List<User>> getData());
+			wrapper.layout();
+			return;
 		}
 	}
 }

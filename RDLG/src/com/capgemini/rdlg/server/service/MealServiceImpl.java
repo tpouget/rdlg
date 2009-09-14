@@ -90,9 +90,9 @@ public class MealServiceImpl extends RemoteServiceServlet implements
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		List<Meal> result = new ArrayList<Meal>();
 		try {
-			Query query = pm.newQuery(Meal.class, " typePlat == typeParam");
+			Query query = pm.newQuery(Meal.class, " mealType == typeParam");
 
-			query.declareParameters("TypePlat typeParam");
+			query.declareParameters("MealType typeParam");
 
 			List<Meal> results = new ArrayList<Meal>();
 

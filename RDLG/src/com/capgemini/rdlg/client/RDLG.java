@@ -5,6 +5,8 @@ import com.capgemini.rdlg.client.mvc.backend.BackendController;
 import com.capgemini.rdlg.client.mvc.frontend.WeekMenuController;
 import com.capgemini.rdlg.client.service.MealService;
 import com.capgemini.rdlg.client.service.MealServiceAsync;
+import com.capgemini.rdlg.client.service.UserService;
+import com.capgemini.rdlg.client.service.UserServiceAsync;
 import com.extjs.gxt.ui.client.GXT;
 import com.extjs.gxt.ui.client.Registry;
 import com.extjs.gxt.ui.client.mvc.Dispatcher;
@@ -27,6 +29,7 @@ public class RDLG implements EntryPoint {
 			+ "connection and try again.";
 
 	 public static final String MEAL_SERVICE = "meal";
+	 public static final String USER_SERVICE = "user";
 	/**
 	 * This is the entry point method.
 	 */
@@ -34,11 +37,8 @@ public class RDLG implements EntryPoint {
 
 		  	GXT.setDefaultTheme(Theme.GRAY, true);
 
-		  	MealServiceAsync platService = GWT.create(MealService.class);
-		    ServiceDefTarget endpoint = (ServiceDefTarget) platService;
-		    String moduleRelativeURL = MEAL_SERVICE;
-		    endpoint.setServiceEntryPoint(moduleRelativeURL);
-		    Registry.register(MEAL_SERVICE, platService);
+		    Registry.register(MEAL_SERVICE, GWT.create(MealService.class));
+		    Registry.register(USER_SERVICE, GWT.create(UserService.class));
 
 		    Dispatcher dispatcher = Dispatcher.get();
 		    dispatcher.addController(new AppController());

@@ -38,7 +38,7 @@ public class LoginDialog extends Dialog {
     setButtonAlign(HorizontalAlignment.LEFT);
     setButtons("");
     setIcon(IconHelper.createStyle("user"));
-    setHeading("GXT Mail Demo Login");
+    setHeading("Restaurant de la gare");
     setModal(true);
     setBodyBorder(true);
     setBodyStyle("padding: 8px;background: none");

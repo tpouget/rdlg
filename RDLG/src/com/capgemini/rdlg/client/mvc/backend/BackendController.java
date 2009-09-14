@@ -7,12 +7,15 @@
  */
 package com.capgemini.rdlg.client.mvc.backend;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.capgemini.rdlg.client.AppEvents;
 import com.capgemini.rdlg.client.RDLG;
 import com.capgemini.rdlg.client.model.Meal;
+import com.capgemini.rdlg.client.model.User;
 import com.capgemini.rdlg.client.service.MealServiceAsync;
+import com.capgemini.rdlg.client.service.UserServiceAsync;
 import com.extjs.gxt.ui.client.Registry;
 import com.extjs.gxt.ui.client.mvc.AppEvent;
 import com.extjs.gxt.ui.client.mvc.Controller;
@@ -22,6 +25,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 public class BackendController extends Controller {
 
 	private MealServiceAsync platService;
+	private UserServiceAsync userService;
 	private BackendView adminView;
 
 	public BackendController() {
@@ -31,13 +35,14 @@ public class BackendController extends Controller {
 		registerEventTypes(AppEvents.ViewBackendCommande);
 		registerEventTypes(AppEvents.SaveBackendMenuOfTheWeek);
 		registerEventTypes(AppEvents.SaveBackendReplacementMeal);
-
+		registerEventTypes(AppEvents.ViewUserManagement);
 	}
 
 	@Override
 	public void initialize() {
 		super.initialize();
-		platService = (MealServiceAsync) Registry.get(RDLG.MEAL_SERVICE);
+		platService = Registry.get(RDLG.MEAL_SERVICE);
+		userService = Registry.get(RDLG.USER_SERVICE);
 		adminView = new BackendView(this);
 	}
 
@@ -45,7 +50,6 @@ public class BackendController extends Controller {
 
 		if (event.getType() == AppEvents.ViewBackendWeekMenu) {
 			onViewAdminMenuSemaine(event);
-
 		} else if (event.getType() == AppEvents.ViewBackendCommande) {
 			forwardToView(adminView, event);
 		} else if (event.getType() == AppEvents.ViewBackendReplacementMeal) {
@@ -54,7 +58,28 @@ public class BackendController extends Controller {
 			onSaveBackendMenuSemaine(event);
 		} else if (event.getType() == AppEvents.SaveBackendReplacementMeal){
 			onSaveBackendPlatRemplacement(event);
+		} else if (event.getType() == AppEvents.ViewUserManagement){
+			onViewUserManagement(event);
 		}
+	}
+
+	private void onViewUserManagement(final AppEvent event) {
+		userService.getUsers(new AsyncCallback<ArrayList<User>>() {
+			@Override
+			public void onFailure(Throwable caught) {
+				Dispatcher.forwardEvent(AppEvents.Error, caught);
+			}
+			@Override
+			public void onSuccess(ArrayList<User> result) {
+				for (User user : result) {
+					user.updateProperties();
+				}
+				AppEvent ae = new AppEvent(event.getType(), result);
+
+				forwardToView(adminView, ae);
+			}
+		});
+		
 	}
 
 	private void onViewAdminMenuSemaine(final AppEvent event) {
@@ -64,7 +89,6 @@ public class BackendController extends Controller {
 
 				for (Meal plat : result) {
 					plat.updateProperties();
-
 				}
 				AppEvent ae = new AppEvent(event.getType(), result);
 

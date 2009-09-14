@@ -97,7 +97,16 @@ public class AppView extends View {
   
     Menu menu = new Menu();  
     
-    MenuItem menuItem = new MenuItem("Menu de la semaine");  
+    MenuItem menuItem = new MenuItem("Utilisateurs");  
+    menuItem.addListener(Events.Select, new Listener<BaseEvent>() {
+    	public void handleEvent(BaseEvent be) {
+    		Dispatcher.forwardEvent(AppEvents.ViewUserManagement);
+    	}
+	});
+   
+    menu.add(menuItem);  
+    
+    menuItem = new MenuItem("Menu de la semaine");  
     menuItem.addListener(Events.Select, new Listener<BaseEvent>() {
     	public void handleEvent(BaseEvent be) {
     		

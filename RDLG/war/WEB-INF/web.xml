@@ -17,6 +17,15 @@ version="2.5">
     <url-pattern>/rdlg/meal</url-pattern>
   </servlet-mapping>
   
+  <servlet>
+    <servlet-name>userServlet</servlet-name>
+    <servlet-class>com.capgemini.rdlg.server.service.UserServiceImpl</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>userServlet</servlet-name>
+    <url-pattern>/rdlg/user</url-pattern>
+  </servlet-mapping>
   
   <!-- Default page to serve -->
   <welcome-file-list>

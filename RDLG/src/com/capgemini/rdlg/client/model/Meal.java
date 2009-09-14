@@ -44,8 +44,6 @@ public class Meal extends BaseModel{
 		this.setPrix(prix);
 		this.setMealType(typePlat);
 		this.setDate(date);
-		
-		
 	}
 
 	public void setNom(String nom) {
