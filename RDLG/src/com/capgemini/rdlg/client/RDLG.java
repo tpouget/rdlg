@@ -4,16 +4,13 @@ import com.capgemini.rdlg.client.mvc.AppController;
 import com.capgemini.rdlg.client.mvc.backend.BackendController;
 import com.capgemini.rdlg.client.mvc.frontend.WeekMenuController;
 import com.capgemini.rdlg.client.service.MealService;
-import com.capgemini.rdlg.client.service.MealServiceAsync;
 import com.capgemini.rdlg.client.service.UserService;
-import com.capgemini.rdlg.client.service.UserServiceAsync;
 import com.extjs.gxt.ui.client.GXT;
 import com.extjs.gxt.ui.client.Registry;
 import com.extjs.gxt.ui.client.mvc.Dispatcher;
 import com.extjs.gxt.ui.client.util.Theme;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.client.rpc.ServiceDefTarget;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.

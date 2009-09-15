@@ -12,4 +12,5 @@ public interface UserService extends RemoteService{
 	public void updateUser(User user);
 	public void deleteUser(String id);
 	public ArrayList<User> getUsers();
+	public void addUsers(ArrayList<User> users);
 }

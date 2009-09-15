@@ -34,5 +34,8 @@ public class AppEvents {
 	public static final EventType SaveBackendMenuOfTheWeek = new EventType();
 
 	public static final EventType SaveBackendReplacementMeal = new EventType();
+	
+	public static final EventType SaveUserManagement = new EventType();
+	
 
 }

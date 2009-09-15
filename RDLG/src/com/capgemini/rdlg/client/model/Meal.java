@@ -91,7 +91,7 @@ public class Meal extends BaseModel{
 	public void updateProperties(){
 		set("id", getId());
 		set("date", getDate());
-		set("typePlat", getMealType());
+		set("mealType", getMealType());
 		set("nom", getNom());
 		set("prix", getPrix());
 	}
@@ -100,6 +100,6 @@ public class Meal extends BaseModel{
 		setDate((Date)get("date"));
 		setNom((String)get("nom"));
 		setPrix((Double)get("prix"));
-		setMealType((MealType)get("typePlat"));
+		setMealType((MealType)get("mealType"));
 	}
 }

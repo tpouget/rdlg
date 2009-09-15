@@ -88,7 +88,6 @@ public class LoginDialog extends Dialog {
         validate();
         userName.focus();
       }
-
     });
 
     login = new Button("Login");

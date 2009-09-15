@@ -36,6 +36,7 @@ public class BackendController extends Controller {
 		registerEventTypes(AppEvents.SaveBackendMenuOfTheWeek);
 		registerEventTypes(AppEvents.SaveBackendReplacementMeal);
 		registerEventTypes(AppEvents.ViewUserManagement);
+		registerEventTypes(AppEvents.SaveUserManagement);
 	}
 
 	@Override
@@ -60,7 +61,28 @@ public class BackendController extends Controller {
 			onSaveBackendPlatRemplacement(event);
 		} else if (event.getType() == AppEvents.ViewUserManagement){
 			onViewUserManagement(event);
+		} else if (event.getType() == AppEvents.SaveUserManagement){
+			onSaveUserManagement(event);
 		}
+	}
+
+	private void onSaveUserManagement(AppEvent event) {
+		ArrayList<User> users = event.getData();
+		
+		for(User user : users)
+			user.updateObject();
+		
+		userService.addUsers(users, new AsyncCallback<Void>() {
+			@Override
+			public void onFailure(Throwable caught) {
+				Dispatcher.forwardEvent(AppEvents.Error, caught);
+			}
+			@Override
+			public void onSuccess(Void result) {
+				Dispatcher.forwardEvent(AppEvents.ViewUserManagement);
+			}
+		});
+		
 	}
 
 	private void onViewUserManagement(final AppEvent event) {
@@ -153,14 +175,12 @@ public class BackendController extends Controller {
 		platService.persistPlats(meals, new AsyncCallback<List<Meal>>() {
 			@Override
 			public void onFailure(Throwable caught) {
-				// TODO Auto-generated method stub
 				Dispatcher.forwardEvent(AppEvents.Error, caught);
 			}
 
 			@Override
 			public void onSuccess(List<Meal> result) {
 				Dispatcher.forwardEvent(AppEvents.ViewBackendReplacementMeal);
-
 			}
 		});
 	}

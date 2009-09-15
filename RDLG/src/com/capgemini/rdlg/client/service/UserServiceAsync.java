@@ -10,5 +10,6 @@ public interface UserServiceAsync {
 	void addUser(User user, AsyncCallback<Void> callback);
 	void deleteUser(String id, AsyncCallback<Void> callback);
 	void updateUser(User user, AsyncCallback<Void> callback);
+	void addUsers(ArrayList<User> users, AsyncCallback<Void> asyncCallback);
 
 }

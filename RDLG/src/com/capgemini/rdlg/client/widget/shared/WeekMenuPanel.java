@@ -55,7 +55,6 @@ public class WeekMenuPanel extends ContentPanel {
 	public WeekMenuPanel(PanelState panelState) {
 		this.panelState = panelState;
 		
-
 		setLayout(new FitLayout());
 
 		getPanelHeading();
@@ -94,13 +93,11 @@ public class WeekMenuPanel extends ContentPanel {
 		combo.setValidator(new Validator() {
 			@Override
 			public String validate(Field<?> field, String value) {
-
 				try {
 					MealType.valueOf(value);
 				} catch (Exception e) {
 					return "Veuillez selectionner un type de plat";
 				}
-
 				return null;
 			}
 		});
@@ -139,7 +136,6 @@ public class WeekMenuPanel extends ContentPanel {
 		final ColumnModel cm = new ColumnModel(Arrays.asList(nom, prix,
 				typePlat, date));
 
-		view.setShowGroupedColumn(true);
 		view.setForceFit(true);
 
 		view.setGroupRenderer(new GridGroupRenderer() {
@@ -168,7 +164,6 @@ public class WeekMenuPanel extends ContentPanel {
 		ToolBar toolBar = new ToolBar();
 		Button add = new Button("Ajouter un plat");
 		add.addSelectionListener(new SelectionListener<ButtonEvent>() {
-
 			@Override
 			public void componentSelected(ButtonEvent ce) {
 				Meal plat = createPlat();
@@ -177,7 +172,6 @@ public class WeekMenuPanel extends ContentPanel {
 				store.insert(plat, 0);
 
 				re.startEditing(store.indexOf(plat), true);
-
 			}
 		});
 
@@ -186,7 +180,6 @@ public class WeekMenuPanel extends ContentPanel {
 
 		setButtonAlign(HorizontalAlignment.CENTER);
 		addButton(new Button("Reset", new SelectionListener<ButtonEvent>() {
-
 			@Override
 			public void componentSelected(ButtonEvent ce) {
 				store.rejectChanges();

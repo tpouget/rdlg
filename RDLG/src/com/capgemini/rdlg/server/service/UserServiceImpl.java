@@ -52,4 +52,10 @@ public class UserServiceImpl extends RemoteServiceServlet implements
 		// TODO Auto-generated method stub
 	}
 
+	@Override
+	public void addUsers(ArrayList<User> users) {
+		for (User user: users)
+			addUser(user);
+	}
+
 }

@@ -10,7 +10,6 @@ package com.capgemini.rdlg.client.mvc.frontend;
 
 import java.util.List;
 
-import com.capgemini.rdlg.client.AppConstants;
 import com.capgemini.rdlg.client.AppEvents;
 import com.capgemini.rdlg.client.model.Meal;
 import com.capgemini.rdlg.client.mvc.AppView;
