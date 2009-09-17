@@ -1,5 +1,7 @@
 package com.capgemini.rdlg.client.model;
 
+import java.util.Date;
+
 import javax.jdo.annotations.Extension;
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.IdentityType;
@@ -14,39 +16,59 @@ public class Transaction {
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
 	@Extension(vendorName = "datanucleus", key = "gae.encoded-pk", value = "true")  
 	private String id;
+	
+	@Persistent
+	private TransactionType transactionType;
+	
+	@Persistent
+	private Double amount = 0.0;
+	
+	@Persistent
+	private Date date = new Date();
+	
+	@Persistent
+	private String userId; 
+	
+	public String getUserId() {
+		return userId;
+	}
 
-	
-	@Persistent
-	private TypeTransaction typeTransaction;
-	
-	@Persistent
-	private Double montant = 0.0;
-	
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+
+	public TransactionType getTransactionType() {
+		return transactionType;
+	}
+
+	public void setTransactionType(TransactionType transactionType) {
+		this.transactionType = transactionType;
+	}
+
+	public Date getDate() {
+		return date;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
+	}
+
 	public Transaction(){
 		
 	}
 	
-	public Transaction(TypeTransaction typeTransaction, Double montant){
-		setTypeTransaction(typeTransaction);
-		setMontant(montant);
+	public Transaction(TransactionType transactionType, Double amount){
+		setTransactionType(transactionType);
+		setAmount(amount);
 	}
 
-	public void setTypeTransaction(TypeTransaction typeTransaction) {
-		this.typeTransaction = typeTransaction;
+	public void setAmount(Double amount) {
+		this.amount = amount;
 	}
 
-	public TypeTransaction getTypeTransaction() {
-		return typeTransaction;
+	public Double getAmount() {
+		return amount;
 	}
-
-	public void setMontant(Double montant) {
-		this.montant = montant;
-	}
-
-	public Double getMontant() {
-		return montant;
-	}
-
 
 	public void setId(String id) {
 		this.id = id;

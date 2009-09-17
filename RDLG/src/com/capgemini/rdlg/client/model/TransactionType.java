@@ -1,6 +1,6 @@
 package com.capgemini.rdlg.client.model;
 
-public enum TypeTransaction {
+public enum TransactionType {
 
 	DEBIT,
 	CREDIT
