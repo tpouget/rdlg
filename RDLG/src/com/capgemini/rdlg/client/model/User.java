@@ -7,6 +7,7 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
+import com.capgemini.rdlg.client.Tools;
 import com.extjs.gxt.ui.client.data.BaseModel;
 
 @PersistenceCapable(identityType = IdentityType.APPLICATION, detachable = "false")
@@ -84,7 +85,8 @@ public class User extends BaseModel{
 	}
 
 	public void setPassword(String password) {
-		this.password = password;
+		if (this.password==null || !this.password.equals(password))
+			this.password = Tools.SHA1(password);
 	}
 
 	public void setUserType(UserType userType) {
@@ -96,7 +98,6 @@ public class User extends BaseModel{
 	}
 	
 	public void updateProperties() {
-		set("id", id);
 		set("lastname", lastname);
 		set("firstname", firstname);
 		set("email", email);
@@ -108,7 +109,7 @@ public class User extends BaseModel{
 		lastname  = get("lastname");
 		firstname = get("firstname");
 		email     = get("email");
-		password  = get("password");
+		setPassword((String)get("password"));
 		userType  = get("userType");
 	}
 }

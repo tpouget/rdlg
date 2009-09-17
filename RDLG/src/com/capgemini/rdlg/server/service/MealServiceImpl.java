@@ -53,6 +53,7 @@ public class MealServiceImpl extends RemoteServiceServlet implements
 		return result;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Meal> getPlatsMenuSemaine() {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
@@ -85,6 +86,7 @@ public class MealServiceImpl extends RemoteServiceServlet implements
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Meal> getPlatsRemplacement() {
 		PersistenceManager pm = PMF.get().getPersistenceManager();

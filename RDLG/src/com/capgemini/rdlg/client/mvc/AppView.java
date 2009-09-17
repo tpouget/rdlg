@@ -9,6 +9,9 @@ package com.capgemini.rdlg.client.mvc;
 
 
 import com.capgemini.rdlg.client.AppEvents;
+import com.capgemini.rdlg.client.RDLG;
+import com.capgemini.rdlg.client.model.User;
+import com.capgemini.rdlg.client.model.UserType;
 import com.capgemini.rdlg.client.widget.LoginDialog;
 import com.extjs.gxt.ui.client.Registry;
 import com.extjs.gxt.ui.client.Style.LayoutRegion;
@@ -30,6 +33,8 @@ import com.extjs.gxt.ui.client.widget.layout.BorderLayoutData;
 import com.extjs.gxt.ui.client.widget.layout.FitLayout;
 import com.extjs.gxt.ui.client.widget.menu.Menu;
 import com.extjs.gxt.ui.client.widget.menu.MenuItem;
+import com.extjs.gxt.ui.client.widget.toolbar.FillToolItem;
+import com.extjs.gxt.ui.client.widget.toolbar.LabelToolItem;
 import com.extjs.gxt.ui.client.widget.toolbar.ToolBar;
 import com.google.gwt.user.client.ui.RootPanel;
 
@@ -40,21 +45,22 @@ public class AppView extends View {
 
   private Viewport viewport;
   private LayoutContainer center;
+  private LoginDialog dialog;
 
   public AppView(Controller controller) {
     super(controller);
   }
 
   protected void initialize() {
-	  LoginDialog dialog = new LoginDialog();
-	    dialog.setClosable(false);
-	    dialog.addListener(Events.Hide, new Listener<WindowEvent>() {
+	  dialog = new LoginDialog();
+	  dialog.setClosable(false);
+	  dialog.addListener(Events.Hide, new Listener<WindowEvent>() {
 	      public void handleEvent(WindowEvent be) {
 	        Dispatcher.forwardEvent(AppEvents.Init);
 	        Dispatcher.forwardEvent(AppEvents.ViewFrontendMenuSemaine);
 	      }
-	    });
-	    dialog.show();
+	  });
+	  dialog.show();
   }
 
   private void initUI() {
@@ -91,59 +97,69 @@ public class AppView extends View {
 	   
     Button item2 = new Button("Mes Commandes");
     Button item3 = new Button("Mes Paiements");
-    Button item4 = new Button("Administration");
     
-
-  
-    Menu menu = new Menu();  
     
-    MenuItem menuItem = new MenuItem("Utilisateurs");  
-    menuItem.addListener(Events.Select, new Listener<BaseEvent>() {
-    	public void handleEvent(BaseEvent be) {
-    		Dispatcher.forwardEvent(AppEvents.ViewUserManagement);
-    	}
-	});
-   
-    menu.add(menuItem);  
-    
-    menuItem = new MenuItem("Menu de la semaine");  
-    menuItem.addListener(Events.Select, new Listener<BaseEvent>() {
-    	public void handleEvent(BaseEvent be) {
-    		
-    		 Dispatcher.forwardEvent(AppEvents.ViewBackendWeekMenu);
-    	}
-	});
-   
-    menu.add(menuItem);  
-    
-    menuItem = new MenuItem("Plats de remplacement");  
-    menuItem.addListener(Events.Select, new Listener<BaseEvent>() {
-    	public void handleEvent(BaseEvent be) {
-    		
-    		 Dispatcher.forwardEvent(AppEvents.ViewBackendReplacementMeal);
-    	}
-	});
-   
-    menu.add(menuItem);  
-  
-  
-    menuItem = new MenuItem("Commandes");
-    menuItem.addListener(Events.Select, new Listener<BaseEvent>() {
-    	public void handleEvent(BaseEvent be) {
-    		
-    		 Dispatcher.forwardEvent(AppEvents.ViewBackendCommande);
-    	}
-	});
-    menu.add(menuItem);  
-    
-    menuItem = new MenuItem("Transactions");
-    menu.add(menuItem);  
-    item4.setMenu(menu);  
  
     toolBar.add(item1);
     toolBar.add(item2);
     toolBar.add(item3);
-    toolBar.add(item4);
+    
+    if (((User)Registry.get(RDLG.USER)).getUserType().equals(UserType.ADMIN)){
+	    Button item4 = new Button("Administration");
+	    
+	    Menu menu = new Menu();  
+	    
+	    MenuItem menuItem = new MenuItem("Utilisateurs");  
+	    menuItem.addListener(Events.Select, new Listener<BaseEvent>() {
+	    	public void handleEvent(BaseEvent be) {
+	    		Dispatcher.forwardEvent(AppEvents.ViewUserManagement);
+	    	}
+		});
+	   
+	    menu.add(menuItem);  
+	    
+	    menuItem = new MenuItem("Menu de la semaine");  
+	    menuItem.addListener(Events.Select, new Listener<BaseEvent>() {
+	    	public void handleEvent(BaseEvent be) {
+	    		
+	    		 Dispatcher.forwardEvent(AppEvents.ViewBackendWeekMenu);
+	    	}
+		});
+	   
+	    menu.add(menuItem);  
+	    
+	    menuItem = new MenuItem("Plats de remplacement");  
+	    menuItem.addListener(Events.Select, new Listener<BaseEvent>() {
+	    	public void handleEvent(BaseEvent be) {
+	    		
+	    		 Dispatcher.forwardEvent(AppEvents.ViewBackendReplacementMeal);
+	    	}
+		});
+	   
+	    menu.add(menuItem);  
+	  
+	  
+	    menuItem = new MenuItem("Commandes");
+	    menuItem.addListener(Events.Select, new Listener<BaseEvent>() {
+	    	public void handleEvent(BaseEvent be) {
+	    		
+	    		 Dispatcher.forwardEvent(AppEvents.ViewBackendCommande);
+	    	}
+		});
+	    menu.add(menuItem);  
+	    
+	    menuItem = new MenuItem("Transactions");
+	    menu.add(menuItem);  
+	    item4.setMenu(menu);  
+	    
+	    toolBar.add(item4);
+    }
+    
+    toolBar.add(new FillToolItem());
+    
+    toolBar.add(new LabelToolItem("Bienvenue "+
+    		((User)Registry.get(RDLG.USER)).getFirstname()));
+    
     BorderLayoutData data = new BorderLayoutData(LayoutRegion.NORTH, 33);
     data.setMargins(new Margins());
     viewport.add(toolBar, data);
@@ -164,7 +180,19 @@ public class AppView extends View {
   protected void handleEvent(AppEvent event) {
     if (event.getType() == AppEvents.Init) {
       initUI();
+    } else if (event.getType() == AppEvents.LoginHide) {
+      onLoginHide();
+    } else if (event.getType() == AppEvents.LoginReset) {
+      onLoginReset();
     }
   }
+
+	private void onLoginReset() {
+		dialog.reset();
+	}
+
+	private void onLoginHide() {
+		dialog.hide();
+	}
 
 }

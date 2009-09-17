@@ -14,8 +14,16 @@ public class AppEvents {
 	public static final EventType Init = new EventType();
 
 	public static final EventType Login = new EventType();
+	
+	public static final EventType LoginReset = new EventType();
+	
+	public static final EventType LoginHide = new EventType();
 
 	public static final EventType Error = new EventType();
+	
+	public static final EventType CheckLogin = new EventType();
+	
+	public static final EventType DeleteUser = new EventType();
 
 	public static final EventType ViewBackendWeekMenu = new EventType();
 

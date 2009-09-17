@@ -65,15 +65,6 @@ public class WeekMenuPanel extends ContentPanel {
 
 		TextField<String> text = new TextField<String>();
 		text.setAllowBlank(false);
-		text.setValidator(new Validator() {
-
-			@Override
-			public String validate(Field<?> field, String value) {
-
-				return null;
-			}
-
-		});
 		nom.setEditor(new CellEditor(text));
 
 		ColumnConfig prix = new ColumnConfig("prix", "Prix", 50);

@@ -13,7 +13,6 @@ import com.extjs.gxt.ui.client.data.ModelData;
 import com.extjs.gxt.ui.client.event.ButtonEvent;
 import com.extjs.gxt.ui.client.event.SelectionListener;
 import com.extjs.gxt.ui.client.mvc.Dispatcher;
-import com.extjs.gxt.ui.client.store.GroupingStore;
 import com.extjs.gxt.ui.client.store.ListStore;
 import com.extjs.gxt.ui.client.widget.ContentPanel;
 import com.extjs.gxt.ui.client.widget.button.Button;
@@ -27,7 +26,7 @@ import com.extjs.gxt.ui.client.widget.grid.CheckBoxSelectionModel;
 import com.extjs.gxt.ui.client.widget.grid.ColumnConfig;
 import com.extjs.gxt.ui.client.widget.grid.ColumnModel;
 import com.extjs.gxt.ui.client.widget.grid.Grid;
-import com.extjs.gxt.ui.client.widget.grid.GroupingView;
+import com.extjs.gxt.ui.client.widget.grid.GridView;
 import com.extjs.gxt.ui.client.widget.grid.RowEditor;
 import com.extjs.gxt.ui.client.widget.layout.FitLayout;
 import com.extjs.gxt.ui.client.widget.toolbar.SeparatorToolItem;
@@ -35,8 +34,7 @@ import com.extjs.gxt.ui.client.widget.toolbar.ToolBar;
 
 public class UserManagementPanel extends ContentPanel {
 	
-	private GroupingView view = new GroupingView();
-	private GroupingStore<User> listStore = new GroupingStore<User>();
+	private ListStore<User> listStore = new ListStore<User>();
 	
 	public UserManagementPanel(){
 		setHeading("Administration des utilisateurs");
@@ -51,14 +49,14 @@ public class UserManagementPanel extends ContentPanel {
 	    
 	    configs.add(sm.getColumn());  
 	    
-	    ColumnConfig column = new ColumnConfig("lastname", "Nom", 200);
+	    ColumnConfig column = new ColumnConfig("lastname", "Nom", 150);
 	    column.setEditor(new CellEditor(text));
 	    configs.add(column);
 	    
 	    text = new TextField<String>();
 		text.setAllowBlank(true);
 	    
-	    column = new ColumnConfig("firstname", "Prénom", 200);
+	    column = new ColumnConfig("firstname", "Prénom", 150);
 	    column.setEditor(new CellEditor(text));
 	    configs.add(column);
 	    
@@ -70,7 +68,7 @@ public class UserManagementPanel extends ContentPanel {
 			}
 		});
 	    
-	    column = new ColumnConfig("email", "E-mail", 200);
+	    column = new ColumnConfig("email", "E-mail", 150);
 	    column.setEditor(new CellEditor(text));
 	    configs.add(column);
 	  
@@ -123,21 +121,21 @@ public class UserManagementPanel extends ContentPanel {
 			}
 		};
 		
-		column = new ColumnConfig("userType", "Type", 200);
+		column = new ColumnConfig("userType", "Type", 150);
 		column.setEditor(editor);
 		configs.add(column);
 	  
 	    ColumnModel cm = new ColumnModel(configs);
 	    
+	    GridView view = new GridView();
 	    view.setForceFit(true);
 	    
-	    Grid<User> grid = new Grid<User>(listStore, cm);
+	    final Grid<User> grid = new Grid<User>(listStore, cm);
 	    grid.setSelectionModel(sm);
 	    grid.setBorders(true);  
 	    grid.addPlugin(sm);
 	    grid.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 	    grid.setView(view);
-	    
 	    grid.setBorders(true);
 	    
 	    final RowEditor<Meal> re = new RowEditor<Meal>();
@@ -156,7 +154,15 @@ public class UserManagementPanel extends ContentPanel {
 	    toolBar.add(add);
 	   
 	    toolBar.add(new SeparatorToolItem());
-	    toolBar.add(new Button("Supprimer la sélection"));
+	    Button del = new Button("Supprimer la sélection");
+	    del.addSelectionListener(new SelectionListener<ButtonEvent>() {
+			@Override
+			public void componentSelected(ButtonEvent ce) {
+				Dispatcher.forwardEvent(AppEvents.DeleteUser,
+						grid.getSelectionModel().getSelectedItem());
+			}
+		});
+	    toolBar.add(del);
 	    setTopComponent(toolBar);
 	    
 	    setButtonAlign(HorizontalAlignment.CENTER);

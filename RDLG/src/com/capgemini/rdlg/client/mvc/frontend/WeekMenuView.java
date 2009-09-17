@@ -33,8 +33,7 @@ public class WeekMenuView extends View {
 
   @Override
   protected void initialize() {
-    menuSemainePanel = new WeekMenuPanel(PanelState.FRONTEND);
-   
+      menuSemainePanel = new WeekMenuPanel(PanelState.FRONTEND);
   }
 
   @Override

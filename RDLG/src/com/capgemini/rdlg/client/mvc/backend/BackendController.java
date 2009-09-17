@@ -17,6 +17,7 @@ import com.capgemini.rdlg.client.model.User;
 import com.capgemini.rdlg.client.service.MealServiceAsync;
 import com.capgemini.rdlg.client.service.UserServiceAsync;
 import com.extjs.gxt.ui.client.Registry;
+import com.extjs.gxt.ui.client.event.EventType;
 import com.extjs.gxt.ui.client.mvc.AppEvent;
 import com.extjs.gxt.ui.client.mvc.Controller;
 import com.extjs.gxt.ui.client.mvc.Dispatcher;
@@ -37,6 +38,7 @@ public class BackendController extends Controller {
 		registerEventTypes(AppEvents.SaveBackendReplacementMeal);
 		registerEventTypes(AppEvents.ViewUserManagement);
 		registerEventTypes(AppEvents.SaveUserManagement);
+	    registerEventTypes(AppEvents.DeleteUser);
 	}
 
 	@Override
@@ -48,24 +50,40 @@ public class BackendController extends Controller {
 	}
 
 	public void handleEvent(AppEvent event) {
-
-		if (event.getType() == AppEvents.ViewBackendWeekMenu) {
+		EventType type = event.getType();
+		if (type == AppEvents.ViewBackendWeekMenu) {
 			onViewAdminMenuSemaine(event);
-		} else if (event.getType() == AppEvents.ViewBackendCommande) {
+		} else if (type == AppEvents.ViewBackendCommande) {
 			forwardToView(adminView, event);
-		} else if (event.getType() == AppEvents.ViewBackendReplacementMeal) {
+		} else if (type == AppEvents.ViewBackendReplacementMeal) {
 			onViewBackEndReplacementMeal(event);
-		} else if (event.getType() == AppEvents.SaveBackendMenuOfTheWeek) {
+		} else if (type == AppEvents.SaveBackendMenuOfTheWeek) {
 			onSaveBackendMenuSemaine(event);
-		} else if (event.getType() == AppEvents.SaveBackendReplacementMeal){
+		} else if (type == AppEvents.SaveBackendReplacementMeal){
 			onSaveBackendPlatRemplacement(event);
-		} else if (event.getType() == AppEvents.ViewUserManagement){
+		} else if (type == AppEvents.ViewUserManagement){
 			onViewUserManagement(event);
-		} else if (event.getType() == AppEvents.SaveUserManagement){
+		} else if (type == AppEvents.SaveUserManagement){
 			onSaveUserManagement(event);
-		}
+		} else if (type == AppEvents.DeleteUser) {
+	        onDeleteUser(event);
+	    }
 	}
 
+	private void onDeleteUser(AppEvent event) {
+		User user = event.getData();
+		userService.deleteUser(user.getId(), new AsyncCallback<Void>() {
+			@Override
+			public void onFailure(Throwable caught) {
+				Dispatcher.forwardEvent(AppEvents.Error);
+			}
+			@Override
+			public void onSuccess(Void result) {
+				Dispatcher.forwardEvent(AppEvents.ViewUserManagement);
+			}
+		});
+	}
+	
 	private void onSaveUserManagement(AppEvent event) {
 		ArrayList<User> users = event.getData();
 		

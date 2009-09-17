@@ -44,19 +44,14 @@ public class WeekMenuController extends Controller {
 	}
 
 	private void onViewFrontendMenuSemaine(final AppEvent event) {
-
 		platService.getPlatsMenuSemaine(new AsyncCallback<List<Meal>>() {
 			public void onSuccess(List<Meal> result) {
-
 				for (Meal plat : result) {
 					plat.updateProperties();
 				}
-				
 				AppEvent ae = new AppEvent(event.getType(), result);
-
 				forwardToView(view, ae);
 			}
-
 			public void onFailure(Throwable caught) {
 				Dispatcher.forwardEvent(AppEvents.Error, caught);
 			}

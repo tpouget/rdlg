@@ -25,17 +25,21 @@ public class RDLG implements EntryPoint {
 			+ "attempting to contact the server. Please check your network "
 			+ "connection and try again.";
 
-	 public static final String MEAL_SERVICE = "meal";
-	 public static final String USER_SERVICE = "user";
+	 public static final String MEAL_SERVICE = "meal_service";
+	 public static final String USER_SERVICE = "user_service";
+
+	 public static final String USER = "user";
 	/**
 	 * This is the entry point method.
 	 */
 	public void onModuleLoad() {
-
+		
 		  	GXT.setDefaultTheme(Theme.GRAY, true);
 
 		    Registry.register(MEAL_SERVICE, GWT.create(MealService.class));
 		    Registry.register(USER_SERVICE, GWT.create(UserService.class));
+		    
+		    //DevTools.addUser("tpouget@gmail.com", "murder04");
 
 		    Dispatcher dispatcher = Dispatcher.get();
 		    dispatcher.addController(new AppController());
@@ -46,7 +50,6 @@ public class RDLG implements EntryPoint {
 		    dispatcher.dispatch(AppEvents.Login);
 		    
 		    GXT.hideLoadingPanel("loading");
-
 	}
 
 }

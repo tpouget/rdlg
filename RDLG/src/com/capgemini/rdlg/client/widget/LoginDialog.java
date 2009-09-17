@@ -7,11 +7,16 @@
  */
 package com.capgemini.rdlg.client.widget;
 
+import java.util.HashMap;
+
+import com.capgemini.rdlg.client.AppEvents;
+import com.capgemini.rdlg.client.Tools;
 import com.extjs.gxt.ui.client.Style.HorizontalAlignment;
 import com.extjs.gxt.ui.client.event.ButtonEvent;
 import com.extjs.gxt.ui.client.event.ComponentEvent;
 import com.extjs.gxt.ui.client.event.KeyListener;
 import com.extjs.gxt.ui.client.event.SelectionListener;
+import com.extjs.gxt.ui.client.mvc.Dispatcher;
 import com.extjs.gxt.ui.client.util.IconHelper;
 import com.extjs.gxt.ui.client.widget.Dialog;
 import com.extjs.gxt.ui.client.widget.Status;
@@ -19,7 +24,6 @@ import com.extjs.gxt.ui.client.widget.button.Button;
 import com.extjs.gxt.ui.client.widget.form.TextField;
 import com.extjs.gxt.ui.client.widget.layout.FormLayout;
 import com.extjs.gxt.ui.client.widget.toolbar.FillToolItem;
-import com.google.gwt.user.client.Timer;
 
 public class LoginDialog extends Dialog {
 
@@ -30,6 +34,9 @@ public class LoginDialog extends Dialog {
   protected Status status;
 
   public LoginDialog() {
+	setBlinkModal(true);
+	setFrame(true);
+	  
     FormLayout layout = new FormLayout();
     layout.setLabelWidth(90);
     layout.setDefaultWidth(155);
@@ -49,7 +56,6 @@ public class LoginDialog extends Dialog {
       public void componentKeyUp(ComponentEvent event) {
         validate();
       }
-
     };
 
     userName = new TextField<String>();
@@ -66,9 +72,8 @@ public class LoginDialog extends Dialog {
     add(password);
 
     setFocusWidget(userName);
-
   }
-
+  
   @Override
   protected void createButtons() {
     super.createButtons();
@@ -83,10 +88,7 @@ public class LoginDialog extends Dialog {
     reset = new Button("Reset");
     reset.addSelectionListener(new SelectionListener<ButtonEvent>() {
       public void componentSelected(ButtonEvent ce) {
-        userName.reset();
-        password.reset();
-        validate();
-        userName.focus();
+        reset();
       }
     });
 
@@ -100,22 +102,24 @@ public class LoginDialog extends Dialog {
 
     addButton(reset);
     addButton(login);
+  }
 
-    
+  public void reset() {
+	  getButtonBar().enable();
+	  status.hide();
+	  userName.reset();
+      password.reset();
+      validate();
+      userName.focus();
   }
 
   protected void onSubmit() {
     status.show();
+    HashMap<String, String> loginInfo = new HashMap<String, String>(2);
+    loginInfo.put("login", userName.getValue());
+    loginInfo.put("password", Tools.SHA1(password.getValue()));
+    Dispatcher.forwardEvent(AppEvents.CheckLogin, loginInfo);
     getButtonBar().disable();
-    Timer t = new Timer() {
-
-      @Override
-      public void run() {
-        LoginDialog.this.hide();
-      }
-
-    };
-    t.schedule(2000);
   }
 
   protected boolean hasValue(TextField<String> field) {
