@@ -13,4 +13,5 @@ public interface MealServiceAsync {
 	void persistPlats(List<Meal> plats, AsyncCallback<List<Meal>> callback);
 	void getPlatsMenuSemaine(AsyncCallback<List<Meal>> callback);
 	void getPlatsRemplacement(AsyncCallback<List<Meal>> callback);
+	void deleteMeal(String id, AsyncCallback<Void> callback);
 }

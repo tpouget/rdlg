@@ -10,7 +10,7 @@ package com.capgemini.rdlg.client.widget;
 import java.util.HashMap;
 
 import com.capgemini.rdlg.client.AppEvents;
-import com.capgemini.rdlg.client.Tools;
+import com.capgemini.rdlg.client.SecurityTools;
 import com.extjs.gxt.ui.client.Style.HorizontalAlignment;
 import com.extjs.gxt.ui.client.event.ButtonEvent;
 import com.extjs.gxt.ui.client.event.ComponentEvent;
@@ -117,7 +117,7 @@ public class LoginDialog extends Dialog {
     status.show();
     HashMap<String, String> loginInfo = new HashMap<String, String>(2);
     loginInfo.put("login", userName.getValue());
-    loginInfo.put("password", Tools.SHA1(password.getValue()));
+    loginInfo.put("password", SecurityTools.SHA1(password.getValue()));
     Dispatcher.forwardEvent(AppEvents.CheckLogin, loginInfo);
     getButtonBar().disable();
   }

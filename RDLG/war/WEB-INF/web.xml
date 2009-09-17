@@ -27,6 +27,16 @@ version="2.5">
     <url-pattern>/rdlg/user</url-pattern>
   </servlet-mapping>
   
+  <servlet>
+    <servlet-name>orderServlet</servlet-name>
+    <servlet-class>com.capgemini.rdlg.server.service.OrderServiceImpl</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>orderServlet</servlet-name>
+    <url-pattern>/rdlg/order</url-pattern>
+  </servlet-mapping>
+  
   <!-- Default page to serve -->
   <welcome-file-list>
     <welcome-file>RDLG.html</welcome-file>

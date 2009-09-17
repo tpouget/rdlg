@@ -55,13 +55,10 @@ public class ReplacementMealPanel extends ContentPanel {
 		TextField<String> text = new TextField<String>();
 		text.setAllowBlank(false);
 		text.setValidator(new Validator() {
-
 			@Override
 			public String validate(Field<?> field, String value) {
-
 				return null;
 			}
-
 		});
 		nom.setEditor(new CellEditor(text));
 
@@ -79,16 +76,15 @@ public class ReplacementMealPanel extends ContentPanel {
 		combo.add(MealType.ENTREE_REMPLACEMENT);
 		combo.add(MealType.PLAT_REMPLACEMENT);
 		combo.add(MealType.DESSERT_REMPLACEMENT);
+		combo.setForceSelection(true);
 		combo.setValidator(new Validator() {
 			@Override
 			public String validate(Field<?> field, String value) {
-
 				try {
 					MealType.valueOf(value);
 				} catch (Exception e) {
 					return "Veuillez selectionner un type de plat";
 				}
-
 				return null;
 			}
 		});
@@ -101,7 +97,6 @@ public class ReplacementMealPanel extends ContentPanel {
 				}
 				return combo.findModel((MealType) value);
 			}
-
 			@Override
 			public Object postProcessValue(Object value) {
 				if (value == null) {
@@ -116,7 +111,7 @@ public class ReplacementMealPanel extends ContentPanel {
 				typePlat));
 
 
-		Grid<Meal> grid = new Grid<Meal>(store, cm);
+		final Grid<Meal> grid = new Grid<Meal>(store, cm);
 
 		grid.setBorders(true);
 		view.setForceFit(true);
@@ -129,7 +124,6 @@ public class ReplacementMealPanel extends ContentPanel {
 		ToolBar toolBar = new ToolBar();
 		Button add = new Button("Ajouter un plat");
 		add.addSelectionListener(new SelectionListener<ButtonEvent>() {
-
 			@Override
 			public void componentSelected(ButtonEvent ce) {
 				Meal plat = createPlat();
@@ -138,12 +132,21 @@ public class ReplacementMealPanel extends ContentPanel {
 				store.insert(plat, 0);
 
 				re.startEditing(store.indexOf(plat), true);
-
 			}
 
 		});
 
 		toolBar.add(add);
+		
+		Button del = new Button("Supprimer la sélection");
+		del.addSelectionListener(new SelectionListener<ButtonEvent>() {
+			@Override
+			public void componentSelected(ButtonEvent ce) {
+				Dispatcher.forwardEvent(AppEvents.DeleteReplacementMeal,
+						grid.getSelectionModel().getSelectedItem());
+			}
+		});
+	    toolBar.add(del);
 		setTopComponent(toolBar);
 
 		setButtonAlign(HorizontalAlignment.CENTER);

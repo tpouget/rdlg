@@ -24,8 +24,12 @@ public class UserServiceImpl extends RemoteServiceServlet implements
 	@Override
 	public ArrayList<User> getUsers() {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
-		List<User> users = (List<User>) pm.newQuery(User.class).execute();
-		return new ArrayList<User>(pm.detachCopyAll(users));
+		try{
+			List<User> users = (List<User>) pm.newQuery(User.class).execute();
+			return new ArrayList<User>(pm.detachCopyAll(users));
+		}finally{
+			pm.close();
+		}
 	}
 
 	@Override

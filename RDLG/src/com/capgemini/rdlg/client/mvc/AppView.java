@@ -15,9 +15,11 @@ import com.capgemini.rdlg.client.model.UserType;
 import com.capgemini.rdlg.client.widget.LoginDialog;
 import com.extjs.gxt.ui.client.Registry;
 import com.extjs.gxt.ui.client.Style.LayoutRegion;
-import com.extjs.gxt.ui.client.event.BaseEvent;
+import com.extjs.gxt.ui.client.event.ButtonEvent;
 import com.extjs.gxt.ui.client.event.Events;
 import com.extjs.gxt.ui.client.event.Listener;
+import com.extjs.gxt.ui.client.event.MenuEvent;
+import com.extjs.gxt.ui.client.event.SelectionListener;
 import com.extjs.gxt.ui.client.event.WindowEvent;
 import com.extjs.gxt.ui.client.mvc.AppEvent;
 import com.extjs.gxt.ui.client.mvc.Controller;
@@ -88,17 +90,22 @@ public class AppView extends View {
     toolBar.setStateful(false);
     toolBar = new ToolBar();
 	Button item1 = new Button("Menu de la semaine"); 
-	item1.addListener(Events.Select, new Listener<BaseEvent>() {
-	    	public void handleEvent(BaseEvent be) {
-	    		
-	    		 Dispatcher.forwardEvent(AppEvents.ViewFrontendMenuSemaine);
-	    	}
-		});
+	item1.addSelectionListener(new SelectionListener<ButtonEvent>() {
+		@Override
+		public void componentSelected(ButtonEvent ce) {
+			Dispatcher.forwardEvent(AppEvents.ViewFrontendMenuSemaine);
+		}
+	});
 	   
     Button item2 = new Button("Mes Commandes");
+    item2.addSelectionListener(new SelectionListener<ButtonEvent>() {
+		@Override
+		public void componentSelected(ButtonEvent ce) {
+			Dispatcher.forwardEvent(AppEvents.ViewFrontendOrders);
+		}
+	});
+    
     Button item3 = new Button("Mes Paiements");
-    
-    
  
     toolBar.add(item1);
     toolBar.add(item2);
@@ -110,41 +117,42 @@ public class AppView extends View {
 	    Menu menu = new Menu();  
 	    
 	    MenuItem menuItem = new MenuItem("Utilisateurs");  
-	    menuItem.addListener(Events.Select, new Listener<BaseEvent>() {
-	    	public void handleEvent(BaseEvent be) {
-	    		Dispatcher.forwardEvent(AppEvents.ViewUserManagement);
-	    	}
+	    menuItem.addSelectionListener(new SelectionListener<MenuEvent>() {
+			@Override
+			public void componentSelected(MenuEvent ce) {
+				Dispatcher.forwardEvent(AppEvents.ViewUserManagement);				
+			}
 		});
 	   
 	    menu.add(menuItem);  
 	    
 	    menuItem = new MenuItem("Menu de la semaine");  
-	    menuItem.addListener(Events.Select, new Listener<BaseEvent>() {
-	    	public void handleEvent(BaseEvent be) {
-	    		
-	    		 Dispatcher.forwardEvent(AppEvents.ViewBackendWeekMenu);
-	    	}
+	    menuItem.addSelectionListener(new SelectionListener<MenuEvent>() {
+			@Override
+			public void componentSelected(MenuEvent ce) {
+				Dispatcher.forwardEvent(AppEvents.ViewBackendWeekMenu);				
+			}
 		});
 	   
 	    menu.add(menuItem);  
 	    
 	    menuItem = new MenuItem("Plats de remplacement");  
-	    menuItem.addListener(Events.Select, new Listener<BaseEvent>() {
-	    	public void handleEvent(BaseEvent be) {
-	    		
-	    		 Dispatcher.forwardEvent(AppEvents.ViewBackendReplacementMeal);
-	    	}
+	    menuItem.addSelectionListener(new SelectionListener<MenuEvent>() {
+			@Override
+			public void componentSelected(MenuEvent ce) {
+				Dispatcher.forwardEvent(AppEvents.ViewBackendReplacementMeal);				
+			}
 		});
 	   
 	    menu.add(menuItem);  
 	  
 	  
 	    menuItem = new MenuItem("Commandes");
-	    menuItem.addListener(Events.Select, new Listener<BaseEvent>() {
-	    	public void handleEvent(BaseEvent be) {
-	    		
-	    		 Dispatcher.forwardEvent(AppEvents.ViewBackendCommande);
-	    	}
+	    menuItem.addSelectionListener(new SelectionListener<MenuEvent>() {
+			@Override
+			public void componentSelected(MenuEvent ce) {
+				Dispatcher.forwardEvent(AppEvents.ViewBackendCommande);				
+			}
 		});
 	    menu.add(menuItem);  
 	    

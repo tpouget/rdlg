@@ -45,11 +45,9 @@ public class MealServiceImpl extends RemoteServiceServlet implements
 	}
 
 	public List<Meal> persistPlats(List<Meal> plats) {
-
-		List<Meal> result = new ArrayList<Meal>();
+		ArrayList<Meal> result = new ArrayList<Meal>();
 		for (Meal plat : plats)
 			result.add(persistPlat(plat));
-
 		return result;
 	}
 
@@ -117,5 +115,17 @@ public class MealServiceImpl extends RemoteServiceServlet implements
 		} finally {
 			pm.close();
 		}
+	}
+
+	@Override
+	public void deleteMeal(String id) {
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		try{
+			Meal mealToDelete = pm.getObjectById(Meal.class, id);
+			pm.deletePersistent(mealToDelete);
+		}finally{
+			pm.close();
+		}
+		
 	}
 }

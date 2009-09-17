@@ -15,4 +15,5 @@ public interface MealService extends RemoteService {
 	public List<Meal> persistPlats(List<Meal> plats);
 	public List<Meal> getPlatsMenuSemaine();
 	public List<Meal> getPlatsRemplacement();
+	public void deleteMeal(String id);
 }

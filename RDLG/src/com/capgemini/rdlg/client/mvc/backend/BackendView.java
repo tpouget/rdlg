@@ -46,10 +46,10 @@ public class BackendView extends View {
 
 	@Override
 	protected void handleEvent(AppEvent event) {
-		if (event.getType() == AppEvents.ViewBackendWeekMenu) {
-			LayoutContainer wrapper = (LayoutContainer) Registry
+		LayoutContainer wrapper = (LayoutContainer) Registry
 					.get(AppView.CENTER_PANEL);
-			wrapper.removeAll();
+		wrapper.removeAll();
+		if (event.getType() == AppEvents.ViewBackendWeekMenu) {
 			wrapper.add(backendWeekMenuPanel);
 			wrapper.layout();
 
@@ -60,9 +60,6 @@ public class BackendView extends View {
 			wrapper.layout();
 			return;
 		} else if (event.getType() == AppEvents.ViewBackendReplacementMeal) {
-			LayoutContainer wrapper = (LayoutContainer) Registry
-					.get(AppView.CENTER_PANEL);
-			wrapper.removeAll();
 			wrapper.add(backendReplacementMealPanel);
 			wrapper.layout();
 
@@ -74,16 +71,11 @@ public class BackendView extends View {
 			return;
 
 		} else if (event.getType() == AppEvents.ViewBackendCommande) {
-			LayoutContainer wrapper = (LayoutContainer) Registry
-					.get(AppView.CENTER_PANEL);
-			wrapper.removeAll();
+			
 			wrapper.add(backendOrdersPanel);
 			wrapper.layout();
 
 		} else if (event.getType() == AppEvents.ViewUserManagement) {
-			LayoutContainer wrapper = 
-				(LayoutContainer) Registry.get(AppView.CENTER_PANEL);
-			wrapper.removeAll();
 			wrapper.add(userManagementPanel);
 			wrapper.layout();
 			

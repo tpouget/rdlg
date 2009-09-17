@@ -50,7 +50,6 @@ public class WeekMenuPanel extends ContentPanel {
 	private GroupingStore<Meal> store = new GroupingStore<Meal>();
 
 	private PanelState panelState = PanelState.FRONTEND;
-	
 
 	public WeekMenuPanel(PanelState panelState) {
 		this.panelState = panelState;

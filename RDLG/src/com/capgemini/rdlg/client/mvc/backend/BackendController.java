@@ -25,9 +25,9 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public class BackendController extends Controller {
 
-	private MealServiceAsync platService;
+	private MealServiceAsync mealService;
 	private UserServiceAsync userService;
-	private BackendView adminView;
+	private BackendView backendView;
 
 	public BackendController() {
 		registerEventTypes(AppEvents.Init);
@@ -39,14 +39,15 @@ public class BackendController extends Controller {
 		registerEventTypes(AppEvents.ViewUserManagement);
 		registerEventTypes(AppEvents.SaveUserManagement);
 	    registerEventTypes(AppEvents.DeleteUser);
+	    registerEventTypes(AppEvents.DeleteReplacementMeal);
 	}
 
 	@Override
 	public void initialize() {
 		super.initialize();
-		platService = Registry.get(RDLG.MEAL_SERVICE);
+		mealService = Registry.get(RDLG.MEAL_SERVICE);
 		userService = Registry.get(RDLG.USER_SERVICE);
-		adminView = new BackendView(this);
+		backendView = new BackendView(this);
 	}
 
 	public void handleEvent(AppEvent event) {
@@ -54,7 +55,7 @@ public class BackendController extends Controller {
 		if (type == AppEvents.ViewBackendWeekMenu) {
 			onViewAdminMenuSemaine(event);
 		} else if (type == AppEvents.ViewBackendCommande) {
-			forwardToView(adminView, event);
+			forwardToView(backendView, event);
 		} else if (type == AppEvents.ViewBackendReplacementMeal) {
 			onViewBackEndReplacementMeal(event);
 		} else if (type == AppEvents.SaveBackendMenuOfTheWeek) {
@@ -67,7 +68,23 @@ public class BackendController extends Controller {
 			onSaveUserManagement(event);
 		} else if (type == AppEvents.DeleteUser) {
 	        onDeleteUser(event);
+	    } else if (type == AppEvents.DeleteReplacementMeal) {
+	        onDeleteReplacementMeal(event);
 	    }
+	}
+
+	private void onDeleteReplacementMeal(AppEvent event) {
+		Meal meal = event.getData();
+		mealService.deleteMeal(meal.getId(), new AsyncCallback<Void>() {
+			@Override
+			public void onFailure(Throwable caught) {
+				Dispatcher.forwardEvent(AppEvents.Error, caught);
+			}
+			@Override
+			public void onSuccess(Void result) {
+				Dispatcher.forwardEvent(AppEvents.ViewBackendReplacementMeal);
+			}
+		});
 	}
 
 	private void onDeleteUser(AppEvent event) {
@@ -75,7 +92,7 @@ public class BackendController extends Controller {
 		userService.deleteUser(user.getId(), new AsyncCallback<Void>() {
 			@Override
 			public void onFailure(Throwable caught) {
-				Dispatcher.forwardEvent(AppEvents.Error);
+				Dispatcher.forwardEvent(AppEvents.Error, caught);
 			}
 			@Override
 			public void onSuccess(Void result) {
@@ -111,12 +128,12 @@ public class BackendController extends Controller {
 			}
 			@Override
 			public void onSuccess(ArrayList<User> result) {
-				for (User user : result) {
+				for (User user : result) 
 					user.updateProperties();
-				}
+				
 				AppEvent ae = new AppEvent(event.getType(), result);
 
-				forwardToView(adminView, ae);
+				forwardToView(backendView, ae);
 			}
 		});
 		
@@ -124,7 +141,7 @@ public class BackendController extends Controller {
 
 	private void onViewAdminMenuSemaine(final AppEvent event) {
 
-		platService.getPlatsMenuSemaine(new AsyncCallback<List<Meal>>() {
+		mealService.getPlatsMenuSemaine(new AsyncCallback<List<Meal>>() {
 			public void onSuccess(List<Meal> result) {
 
 				for (Meal plat : result) {
@@ -132,7 +149,7 @@ public class BackendController extends Controller {
 				}
 				AppEvent ae = new AppEvent(event.getType(), result);
 
-				forwardToView(adminView, ae);
+				forwardToView(backendView, ae);
 			}
 
 			public void onFailure(Throwable caught) {
@@ -143,22 +160,22 @@ public class BackendController extends Controller {
 
 	private void onViewBackEndReplacementMeal(final AppEvent event) {
 
-		platService.getPlatsRemplacement(new AsyncCallback<List<Meal>>() {
-					public void onSuccess(List<Meal> result) {
+		mealService.getPlatsRemplacement(new AsyncCallback<List<Meal>>() {
+			public void onSuccess(List<Meal> result) {
 
-						for (Meal meal : result) {
-							meal.updateProperties();
+				for (Meal meal : result) {
+					meal.updateProperties();
 
-						}
-						AppEvent ae = new AppEvent(event.getType(), result);
+				}
+				AppEvent ae = new AppEvent(event.getType(), result);
 
-						forwardToView(adminView, ae);
-					}
+				forwardToView(backendView, ae);
+			}
 
-					public void onFailure(Throwable caught) {
-
-					}
-				});
+			public void onFailure(Throwable caught) {
+				Dispatcher.forwardEvent(AppEvents.Error, caught);
+			}
+		});
 	}
 
 	private void onSaveBackendMenuSemaine(final AppEvent event){
@@ -168,17 +185,14 @@ public class BackendController extends Controller {
 		for(Meal meal : meals)
 			meal.updateObject();
 		
-		platService.persistPlats(meals, new AsyncCallback<List<Meal>>() {
+		mealService.persistPlats(meals, new AsyncCallback<List<Meal>>() {
 			@Override
 			public void onFailure(Throwable caught) {
-				// TODO Auto-generated method stub
 				Dispatcher.forwardEvent(AppEvents.Error, caught);
 			}
-
 			@Override
 			public void onSuccess(List<Meal> result) {
 				Dispatcher.forwardEvent(AppEvents.ViewBackendWeekMenu);
-
 			}
 		});
 	}
@@ -190,12 +204,11 @@ public class BackendController extends Controller {
 		for(Meal meal : meals)
 			meal.updateObject();
 		
-		platService.persistPlats(meals, new AsyncCallback<List<Meal>>() {
+		mealService.persistPlats(meals, new AsyncCallback<List<Meal>>() {
 			@Override
 			public void onFailure(Throwable caught) {
 				Dispatcher.forwardEvent(AppEvents.Error, caught);
 			}
-
 			@Override
 			public void onSuccess(List<Meal> result) {
 				Dispatcher.forwardEvent(AppEvents.ViewBackendReplacementMeal);

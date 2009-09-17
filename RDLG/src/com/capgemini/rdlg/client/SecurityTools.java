@@ -1,6 +1,6 @@
 package com.capgemini.rdlg.client;
 
-public class Tools {
+public class SecurityTools {
 	public static native String SHA1(String msg) /*-{
 		function rotate_left(n,s) {
 			var t4 = ( n<<s ) | (n>>>(32-s));

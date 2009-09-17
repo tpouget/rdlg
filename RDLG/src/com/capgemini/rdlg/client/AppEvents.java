@@ -24,6 +24,8 @@ public class AppEvents {
 	public static final EventType CheckLogin = new EventType();
 	
 	public static final EventType DeleteUser = new EventType();
+	
+	public static final EventType DeleteReplacementMeal = new EventType();
 
 	public static final EventType ViewBackendWeekMenu = new EventType();
 
@@ -31,7 +33,7 @@ public class AppEvents {
 
 	public static final EventType ViewFrontendMenuSemaine = new EventType();
 
-	public static final EventType ViewCommandes = new EventType();
+	public static final EventType ViewFrontendOrders = new EventType();
 
 	public static final EventType ViewPaiements = new EventType();
 
@@ -45,5 +47,5 @@ public class AppEvents {
 	
 	public static final EventType SaveUserManagement = new EventType();
 	
-
+	public static final EventType SaveFrontendOrders = new EventType();
 }

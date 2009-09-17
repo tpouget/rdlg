@@ -28,6 +28,7 @@ import com.extjs.gxt.ui.client.widget.button.Button;
 import com.extjs.gxt.ui.client.widget.form.DateField;
 import com.extjs.gxt.ui.client.widget.form.Field;
 import com.extjs.gxt.ui.client.widget.form.SimpleComboBox;
+import com.extjs.gxt.ui.client.widget.form.TextArea;
 import com.extjs.gxt.ui.client.widget.form.Validator;
 import com.extjs.gxt.ui.client.widget.form.ComboBox.TriggerAction;
 import com.extjs.gxt.ui.client.widget.grid.CellEditor;
@@ -54,51 +55,39 @@ public class OrdersPanel extends ContentPanel {
 	public OrdersPanel(PanelState panelState) {
 		this.panelState = panelState;
 		
-
 		setLayout(new FitLayout());
 
 		getPanelHeading();
 
 		store.groupBy("date", true);
-
-	
-		ColumnConfig prix = new ColumnConfig("total", "Total", 50);
-
 		
-		ColumnConfig typePlat = new ColumnConfig("entree", "Entrée", 50);
+		ColumnConfig starter = new ColumnConfig("starter", "Entrée", 50);
 
-		final SimpleComboBox<Meal> combo = new SimpleComboBox<Meal>();
-		combo.setForceSelection(true);
-		combo.setTriggerAction(TriggerAction.ALL);
-		//Load Entrée data
+		final SimpleComboBox<Meal> comboStarter = new SimpleComboBox<Meal>();
+		comboStarter.setTriggerAction(TriggerAction.ALL);
 		
-//		combo.add(MealType.ENTREE);
-//		combo.add(MealType.PLAT);
-//		combo.add(MealType.DESSERT);
+		//FIXME Load Entrée data
 		
-		combo.setValidator(new Validator() {
+		comboStarter.setValidator(new Validator() {
 			@Override
 			public String validate(Field<?> field, String value) {
-
 				try {
 					MealType.valueOf(value);
 				} catch (Exception e) {
-					return "Veuillez selectionner un type de plat";
+					return "Veuillez selectionner une entrée.";
 				}
-
 				return null;
 			}
 		});
 
-		CellEditor editor = new CellEditor(combo) {
+		CellEditor editor = new CellEditor(comboStarter) {
 			@Override
 			public Object preProcessValue(Object value) {
 				if (value == null) {
 					return value;
 				}
-				return combo.findModel((Meal) value);
+				return comboStarter.findModel((Meal) value);
 			}
-
 			@Override
 			public Object postProcessValue(Object value) {
 				if (value == null) {
@@ -107,8 +96,82 @@ public class OrdersPanel extends ContentPanel {
 				return ((ModelData) value).get("value");
 			}
 		};
-		typePlat.setEditor(editor);
+		starter.setEditor(editor);
 
+		ColumnConfig dish = new ColumnConfig("dish", "Plat principal", 50);
+		final SimpleComboBox<Meal> comboDish = new SimpleComboBox<Meal>();
+		comboDish.setForceSelection(true);
+		comboDish.setTriggerAction(TriggerAction.ALL);
+		
+		//FIXME Load Plat data
+		
+		comboDish.setValidator(new Validator() {
+			@Override
+			public String validate(Field<?> field, String value) {
+				try {
+					MealType.valueOf(value);
+				} catch (Exception e) {
+					return "Veuillez selectionner un plat.";
+				}
+				return null;
+			}
+		});
+
+		editor = new CellEditor(comboDish) {
+			@Override
+			public Object preProcessValue(Object value) {
+				if (value == null) {
+					return value;
+				}
+				return comboDish.findModel((Meal) value);
+			}
+			@Override
+			public Object postProcessValue(Object value) {
+				if (value == null) {
+					return value;
+				}
+				return ((ModelData) value).get("value");
+			}
+		};
+		dish.setEditor(editor);
+		
+		ColumnConfig dessert = new ColumnConfig("dessert", "Dessert", 50);
+		final SimpleComboBox<Meal> comboDessert = new SimpleComboBox<Meal>();
+		comboDessert.setForceSelection(true);
+		comboDessert.setTriggerAction(TriggerAction.ALL);
+		
+		//FIXME Load Plat data
+		
+		comboDessert.setValidator(new Validator() {
+			@Override
+			public String validate(Field<?> field, String value) {
+				try {
+					MealType.valueOf(value);
+				} catch (Exception e) {
+					return "Veuillez selectionner un plat.";
+				}
+				return null;
+			}
+		});
+
+		editor = new CellEditor(comboDessert) {
+			@Override
+			public Object preProcessValue(Object value) {
+				if (value == null) {
+					return value;
+				}
+				return comboDessert.findModel((Meal) value);
+			}
+			@Override
+			public Object postProcessValue(Object value) {
+				if (value == null) {
+					return value;
+				}
+				return ((ModelData) value).get("value");
+			}
+		};
+		dessert.setEditor(editor);
+		
 		/**
 		 * Date Column with editor
 		 */
@@ -120,9 +183,17 @@ public class OrdersPanel extends ContentPanel {
 				DateTimeFormat.getFormat("dd/MM/yyyy"));
 		editor = new CellEditor(dateField);
 		date.setEditor(editor);
+		
+		ColumnConfig comment = new ColumnConfig("comment", "Commentaire", 50);
+		TextArea text = new TextArea();
+		editor = new CellEditor(text);
+		comment.setEditor(editor);
+		
+		ColumnConfig total = new ColumnConfig("total", "Total", 50);
+		ColumnConfig status = new ColumnConfig("status", "Statut", 20);
 
-		final ColumnModel cm = new ColumnModel(Arrays.asList(date));
-		//entree,plat, dessert, total, 
+		final ColumnModel cm = new ColumnModel(Arrays.asList(
+				date, starter, dish, dessert, comment, total, status));
 
 		view.setShowGroupedColumn(true);
 		view.setForceFit(true);
@@ -197,7 +268,7 @@ public class OrdersPanel extends ContentPanel {
 			@Override
 			public void componentSelected(ButtonEvent ce) {
 				store.commitChanges();
-					Dispatcher.forwardEvent(AppEvents.SaveBackendMenuOfTheWeek,
+					Dispatcher.forwardEvent(AppEvents.SaveFrontendOrders,
 							store.getModels());
 				
 

@@ -7,7 +7,7 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
-import com.capgemini.rdlg.client.Tools;
+import com.capgemini.rdlg.client.SecurityTools;
 import com.extjs.gxt.ui.client.data.BaseModel;
 
 @PersistenceCapable(identityType = IdentityType.APPLICATION, detachable = "false")
@@ -86,7 +86,7 @@ public class User extends BaseModel{
 
 	public void setPassword(String password) {
 		if (this.password==null || !this.password.equals(password))
-			this.password = Tools.SHA1(password);
+			this.password = SecurityTools.SHA1(password);
 	}
 
 	public void setUserType(UserType userType) {
