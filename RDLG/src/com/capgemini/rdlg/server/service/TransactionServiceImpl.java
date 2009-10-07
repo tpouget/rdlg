@@ -42,6 +42,7 @@ public class TransactionServiceImpl extends RemoteServiceServlet implements
 		
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public ArrayList<Transaction> getTransactions() {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
