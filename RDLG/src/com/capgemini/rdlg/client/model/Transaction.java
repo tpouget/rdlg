@@ -9,8 +9,15 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
+import com.extjs.gxt.ui.client.data.BaseModel;
+
 @PersistenceCapable(identityType = IdentityType.APPLICATION, detachable = "false")
-public class Transaction {
+public class Transaction extends BaseModel{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1145638987902863436L;
 
 	@PrimaryKey
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
