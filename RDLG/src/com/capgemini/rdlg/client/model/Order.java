@@ -28,13 +28,13 @@ public class Order extends BaseModel {
 	private Date date;
 
 	@Persistent
-	private Meal entree;
+	private String starter_id;
 
 	@Persistent
-	private Meal plat;
+	private String dish_id;
 
 	@Persistent
-	private Meal dessert;
+	private String dessert_id;
 
 	@Persistent
 	private Double total = 0.0;
@@ -50,28 +50,28 @@ public class Order extends BaseModel {
 		return date;
 	}
 
-	public void setEntree(Meal entree) {
-		this.entree = entree;
+	public String getStarter_id() {
+		return starter_id;
 	}
 
-	public Meal getEntree() {
-		return entree;
+	public void setStarter_id(String starterId) {
+		starter_id = starterId;
 	}
 
-	public void setPlat(Meal plat) {
-		this.plat = plat;
+	public String getDish_id() {
+		return dish_id;
 	}
 
-	public Meal getPlat() {
-		return plat;
+	public void setDish_id(String dishId) {
+		dish_id = dishId;
 	}
 
-	public void setDessert(Meal dessert) {
-		this.dessert = dessert;
+	public String getDessert_id() {
+		return dessert_id;
 	}
 
-	public Meal getDessert() {
-		return dessert;
+	public void setDessert_id(String dessertId) {
+		dessert_id = dessertId;
 	}
 
 	public void setTotal(Double total) {
@@ -92,17 +92,17 @@ public class Order extends BaseModel {
 
 	public void updateProperties(){
 		set("date", getDate());
-		set("starter", getEntree());
-		set("dish", getPlat());
-		set("dessert", getDessert());
+		set("starter", getStarter_id());
+		set("dish", getDish_id());
+		set("dessert", getDessert_id());
 		set("total", getTotal());
 	}
 
 	public void updateObject(){
 		setDate((Date)get("date"));
-		setEntree((Meal)get("starter"));
-		setPlat((Meal)get("dish"));
-		setDessert((Meal)get("dessert"));
+		setStarter_id((String)get("starter"));
+		setDish_id((String)get("dish"));
+		setDessert_id((String)get("dessert"));
 		setTotal((Double)get("total"));
 	}
 

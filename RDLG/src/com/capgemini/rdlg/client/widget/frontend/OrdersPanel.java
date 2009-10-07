@@ -5,7 +5,7 @@
  * 
  * http://extjs.com/license
  */
-package com.capgemini.rdlg.client.widget.shared;
+package com.capgemini.rdlg.client.widget.frontend;
 
 import java.util.Arrays;
 import java.util.Date;
@@ -14,6 +14,7 @@ import com.capgemini.rdlg.client.AppEvents;
 import com.capgemini.rdlg.client.model.Order;
 import com.capgemini.rdlg.client.model.MealType;
 import com.capgemini.rdlg.client.model.Meal;
+import com.capgemini.rdlg.client.widget.shared.PanelState;
 import com.extjs.gxt.ui.client.Style.HorizontalAlignment;
 import com.extjs.gxt.ui.client.data.ModelData;
 import com.extjs.gxt.ui.client.event.BaseEvent;

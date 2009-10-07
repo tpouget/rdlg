@@ -5,7 +5,7 @@ import java.util.List;
 import com.capgemini.rdlg.client.AppEvents;
 import com.capgemini.rdlg.client.model.Order;
 import com.capgemini.rdlg.client.mvc.AppView;
-import com.capgemini.rdlg.client.widget.shared.OrdersPanel;
+import com.capgemini.rdlg.client.widget.frontend.OrdersPanel;
 import com.capgemini.rdlg.client.widget.shared.PanelState;
 import com.extjs.gxt.ui.client.Registry;
 import com.extjs.gxt.ui.client.mvc.AppEvent;

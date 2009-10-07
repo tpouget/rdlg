@@ -15,7 +15,7 @@ import com.capgemini.rdlg.client.model.User;
 import com.capgemini.rdlg.client.mvc.AppView;
 import com.capgemini.rdlg.client.widget.backend.ReplacementMealPanel;
 import com.capgemini.rdlg.client.widget.backend.UserManagementPanel;
-import com.capgemini.rdlg.client.widget.shared.OrdersPanel;
+import com.capgemini.rdlg.client.widget.frontend.OrdersPanel;
 import com.capgemini.rdlg.client.widget.shared.PanelState;
 import com.capgemini.rdlg.client.widget.shared.WeekMenuPanel;
 import com.extjs.gxt.ui.client.Registry;
