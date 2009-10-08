@@ -1,6 +1,7 @@
 package com.capgemini.rdlg.server.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -127,5 +128,21 @@ public class MealServiceImpl extends RemoteServiceServlet implements
 			pm.close();
 		}
 		
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public ArrayList<Meal> getMealsByDate(Date date) {
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		try {
+			Query query = pm.newQuery(Meal.class, "date == d");
+			query.declareParameters("Date d");
+
+			ArrayList<Meal> results = (ArrayList<Meal>) query.execute(date);
+			
+			return results;
+		}finally{
+			pm.close();
+		}
 	}
 }

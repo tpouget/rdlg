@@ -19,6 +19,7 @@ import com.extjs.gxt.ui.client.Style.HorizontalAlignment;
 import com.extjs.gxt.ui.client.data.ModelData;
 import com.extjs.gxt.ui.client.event.BaseEvent;
 import com.extjs.gxt.ui.client.event.ButtonEvent;
+import com.extjs.gxt.ui.client.event.Events;
 import com.extjs.gxt.ui.client.event.Listener;
 import com.extjs.gxt.ui.client.event.SelectionListener;
 import com.extjs.gxt.ui.client.mvc.Dispatcher;
@@ -62,12 +63,12 @@ public class OrdersPanel extends ContentPanel {
 
 		store.groupBy("date", true);
 		
-		ColumnConfig starter = new ColumnConfig("starter", "Entr√©e", 50);
+		ColumnConfig starter = new ColumnConfig("starter", "EntrÈe", 50);
 
 		final SimpleComboBox<Meal> comboStarter = new SimpleComboBox<Meal>();
 		comboStarter.setTriggerAction(TriggerAction.ALL);
 		
-		//FIXME Load Entr√©e data
+		//FIXME Load EntrÈe data
 		
 		comboStarter.setValidator(new Validator() {
 			@Override
@@ -75,7 +76,7 @@ public class OrdersPanel extends ContentPanel {
 				try {
 					MealType.valueOf(value);
 				} catch (Exception e) {
-					return "Veuillez selectionner une entr√©e.";
+					return "Veuillez selectionner une entrÈe.";
 				}
 				return null;
 			}
@@ -178,10 +179,17 @@ public class OrdersPanel extends ContentPanel {
 		 */
 		ColumnConfig date = new ColumnConfig("date", "Menu du ", 20);
 		date.setDateTimeFormat(DateTimeFormat.getFormat("dd/MM/yyyy"));
-		DateField dateField = new DateField();
+		final DateField dateField = new DateField();
 		dateField.setAllowBlank(true);
 		dateField.getPropertyEditor().setFormat(
 				DateTimeFormat.getFormat("dd/MM/yyyy"));
+		dateField.addListener(Events.Change, new Listener<BaseEvent>() {
+			@Override
+			public void handleEvent(BaseEvent be) {
+				Dispatcher.forwardEvent(AppEvents.UpdateMealLists,
+						dateField.getValue());
+			}
+		});
 		editor = new CellEditor(dateField);
 		date.setEditor(editor);
 		
@@ -225,7 +233,6 @@ public class OrdersPanel extends ContentPanel {
 		ToolBar toolBar = new ToolBar();
 		Button add = new Button("Cr√©er une commande");
 		add.addSelectionListener(new SelectionListener<ButtonEvent>() {
-
 			@Override
 			public void componentSelected(ButtonEvent ce) {
 				Order order = createOrder();
@@ -234,7 +241,6 @@ public class OrdersPanel extends ContentPanel {
 				store.insert(order, 0);
 
 				re.startEditing(store.indexOf(order), true);
-
 			}
 
 		});
@@ -265,14 +271,11 @@ public class OrdersPanel extends ContentPanel {
 
 	private Button getSaveButton() {
 		return new Button("Save", new SelectionListener<ButtonEvent>() {
-
 			@Override
 			public void componentSelected(ButtonEvent ce) {
 				store.commitChanges();
 					Dispatcher.forwardEvent(AppEvents.SaveFrontendOrders,
 							store.getModels());
-				
-
 			}
 		});
 	}

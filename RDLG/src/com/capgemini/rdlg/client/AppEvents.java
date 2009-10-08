@@ -48,4 +48,6 @@ public class AppEvents {
 	public static final EventType SaveUserManagement = new EventType();
 	
 	public static final EventType SaveFrontendOrders = new EventType();
+	
+	public static final EventType UpdateMealLists = new EventType();
 }

@@ -46,7 +46,7 @@ public class RDLG implements EntryPoint {
 		    Registry.register(ORDER_SERVICE, GWT.create(OrderService.class));
 		    Registry.register(TRANSACTION_SERVICE, GWT.create(TransactionService.class));
 		    
-		    //DevTools.addUser("tpouget@gmail.com", "murder04");
+		    //DevTools.addUser("Thibault", "Pouget", "tpouget", "toto", UserType.ADMIN);
 
 		    Dispatcher dispatcher = Dispatcher.get();
 		    dispatcher.addController(new AppController());

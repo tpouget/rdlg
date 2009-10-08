@@ -1,5 +1,7 @@
 package com.capgemini.rdlg.client.service;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import com.capgemini.rdlg.client.model.Meal;
@@ -16,4 +18,5 @@ public interface MealService extends RemoteService {
 	public List<Meal> getPlatsMenuSemaine();
 	public List<Meal> getPlatsRemplacement();
 	public void deleteMeal(String id);
+	public ArrayList<Meal> getMealsByDate(Date date);
 }
