@@ -13,8 +13,10 @@ import java.util.List;
 import com.capgemini.rdlg.client.AppEvents;
 import com.capgemini.rdlg.client.RDLG;
 import com.capgemini.rdlg.client.model.Meal;
+import com.capgemini.rdlg.client.model.Transaction;
 import com.capgemini.rdlg.client.model.User;
 import com.capgemini.rdlg.client.service.MealServiceAsync;
+import com.capgemini.rdlg.client.service.TransactionServiceAsync;
 import com.capgemini.rdlg.client.service.UserServiceAsync;
 import com.extjs.gxt.ui.client.Registry;
 import com.extjs.gxt.ui.client.event.EventType;
@@ -27,14 +29,17 @@ public class BackendController extends Controller {
 
 	private MealServiceAsync mealService;
 	private UserServiceAsync userService;
+	private TransactionServiceAsync transactionService;
+	
 	private BackendView backendView;
 
 	public BackendController() {
 		registerEventTypes(AppEvents.Init);
 		registerEventTypes(AppEvents.ViewBackendWeekMenu);
 		registerEventTypes(AppEvents.ViewBackendReplacementMeal);
-		registerEventTypes(AppEvents.ViewBackendCommande);
+		registerEventTypes(AppEvents.ViewBackendOrder);
 		registerEventTypes(AppEvents.SaveBackendMenuOfTheWeek);
+		registerEventTypes(AppEvents.ViewBackendBank);
 		registerEventTypes(AppEvents.SaveBackendReplacementMeal);
 		registerEventTypes(AppEvents.ViewUserManagement);
 		registerEventTypes(AppEvents.SaveUserManagement);
@@ -47,14 +52,16 @@ public class BackendController extends Controller {
 		super.initialize();
 		mealService = Registry.get(RDLG.MEAL_SERVICE);
 		userService = Registry.get(RDLG.USER_SERVICE);
+		transactionService = Registry.get(RDLG.TRANSACTION_SERVICE);
 		backendView = new BackendView(this);
+		
 	}
 
 	public void handleEvent(AppEvent event) {
 		EventType type = event.getType();
 		if (type == AppEvents.ViewBackendWeekMenu) {
 			onViewAdminMenuSemaine(event);
-		} else if (type == AppEvents.ViewBackendCommande) {
+		} else if (type == AppEvents.ViewBackendOrder) {
 			forwardToView(backendView, event);
 		} else if (type == AppEvents.ViewBackendReplacementMeal) {
 			onViewBackEndReplacementMeal(event);
@@ -70,7 +77,50 @@ public class BackendController extends Controller {
 	        onDeleteUser(event);
 	    } else if (type == AppEvents.DeleteReplacementMeal) {
 	        onDeleteReplacementMeal(event);
+	    } else if (type == AppEvents.ViewBackendBank){
+	    	onViewBank(event);
 	    }
+	}
+
+	private void onViewBank(final AppEvent event) {
+
+		transactionService.getTransactions(new AsyncCallback<ArrayList<Transaction>>() {
+
+			public void onFailure(Throwable caught) {
+				Dispatcher.forwardEvent(AppEvents.Error, caught);
+			}
+
+			@Override
+			public void onSuccess(ArrayList<Transaction> result) {
+				for(Transaction transaction : result){
+					transaction.updateProperties();
+				}
+				final AppEvent ae = new AppEvent(event.getType());
+				ae.setData("transactions", result);
+				
+				userService.getUsers(new AsyncCallback<ArrayList<User>>() {
+					@Override
+					public void onSuccess(ArrayList<User> result) {
+						// TODO Auto-generated method stub
+						for (User user : result) 
+							user.updateProperties();
+					
+						ae.setData("userList", result);
+						forwardToView(backendView, ae);	
+						
+		
+					}
+					@Override
+					public void onFailure(Throwable caught) {
+						Dispatcher.forwardEvent(AppEvents.Error, caught);
+						
+					}
+				});
+				
+								
+			}
+		});
+		
 	}
 
 	private void onDeleteReplacementMeal(AppEvent event) {

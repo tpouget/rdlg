@@ -12,45 +12,30 @@ import javax.jdo.annotations.PrimaryKey;
 import com.extjs.gxt.ui.client.data.BaseModel;
 
 @PersistenceCapable(identityType = IdentityType.APPLICATION, detachable = "false")
-public class Transaction extends BaseModel{
+public class Transaction extends BaseModel {
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -1145638987902863436L;
+	private static final long serialVersionUID = 5239668251543449619L;
+
 
 	@PrimaryKey
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-	@Extension(vendorName = "datanucleus", key = "gae.encoded-pk", value = "true")  
+	@Extension(vendorName = "datanucleus", key = "gae.encoded-pk", value = "true")
 	private String id;
-	
+
 	@Persistent
-	private TransactionType transactionType;
-	
+	private User from;
+
+	@Persistent
+	private User to;
+
 	@Persistent
 	private Double amount = 0.0;
-	
+
 	@Persistent
 	private Date date = new Date();
-	
-	@Persistent
-	private String userId; 
-	
-	public String getUserId() {
-		return userId;
-	}
-
-	public void setUserId(String userId) {
-		this.userId = userId;
-	}
-
-	public TransactionType getTransactionType() {
-		return transactionType;
-	}
-
-	public void setTransactionType(TransactionType transactionType) {
-		this.transactionType = transactionType;
-	}
 
 	public Date getDate() {
 		return date;
@@ -60,13 +45,30 @@ public class Transaction extends BaseModel{
 		this.date = date;
 	}
 
-	public Transaction(){
-		
+	public Transaction() {
+
 	}
-	
-	public Transaction(TransactionType transactionType, Double amount){
-		setTransactionType(transactionType);
+
+	public Transaction(User from, User to, Double amount) {
+		setFrom(from);
+		setTo(to);
 		setAmount(amount);
+	}
+
+	public User getFrom() {
+		return from;
+	}
+
+	public void setFrom(User from) {
+		this.from = from;
+	}
+
+	public User getTo() {
+		return to;
+	}
+
+	public void setTo(User to) {
+		this.to = to;
 	}
 
 	public void setAmount(Double amount) {
@@ -83,5 +85,20 @@ public class Transaction extends BaseModel{
 
 	public String getId() {
 		return id;
+	}
+
+	public void updateProperties() {
+		set("date", getDate());
+		set("from", getFrom());
+		set("to", getTo());
+		set("amount", getAmount());
+		
+	}
+
+	public void updateObject() {
+		setDate((Date) get("date"));
+		setFrom((User) get("from"));
+		setTo((User) get("to"));
+		setAmount((Double) get("amount"));
 	}
 }

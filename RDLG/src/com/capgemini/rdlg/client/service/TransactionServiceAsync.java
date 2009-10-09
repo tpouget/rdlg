@@ -13,6 +13,6 @@ public interface TransactionServiceAsync {
 
 	void updateTransaction(Transaction transaction, AsyncCallback<Void> callback);
 
-	void getTransactions(AsyncCallback<ArrayList<Transaction>> callback);
+	void getTransactions(AsyncCallback<ArrayList<Transaction>> asyncCallback);
 
 }

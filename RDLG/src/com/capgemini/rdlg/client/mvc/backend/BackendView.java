@@ -11,8 +11,10 @@ import java.util.List;
 
 import com.capgemini.rdlg.client.AppEvents;
 import com.capgemini.rdlg.client.model.Meal;
+import com.capgemini.rdlg.client.model.Transaction;
 import com.capgemini.rdlg.client.model.User;
 import com.capgemini.rdlg.client.mvc.AppView;
+import com.capgemini.rdlg.client.widget.backend.BankManagementPanel;
 import com.capgemini.rdlg.client.widget.backend.ReplacementMealPanel;
 import com.capgemini.rdlg.client.widget.backend.UserManagementPanel;
 import com.capgemini.rdlg.client.widget.frontend.OrdersPanel;
@@ -31,6 +33,7 @@ public class BackendView extends View {
 	private ReplacementMealPanel backendReplacementMealPanel;
 	private OrdersPanel backendOrdersPanel;
 	private UserManagementPanel userManagementPanel;
+	private BankManagementPanel bankManagementPanel;
 
 	public BackendView(Controller controller) {
 		super(controller);
@@ -42,6 +45,7 @@ public class BackendView extends View {
 		backendReplacementMealPanel = new ReplacementMealPanel();
 		backendOrdersPanel = new OrdersPanel(PanelState.BACKEND);
 		userManagementPanel = new UserManagementPanel();
+		bankManagementPanel = new BankManagementPanel();
 	}
 
 	@Override
@@ -70,11 +74,26 @@ public class BackendView extends View {
 			wrapper.layout();
 			return;
 
-		} else if (event.getType() == AppEvents.ViewBackendCommande) {
+		} else if (event.getType() == AppEvents.ViewBackendOrder) {
 			
 			wrapper.add(backendOrdersPanel);
 			wrapper.layout();
 
+		} else if (event.getType() == AppEvents.ViewBackendBank){
+			
+				
+			ListStore<Transaction> store = bankManagementPanel.getStore();
+		
+			store.removeAll();
+			store.add(event.<List<Transaction>> getData("transactions"));
+			List<User> users = (List<User>) event.getData("userList");
+			bankManagementPanel.getUserComboBox().add(users) ;
+			
+			
+			wrapper.add(bankManagementPanel);
+			wrapper.layout();
+		
+			
 		} else if (event.getType() == AppEvents.ViewUserManagement) {
 			wrapper.add(userManagementPanel);
 			wrapper.layout();

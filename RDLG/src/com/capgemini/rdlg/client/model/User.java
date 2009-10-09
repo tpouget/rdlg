@@ -38,6 +38,7 @@ public class User extends BaseModel{
 	@Persistent
 	private UserType userType;
 	
+	
 	public User(){
 	}
 	
@@ -98,18 +99,23 @@ public class User extends BaseModel{
 	}
 	
 	public void updateProperties() {
-		set("lastname", lastname);
-		set("firstname", firstname);
-		set("email", email);
-		set("password", password);
-		set("userType", userType);
+		set("lastname", getLastname());
+		set("firstname", getFirstname());
+		set("firstLastName", getFirstname() +" "+getLastname());
+		set("email", getEmail());
+		set("password", getPassword());
+		set("userType", getUserType());
 	}
 
 	public void updateObject(){
-		lastname  = get("lastname");
-		firstname = get("firstname");
-		email     = get("email");
+		setLastname((String)get("lastname"));
+		setFirstname((String) get("firstname"));
+		setEmail((String)get("email"));
 		setPassword((String)get("password"));
-		userType  = get("userType");
+		setUserType((UserType)get("userType"));
+	}
+	
+	public String toString(){
+		return firstname + " "+ lastname;
 	}
 }
