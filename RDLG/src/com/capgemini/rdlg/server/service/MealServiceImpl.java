@@ -136,11 +136,14 @@ public class MealServiceImpl extends RemoteServiceServlet implements
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		try {
 			Query query = pm.newQuery(Meal.class, "date == d");
+			query.declareImports("import java.util.Date");
 			query.declareParameters("Date d");
 
-			ArrayList<Meal> results = (ArrayList<Meal>) query.execute(date);
-			
-			return results;
+			List<Meal> results = (List<Meal>) query.execute(date);
+			ArrayList<Meal> toReturn = new ArrayList<Meal>(pm.detachCopyAll(results));
+			for (Meal meal: toReturn)
+				meal.updateProperties();
+			return toReturn;
 		}finally{
 			pm.close();
 		}
