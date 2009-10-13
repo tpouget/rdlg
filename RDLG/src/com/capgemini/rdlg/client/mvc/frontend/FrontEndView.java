@@ -31,7 +31,7 @@ public class FrontEndView extends View{
 	
 	@Override
 	protected void handleEvent(AppEvent event) {
-		LayoutContainer wrapper = (LayoutContainer) Registry.get(AppView.CENTER_PANEL);
+		LayoutContainer wrapper = Registry.get(AppView.CENTER_PANEL);
 		
 		if (event.getType() == AppEvents.ViewFrontendOrders) {
 			wrapper.removeAll();
@@ -47,7 +47,6 @@ public class FrontEndView extends View{
 		}
 		
 		if (event.getType() == AppEvents.UpdateMealLists){
-			
 			ListStore<Meal> listore = new ListStore<Meal>();
 			List<Meal> starters = event.<List<Meal>>getData("starters");
 			listore.add(starters);
@@ -63,6 +62,9 @@ public class FrontEndView extends View{
 			listore.add(event.<List<Meal>>getData("desserts"));
 			
 			ordersPanel.getDesserts().setStore(listore);
+			
+			wrapper.layout();
+			return;
 		}
 	}
 

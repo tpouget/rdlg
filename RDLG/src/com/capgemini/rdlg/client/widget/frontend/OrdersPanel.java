@@ -1,10 +1,3 @@
-/*
- * Ext GWT - Ext for GWT
- * Copyright(c) 2007-2009, Ext JS, LLC.
- * licensing@extjs.com
- * 
- * http://extjs.com/license
- */
 package com.capgemini.rdlg.client.widget.frontend;
 
 import java.util.Arrays;
@@ -12,7 +5,6 @@ import java.util.Date;
 
 import com.capgemini.rdlg.client.AppEvents;
 import com.capgemini.rdlg.client.model.Meal;
-import com.capgemini.rdlg.client.model.MealType;
 import com.capgemini.rdlg.client.model.Order;
 import com.capgemini.rdlg.client.widget.shared.PanelState;
 import com.extjs.gxt.ui.client.Style.HorizontalAlignment;
@@ -27,20 +19,20 @@ import com.extjs.gxt.ui.client.store.ListStore;
 import com.extjs.gxt.ui.client.util.DateWrapper;
 import com.extjs.gxt.ui.client.widget.ContentPanel;
 import com.extjs.gxt.ui.client.widget.button.Button;
+import com.extjs.gxt.ui.client.widget.form.CheckBox;
 import com.extjs.gxt.ui.client.widget.form.ComboBox;
 import com.extjs.gxt.ui.client.widget.form.DateField;
-import com.extjs.gxt.ui.client.widget.form.Field;
 import com.extjs.gxt.ui.client.widget.form.TextArea;
-import com.extjs.gxt.ui.client.widget.form.Validator;
 import com.extjs.gxt.ui.client.widget.form.ComboBox.TriggerAction;
 import com.extjs.gxt.ui.client.widget.grid.CellEditor;
+import com.extjs.gxt.ui.client.widget.grid.CheckColumnConfig;
 import com.extjs.gxt.ui.client.widget.grid.ColumnConfig;
 import com.extjs.gxt.ui.client.widget.grid.ColumnModel;
+import com.extjs.gxt.ui.client.widget.grid.EditorGrid;
 import com.extjs.gxt.ui.client.widget.grid.Grid;
 import com.extjs.gxt.ui.client.widget.grid.GridGroupRenderer;
 import com.extjs.gxt.ui.client.widget.grid.GroupColumnData;
 import com.extjs.gxt.ui.client.widget.grid.GroupingView;
-import com.extjs.gxt.ui.client.widget.grid.RowEditor;
 import com.extjs.gxt.ui.client.widget.layout.FitLayout;
 import com.extjs.gxt.ui.client.widget.toolbar.ToolBar;
 import com.google.gwt.i18n.client.DateTimeFormat;
@@ -65,30 +57,28 @@ public class OrdersPanel extends ContentPanel {
 
 		store.groupBy("date", true);
 		
-		ColumnConfig starter = new ColumnConfig("starter", "Entrée", 50);
 		starters = new ComboBox<Meal>();
 		starters.setStore(new ListStore<Meal>());
 		starters.setTriggerAction(TriggerAction.ALL);
 		starters.setDisplayField("nom");
+		ColumnConfig starter = new ColumnConfig("starter", "Entrée", 50);
 		starter.setEditor(new CellEditor(starters));
 
-		ColumnConfig dish = new ColumnConfig("dish", "Plat principal", 50);
 		dishes = new ComboBox<Meal>();
 		dishes.setStore(new ListStore<Meal>());
-		dishes.setForceSelection(true);
 		dishes.setTriggerAction(TriggerAction.ALL);
 		dishes.setDisplayField("nom");
+		ColumnConfig dish = new ColumnConfig("dish", "Plat principal", 50);
 		dish.setEditor(new CellEditor(dishes));
 		
-		ColumnConfig dessert = new ColumnConfig("dessert", "Dessert", 50);
 		desserts = new ComboBox<Meal>();
 		desserts.setStore(new ListStore<Meal>());
-		desserts.setForceSelection(true);
 		desserts.setTriggerAction(TriggerAction.ALL);
 		desserts.setDisplayField("nom");
+		ColumnConfig dessert = new ColumnConfig("dessert", "Dessert", 50);
 		dessert.setEditor(new CellEditor(desserts));
 		
-		ColumnConfig date = new ColumnConfig("date", "Menu du ", 20);
+		ColumnConfig date = new ColumnConfig("date", "Menu du ", 30);
 		date.setDateTimeFormat(DateTimeFormat.getFormat("dd/MM/yyyy"));
 		final DateField dateField = new DateField();
 		dateField.setAllowBlank(true);
@@ -111,8 +101,12 @@ public class OrdersPanel extends ContentPanel {
 		ColumnConfig total = new ColumnConfig("total", "Total", 50);
 		ColumnConfig status = new ColumnConfig("status", "Statut", 20);
 
+		CheckColumnConfig checkColumn = new CheckColumnConfig("selection", "",10);  
+	    CellEditor checkBoxEditor = new CellEditor(new CheckBox());  
+	    checkColumn.setEditor(checkBoxEditor);
+		
 		final ColumnModel cm = new ColumnModel(Arrays.asList(
-				date, starter, dish, dessert, comment, total, status));
+				checkColumn, date, starter, dish, dessert, comment, total, status));
 
 		view.setShowGroupedColumn(true);
 		view.setForceFit(true);
@@ -129,31 +123,18 @@ public class OrdersPanel extends ContentPanel {
 				return "Sans date";
 			}
 		});
-
-		Grid<Order> grid = new Grid<Order>(store, cm);
-		grid.setView(view);
-
-		grid.setBorders(true);
+		
+		 
+		
+		final EditorGrid<Order> grid = new EditorGrid<Order>(store, cm);
+		grid.setView(view);		
+	    grid.setBorders(true);  
+	    grid.addPlugin(checkColumn);
 
 		add(grid);
 
-		final RowEditor<Order> re = new RowEditor<Order>();
-		grid.addPlugin(re);
-
 		ToolBar toolBar = new ToolBar();
 		Button add = new Button("Créer une commande");
-		add.addSelectionListener(new SelectionListener<ButtonEvent>() {
-			@Override
-			public void componentSelected(ButtonEvent ce) {
-				Order order = createOrder();
-
-				re.stopEditing(false);
-				store.insert(order, 0);
-
-				re.startEditing(store.indexOf(order), true);
-			}
-
-		});
 
 		toolBar.add(add);
 		setTopComponent(toolBar);
@@ -240,6 +221,4 @@ public class OrdersPanel extends ContentPanel {
 	public void setDishes(ComboBox<Meal> dishes) {
 		this.dishes = dishes;
 	}
-
-	
 }

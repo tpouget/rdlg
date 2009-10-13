@@ -42,7 +42,6 @@ public class MealServiceImpl extends RemoteServiceServlet implements
 		} finally {
 			pm.close();
 		}
-
 	}
 
 	public List<Meal> persistPlats(List<Meal> plats) {

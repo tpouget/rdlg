@@ -86,7 +86,7 @@ public class BackendView extends View {
 		
 			store.removeAll();
 			store.add(event.<List<Transaction>> getData("transactions"));
-			List<User> users = (List<User>) event.getData("userList");
+			List<User> users = event.getData("userList");
 			bankManagementPanel.getUserComboBox().add(users) ;
 			
 			

@@ -74,8 +74,5 @@ public class OrderServiceImpl extends RemoteServiceServlet implements OrderServi
 	@Override
 	public void updateOrder(String id) {
 		// TODO Auto-generated method stub
-		
 	}
-
-	
 }
