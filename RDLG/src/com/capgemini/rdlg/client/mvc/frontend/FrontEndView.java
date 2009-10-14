@@ -4,21 +4,19 @@ import java.util.List;
 
 import com.capgemini.rdlg.client.AppEvents;
 import com.capgemini.rdlg.client.model.Meal;
-import com.capgemini.rdlg.client.model.Order;
 import com.capgemini.rdlg.client.mvc.AppView;
-import com.capgemini.rdlg.client.widget.frontend.OrdersPanel;
+import com.capgemini.rdlg.client.widget.frontend.orders.OrderPanel;
 import com.capgemini.rdlg.client.widget.shared.PanelState;
 import com.extjs.gxt.ui.client.Registry;
 import com.extjs.gxt.ui.client.mvc.AppEvent;
 import com.extjs.gxt.ui.client.mvc.Controller;
 import com.extjs.gxt.ui.client.mvc.View;
-import com.extjs.gxt.ui.client.store.GroupingStore;
 import com.extjs.gxt.ui.client.store.ListStore;
 import com.extjs.gxt.ui.client.widget.LayoutContainer;
 
 public class FrontEndView extends View{
 
-	private OrdersPanel ordersPanel;
+	private OrderPanel ordersPanel;
 	
 	public FrontEndView(Controller controller) {
 		super(controller);
@@ -26,7 +24,7 @@ public class FrontEndView extends View{
 
 	@Override
 	protected void initialize() {
-		ordersPanel = new OrdersPanel(PanelState.FRONTEND);
+		ordersPanel = new OrderPanel(PanelState.FRONTEND);
 	}
 	
 	@Override
@@ -38,9 +36,9 @@ public class FrontEndView extends View{
 			wrapper.add(ordersPanel);
 			wrapper.layout();
 			
-			GroupingStore<Order> store = ordersPanel.getStore();
-			store.removeAll();
-			store.add(event.<List<Order>> getData());
+//			GroupingStore<Order> store = ordersPanel.getStore();
+//			store.removeAll();
+//			store.add(event.<List<Order>> getData());
 			
 			wrapper.layout();
 			return;
@@ -51,17 +49,17 @@ public class FrontEndView extends View{
 			List<Meal> starters = event.<List<Meal>>getData("starters");
 			listore.add(starters);
 			
-			ordersPanel.getStarters().setStore(listore);
-			
-			listore = new ListStore<Meal>();
-			listore.add(event.<List<Meal>>getData("dishes"));
-			
-			ordersPanel.getDishes().setStore(listore);
-			
-			listore = new ListStore<Meal>();
-			listore.add(event.<List<Meal>>getData("desserts"));
-			
-			ordersPanel.getDesserts().setStore(listore);
+//			ordersPanel.getStarters().setStore(listore);
+//			
+//			listore = new ListStore<Meal>();
+//			listore.add(event.<List<Meal>>getData("dishes"));
+//			
+//			ordersPanel.getDishes().setStore(listore);
+//			
+//			listore = new ListStore<Meal>();
+//			listore.add(event.<List<Meal>>getData("desserts"));
+//			
+//			ordersPanel.getDesserts().setStore(listore);
 			
 			wrapper.layout();
 			return;
