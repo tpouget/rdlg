@@ -13,7 +13,9 @@
 
   <!-- Other module inherits                                      -->
 	<inherits name='com.extjs.gxt.ui.GXT'/>
-	  
+
+  <!-- French in France -->
+    <extend-property name="locale" values="fr_FR"/>
 	
   <!-- Specify the app entry point class.                         -->
   <entry-point class='com.capgemini.rdlg.client.RDLG'/>

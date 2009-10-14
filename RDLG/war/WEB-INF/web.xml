@@ -39,7 +39,7 @@ version="2.5">
   
   <servlet>
     <servlet-name>transactionServlet</servlet-name>
-    <servlet-class>com.capgemini.rdlg.server.service.OrderServiceImpl</servlet-class>
+    <servlet-class>com.capgemini.rdlg.server.service.TransactionServiceImpl</servlet-class>
   </servlet>
   
   <servlet-mapping>

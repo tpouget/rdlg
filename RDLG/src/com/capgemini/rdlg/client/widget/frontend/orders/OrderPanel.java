@@ -1,31 +1,32 @@
 package com.capgemini.rdlg.client.widget.frontend.orders;
 
+import com.capgemini.rdlg.client.AppEvents;
 import com.capgemini.rdlg.client.model.Order;
 import com.capgemini.rdlg.client.widget.shared.PanelState;
 import com.extjs.gxt.ui.client.Style.HorizontalAlignment;
 import com.extjs.gxt.ui.client.Style.LayoutRegion;
+import com.extjs.gxt.ui.client.event.BaseEvent;
 import com.extjs.gxt.ui.client.event.ButtonEvent;
+import com.extjs.gxt.ui.client.event.Listener;
 import com.extjs.gxt.ui.client.event.SelectionListener;
+import com.extjs.gxt.ui.client.mvc.Dispatcher;
+import com.extjs.gxt.ui.client.store.ListStore;
 import com.extjs.gxt.ui.client.util.DateWrapper;
+import com.extjs.gxt.ui.client.util.Margins;
 import com.extjs.gxt.ui.client.widget.ContentPanel;
 import com.extjs.gxt.ui.client.widget.button.Button;
-import com.extjs.gxt.ui.client.widget.grid.EditorGrid;
-import com.extjs.gxt.ui.client.widget.grid.Grid;
 import com.extjs.gxt.ui.client.widget.layout.BorderLayout;
 import com.extjs.gxt.ui.client.widget.layout.BorderLayoutData;
 import com.extjs.gxt.ui.client.widget.toolbar.ToolBar;
-import com.google.gwt.user.client.Element;
 
 public class OrderPanel extends ContentPanel {
 
 	private OrderList orderList;
 	private OrderDetails orderDetails;
 	
-	private EditorGrid<Order> grid;
+	private ListStore<Order> store = new ListStore<Order>();  	
 
 	private PanelState panelState = PanelState.FRONTEND;
-	
-	private Button add;
 
 	public OrderPanel(PanelState panelState) {
 		this.panelState = panelState;
@@ -34,25 +35,24 @@ public class OrderPanel extends ContentPanel {
 		setHeaderVisible(false);
 		
 		orderDetails = new OrderDetails();
-		orderList = new OrderList();
+		orderList = new OrderList(store);
 		
-		add(orderList, new BorderLayoutData(LayoutRegion.WEST, 150, 100, 250));
-		add(orderDetails, new BorderLayoutData(LayoutRegion.CENTER));
-
-		add = new Button("Créer une commande");
-	}
-	
-	@Override
-	protected void onRender(Element parent, int pos) {
-		super.onRender(parent, pos);
+		BorderLayoutData data = new BorderLayoutData(LayoutRegion.WEST, 150, 100, 250);
+		data.setSplit(true);
+		data.setMargins(new Margins(5));
+		add(orderList, data);
+		data = new BorderLayoutData(LayoutRegion.CENTER);  
+		data.setMargins(new Margins(5, 0, 5, 0));  
+		add(orderDetails, data);
 		
 		ToolBar toolBar = new ToolBar();
 		
+		Button add = new Button("Créer une commande");
 		add.addSelectionListener(new SelectionListener<ButtonEvent>() {
 			@Override
 			public void componentSelected(ButtonEvent ce) {
-//				Order order = createOrder();
-//				store.insert(order, 0);
+				Order order = createOrder();
+				store.insert(order, 0);
 			}
 
 		});
@@ -64,27 +64,26 @@ public class OrderPanel extends ContentPanel {
 		addButton(new Button("Reset", new SelectionListener<ButtonEvent>() {
 			@Override
 			public void componentSelected(ButtonEvent ce) {
-//				store.rejectChanges();
+				store.rejectChanges();
 			}
 		}));
 
 		addButton(getSaveButton());
 
-//		getStore().addListener(GroupingStore.Update, new Listener<BaseEvent>() {
-//			public void handleEvent(BaseEvent be) {
+		getStore().addListener(ListStore.Update, new Listener<BaseEvent>() {
+			public void handleEvent(BaseEvent be) {
 //				getView().refresh(false);
-//			};
-//		});
-
+			};
+		});
 	}
-
+	
 	private Button getSaveButton() {
 		return new Button("Save", new SelectionListener<ButtonEvent>() {
 			@Override
 			public void componentSelected(ButtonEvent ce) {
-//				store.commitChanges();
-//					Dispatcher.forwardEvent(AppEvents.SaveFrontendOrders,
-//							store.getModels());
+				store.commitChanges();
+					Dispatcher.forwardEvent(AppEvents.SaveFrontendOrders,
+							store.getModels());
 			}
 		});
 	}
@@ -96,15 +95,19 @@ public class OrderPanel extends ContentPanel {
 			setHeading("Administration des commandes");
 	}
 
-	public Grid<Order> getGrid() {
-		return grid;
-	}
-
 	private Order createOrder() {
 		Order order = new Order();
 		order.setDate(new DateWrapper().clearTime().asDate());
 		
 		order.updateProperties();
 		return order;
+	}
+
+	public ListStore<Order> getStore() {
+		return store;
+	}
+
+	public void setStore(ListStore<Order> store) {
+		this.store = store;
 	}
 }
