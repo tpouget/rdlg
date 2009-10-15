@@ -54,7 +54,6 @@ public class OrderPanel extends ContentPanel {
 				Order order = createOrder();
 				store.insert(order, 0);
 			}
-
 		});
 		
 		toolBar.add(add);
@@ -109,5 +108,21 @@ public class OrderPanel extends ContentPanel {
 
 	public void setStore(ListStore<Order> store) {
 		this.store = store;
+	}
+
+	public OrderList getOrderList() {
+		return orderList;
+	}
+
+	public void setOrderList(OrderList orderList) {
+		this.orderList = orderList;
+	}
+
+	public OrderDetails getOrderDetails() {
+		return orderDetails;
+	}
+
+	public void setOrderDetails(OrderDetails orderDetails) {
+		this.orderDetails = orderDetails;
 	}
 }

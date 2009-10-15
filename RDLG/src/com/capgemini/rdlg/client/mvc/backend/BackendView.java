@@ -80,21 +80,20 @@ public class BackendView extends View {
 			wrapper.layout();
 
 		} else if (event.getType() == AppEvents.ViewBackendBank){
-			
-				
 			ListStore<Transaction> storeT = bankManagementPanel.getStore();
-			ListStore<User> storeU = bankManagementPanel.getUserComboBox().getStore();
+			
 		
-
 			storeT.removeAll();
 			storeT.add(event.<List<Transaction>> getData("transactions"));
 			
-			storeU.removeAll();
-			storeU.add(event.<List<User>> getData("userList"));
-			storeU.commitChanges();
+			bankManagementPanel.getUserComboBox()
+				.getStore().removeAll();
+			bankManagementPanel.getUserComboBox()
+				.getStore().add(event.<List<User>> getData("userList"));
+//			storeU.commitChanges();
+			
 			wrapper.add(bankManagementPanel);
 			wrapper.layout();
-		
 			
 		} else if (event.getType() == AppEvents.ViewUserManagement) {
 			wrapper.add(userManagementPanel);

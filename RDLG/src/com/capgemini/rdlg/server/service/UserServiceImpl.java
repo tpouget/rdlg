@@ -26,7 +26,10 @@ public class UserServiceImpl extends RemoteServiceServlet implements
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		try{
 			List<User> users = (List<User>) pm.newQuery(User.class).execute();
-			return new ArrayList<User>(pm.detachCopyAll(users));
+			ArrayList<User> toReturn = new ArrayList<User>(pm.detachCopyAll(users));
+			for (User user : toReturn) 
+				user.updateProperties();
+			return toReturn;
 		}finally{
 			pm.close();
 		}

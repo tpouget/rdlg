@@ -116,8 +116,9 @@ public class FrontEndController extends Controller {
 					order.updateProperties();
 				
 				AppEvent ae = new AppEvent(event.getType(), result);
-
+				
 				forwardToView(frontEndView, ae);
+				
 			}
 		});
 	}

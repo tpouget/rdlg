@@ -6,12 +6,9 @@ import java.util.Date;
 import java.util.List;
 
 import com.capgemini.rdlg.client.AppEvents;
-import com.capgemini.rdlg.client.RDLG;
 import com.capgemini.rdlg.client.model.Order;
 import com.capgemini.rdlg.client.model.Transaction;
 import com.capgemini.rdlg.client.model.User;
-import com.capgemini.rdlg.client.service.TransactionServiceAsync;
-import com.capgemini.rdlg.client.service.UserServiceAsync;
 import com.extjs.gxt.ui.client.Registry;
 import com.extjs.gxt.ui.client.Style.HorizontalAlignment;
 import com.extjs.gxt.ui.client.event.BaseEvent;
@@ -44,10 +41,6 @@ public class BankManagementPanel extends ContentPanel {
 	private Grid<Order> grid;
 	private GroupingView view = new GroupingView();
 	private GroupingStore<Transaction> store = new GroupingStore<Transaction>();
-
-	private TransactionServiceAsync transactionService = Registry
-			.get(RDLG.TRANSACTION_SERVICE);
-	private UserServiceAsync userService = Registry.get(RDLG.USER_SERVICE);
 	private List<User> userList = new ArrayList<User>();
 	private ComboBox<User> userComboBox;
 	private CellEditor userCellEditor;
@@ -69,9 +62,7 @@ public class BankManagementPanel extends ContentPanel {
 		ColumnConfig userFrom = new ColumnConfig("from", "Utilisateur", 50);
 		userFrom.setEditor(getUserCellEditor());
 
-		/**
-		 * Date Column with editor
-		 */
+		
 		ColumnConfig date = new ColumnConfig("date", "Date ", 20);
 		date.setDateTimeFormat(DateTimeFormat.getFormat("dd/MM/yyyy"));
 		DateField dateField = new DateField();
@@ -149,16 +140,11 @@ public class BankManagementPanel extends ContentPanel {
 
 	public ComboBox<User> getUserComboBox() {
 		if (userComboBox == null) {
-
 			userComboBox = new ComboBox<User>();
 			userComboBox.setForceSelection(true);
-			
 			userComboBox.setTriggerAction(TriggerAction.ALL);
-			userComboBox.setValueField("lastName");
-			userComboBox.setDisplayField("lastName");
-			userComboBox.setFieldLabel("lastName");
+			userComboBox.setDisplayField("firstLastName");
 			userComboBox.setStore(new ListStore<User>());
-		
 		}
 		return userComboBox;
 	}
@@ -181,13 +167,11 @@ public class BankManagementPanel extends ContentPanel {
 
 	private Button getSaveButton() {
 		return new Button("Save", new SelectionListener<ButtonEvent>() {
-
 			@Override
 			public void componentSelected(ButtonEvent ce) {
 				store.commitChanges();
-				Dispatcher.forwardEvent(AppEvents.SaveFrontendOrders, store
-						.getModels());
-
+				Dispatcher.forwardEvent(AppEvents.SaveFrontendOrders, 
+						store.getModels());
 			}
 		});
 	}

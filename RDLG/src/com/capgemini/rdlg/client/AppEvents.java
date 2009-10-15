@@ -8,7 +8,6 @@
 package com.capgemini.rdlg.client;
 
 import com.extjs.gxt.ui.client.event.EventType;
-import com.extjs.gxt.ui.client.mvc.AppEvent;
 
 public class AppEvents {
 

@@ -25,6 +25,7 @@ public class OrderDetails extends FormPanel{
 	
 	public OrderDetails(){
 		setHeaderVisible(false);
+		setLayoutOnChange(true);
 		
 		starters = new ComboBox<Meal>();
 		starters.setStore(new ListStore<Meal>());
@@ -65,7 +66,7 @@ public class OrderDetails extends FormPanel{
 	@Override
 	protected void onRender(Element parent, int pos) {
 		super.onRender(parent, pos);
-		
+		removeAll();
 		add(starters);
 		add(dishes);
 		add(desserts);

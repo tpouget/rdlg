@@ -101,19 +101,12 @@ public class BackendController extends Controller {
 				userService.getUsers(new AsyncCallback<ArrayList<User>>() {
 					@Override
 					public void onSuccess(ArrayList<User> result) {
-						// TODO Auto-generated method stub
-						for (User user : result) 
-							user.updateProperties();
-					
 						ae.setData("userList", result);
-						forwardToView(backendView, ae);	
-						
-		
+						forwardToView(backendView, ae);
 					}
 					@Override
 					public void onFailure(Throwable caught) {
 						Dispatcher.forwardEvent(AppEvents.Error, caught);
-						
 					}
 				});
 				

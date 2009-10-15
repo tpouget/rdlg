@@ -42,23 +42,26 @@ public class FrontEndView extends View{
 			wrapper.layout();
 			return;
 		} else if (event.getType() == AppEvents.UpdateMealLists){
-			ListStore<Meal> listore = new ListStore<Meal>();
-			List<Meal> starters = event.<List<Meal>>getData("starters");
-			listore.add(starters);
+				
+			ordersPanel.getOrderDetails()
+				.getStarters().getStore().removeAll();
+			ordersPanel.getOrderDetails()
+				.getStarters().getStore().add(
+					event.<List<Meal>>getData("starters"));
 			
-//			ordersPanel.getStarters().setStore(listore);
-//			
-//			listore = new ListStore<Meal>();
-//			listore.add(event.<List<Meal>>getData("dishes"));
-//			
-//			ordersPanel.getDishes().setStore(listore);
-//			
-//			listore = new ListStore<Meal>();
-//			listore.add(event.<List<Meal>>getData("desserts"));
-//			
-//			ordersPanel.getDesserts().setStore(listore);
 			
-			wrapper.layout();
+			ordersPanel.getOrderDetails()
+				.getDishes().getStore().removeAll();
+			ordersPanel.getOrderDetails()
+				.getDishes().getStore().add(
+					event.<List<Meal>>getData("dishes"));
+			
+			ordersPanel.getOrderDetails()
+				.getDesserts().getStore().removeAll();
+			ordersPanel.getOrderDetails()
+				.getDesserts().getStore().add(
+					event.<List<Meal>>getData("desserts"));
+			
 			return;
 		}
 	}
