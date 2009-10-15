@@ -24,7 +24,7 @@ import com.extjs.gxt.ui.client.widget.LayoutContainer;
 
 public class WeekMenuView extends View {
 
-  private WeekMenuPanel menuSemainePanel;
+  private WeekMenuPanel weekMenuPanel;
   
 
   public WeekMenuView(Controller controller) {
@@ -33,7 +33,7 @@ public class WeekMenuView extends View {
 
   @Override
   protected void initialize() {
-      menuSemainePanel = new WeekMenuPanel(PanelState.FRONTEND);
+	  weekMenuPanel = new WeekMenuPanel(PanelState.FRONTEND);
   }
 
   @Override
@@ -41,12 +41,11 @@ public class WeekMenuView extends View {
     if (event.getType() == AppEvents.ViewFrontendMenuSemaine) {
       LayoutContainer wrapper = (LayoutContainer) Registry.get(AppView.CENTER_PANEL);
       wrapper.removeAll();
-      wrapper.add(menuSemainePanel);
-      wrapper.layout();
+      wrapper.add(weekMenuPanel);
        
-      GroupingStore<Meal> store = menuSemainePanel.getStore();
+      GroupingStore<Meal> store = weekMenuPanel.getStore();
       store.removeAll();
-      store.add( event.<List<Meal>>getData());
+      store.add(event.<List<Meal>>getData());
 
       wrapper.layout();
       

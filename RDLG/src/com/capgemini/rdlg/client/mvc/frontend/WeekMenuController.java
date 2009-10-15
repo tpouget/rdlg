@@ -22,7 +22,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 public class WeekMenuController extends Controller {
 
 	private MealServiceAsync platService;
-	private WeekMenuView view;
+	private WeekMenuView weekMenuView;
 
 	public WeekMenuController() {
 		registerEventTypes(AppEvents.Init);
@@ -33,7 +33,7 @@ public class WeekMenuController extends Controller {
 	public void initialize() {
 		super.initialize();
 		platService = (MealServiceAsync) Registry.get(RDLG.MEAL_SERVICE);
-		view = new WeekMenuView(this);
+		weekMenuView = new WeekMenuView(this);
 	}
 
 	public void handleEvent(AppEvent event) {
@@ -51,7 +51,7 @@ public class WeekMenuController extends Controller {
 				
 				AppEvent ae = new AppEvent(event.getType(), result);
 				
-				forwardToView(view, ae);
+				forwardToView(weekMenuView, ae);
 			}
 			public void onFailure(Throwable caught) {
 				Dispatcher.forwardEvent(AppEvents.Error, caught);

@@ -49,7 +49,6 @@ public class FrontEndView extends View{
 				.getStarters().getStore().add(
 					event.<List<Meal>>getData("starters"));
 			
-			
 			ordersPanel.getOrderDetails()
 				.getDishes().getStore().removeAll();
 			ordersPanel.getOrderDetails()
@@ -61,7 +60,6 @@ public class FrontEndView extends View{
 			ordersPanel.getOrderDetails()
 				.getDesserts().getStore().add(
 					event.<List<Meal>>getData("desserts"));
-			
 			return;
 		}
 	}
