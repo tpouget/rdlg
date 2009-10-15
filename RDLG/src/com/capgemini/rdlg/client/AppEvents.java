@@ -8,6 +8,7 @@
 package com.capgemini.rdlg.client;
 
 import com.extjs.gxt.ui.client.event.EventType;
+import com.extjs.gxt.ui.client.mvc.AppEvent;
 
 public class AppEvents {
 
@@ -29,7 +30,7 @@ public class AppEvents {
 
 	public static final EventType ViewBackendWeekMenu = new EventType();
 
-	public static final EventType ViewBackendCommande = new EventType();
+	public static final EventType ViewBackendOrder = new EventType();
 
 	public static final EventType ViewFrontendMenuSemaine = new EventType();
 
@@ -48,10 +49,9 @@ public class AppEvents {
 	public static final EventType SaveUserManagement = new EventType();
 	
 	public static final EventType SaveFrontendOrders = new EventType();
-	
+
 	public static final EventType UpdateMealLists = new EventType();
 
-	public static final EventType ViewBackendOrder = new EventType();
-
 	public static final EventType ViewBackendBank = new EventType();;
+
 }

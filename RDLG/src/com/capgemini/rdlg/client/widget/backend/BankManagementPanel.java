@@ -14,18 +14,18 @@ import com.capgemini.rdlg.client.service.TransactionServiceAsync;
 import com.capgemini.rdlg.client.service.UserServiceAsync;
 import com.extjs.gxt.ui.client.Registry;
 import com.extjs.gxt.ui.client.Style.HorizontalAlignment;
-import com.extjs.gxt.ui.client.data.ModelData;
 import com.extjs.gxt.ui.client.event.BaseEvent;
 import com.extjs.gxt.ui.client.event.ButtonEvent;
 import com.extjs.gxt.ui.client.event.Listener;
 import com.extjs.gxt.ui.client.event.SelectionListener;
 import com.extjs.gxt.ui.client.mvc.Dispatcher;
 import com.extjs.gxt.ui.client.store.GroupingStore;
+import com.extjs.gxt.ui.client.store.ListStore;
 import com.extjs.gxt.ui.client.widget.ContentPanel;
 import com.extjs.gxt.ui.client.widget.button.Button;
+import com.extjs.gxt.ui.client.widget.form.ComboBox;
 import com.extjs.gxt.ui.client.widget.form.DateField;
 import com.extjs.gxt.ui.client.widget.form.NumberField;
-import com.extjs.gxt.ui.client.widget.form.SimpleComboBox;
 import com.extjs.gxt.ui.client.widget.form.ComboBox.TriggerAction;
 import com.extjs.gxt.ui.client.widget.grid.CellEditor;
 import com.extjs.gxt.ui.client.widget.grid.ColumnConfig;
@@ -49,7 +49,7 @@ public class BankManagementPanel extends ContentPanel {
 			.get(RDLG.TRANSACTION_SERVICE);
 	private UserServiceAsync userService = Registry.get(RDLG.USER_SERVICE);
 	private List<User> userList = new ArrayList<User>();
-	private SimpleComboBox<User> userComboBox;
+	private ComboBox<User> userComboBox;
 	private CellEditor userCellEditor;
 
 	public BankManagementPanel() {
@@ -147,43 +147,25 @@ public class BankManagementPanel extends ContentPanel {
 
 	}
 
-	public SimpleComboBox<User> getUserComboBox() {
+	public ComboBox<User> getUserComboBox() {
 		if (userComboBox == null) {
 
-			userComboBox = new SimpleComboBox<User>();
+			userComboBox = new ComboBox<User>();
 			userComboBox.setForceSelection(true);
+			
 			userComboBox.setTriggerAction(TriggerAction.ALL);
-			User u = new User();
-			u.setLastname("toto");
-			u.setFirstname("frez");
-			u.updateProperties();
-			userComboBox.add(u);
-			
-			
+			userComboBox.setValueField("lastName");
+			userComboBox.setDisplayField("lastName");
+			userComboBox.setFieldLabel("lastName");
+			userComboBox.setStore(new ListStore<User>());
+		
 		}
 		return userComboBox;
 	}
 
 	private CellEditor getUserCellEditor() {
 		if (userCellEditor == null) {
-			userCellEditor = new CellEditor(getUserComboBox()) {
-
-				@Override
-				public Object preProcessValue(Object value) {
-					if (value == null) {
-						return value;
-					}
-					return getUserComboBox().findModel((User) value);
-				}
-
-				@Override
-				public Object postProcessValue(Object value) {
-					if (value == null) {
-						return value;
-					}
-					return ((ModelData) value).get("value");
-				}
-			};
+			userCellEditor = new CellEditor(getUserComboBox());
 		}
 		return userCellEditor;
 	}
