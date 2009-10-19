@@ -41,6 +41,9 @@ public class Order extends BaseModel {
 	
 	@Persistent
 	private String user_id;
+	
+	@Persistent
+	private String description;
 
 	public void setDate(Date date) {
 		this.date = date;
@@ -96,6 +99,7 @@ public class Order extends BaseModel {
 		set("dish", getDish_id());
 		set("dessert", getDessert_id());
 		set("total", getTotal());
+		set("description", getDescription());
 	}
 
 	public void updateObject(){
@@ -104,6 +108,7 @@ public class Order extends BaseModel {
 		setDish_id((String)get("dish"));
 		setDessert_id((String)get("dessert"));
 		setTotal((Double)get("total"));
+		setDescription((String) get("description"));
 	}
 
 	public void setUser_id(String user_id) {
@@ -112,5 +117,13 @@ public class Order extends BaseModel {
 
 	public String getUser_id() {
 		return user_id;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public String getDescription() {
+		return description;
 	}
 }

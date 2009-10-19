@@ -3,6 +3,7 @@ package com.capgemini.rdlg.client;
 import com.capgemini.rdlg.client.mvc.AppController;
 import com.capgemini.rdlg.client.mvc.backend.BackendController;
 import com.capgemini.rdlg.client.mvc.frontend.FrontEndController;
+import com.capgemini.rdlg.client.mvc.frontend.OrdersController;
 import com.capgemini.rdlg.client.mvc.frontend.WeekMenuController;
 import com.capgemini.rdlg.client.service.MealService;
 import com.capgemini.rdlg.client.service.OrderService;
@@ -23,10 +24,6 @@ public class RDLG implements EntryPoint {
 	 * The message displayed to the user when the server cannot be reached or
 	 * returns an error.
 	 */
-
-	private static final String SERVER_ERROR = "An error occurred while "
-			+ "attempting to contact the server. Please check your network "
-			+ "connection and try again.";
 
 	 public static final String MEAL_SERVICE = "meal_service";
 	 public static final String USER_SERVICE = "user_service";
@@ -54,6 +51,7 @@ public class RDLG implements EntryPoint {
 		    dispatcher.addController(new FrontEndController());
 		    dispatcher.addController(new BackendController());
 		    dispatcher.addController(new WeekMenuController());
+		    dispatcher.addController(new OrdersController());
 
 		    dispatcher.dispatch(AppEvents.Login);
 		    

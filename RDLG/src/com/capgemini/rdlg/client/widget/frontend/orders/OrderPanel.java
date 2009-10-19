@@ -5,9 +5,7 @@ import com.capgemini.rdlg.client.model.Order;
 import com.capgemini.rdlg.client.widget.shared.PanelState;
 import com.extjs.gxt.ui.client.Style.HorizontalAlignment;
 import com.extjs.gxt.ui.client.Style.LayoutRegion;
-import com.extjs.gxt.ui.client.event.BaseEvent;
 import com.extjs.gxt.ui.client.event.ButtonEvent;
-import com.extjs.gxt.ui.client.event.Listener;
 import com.extjs.gxt.ui.client.event.SelectionListener;
 import com.extjs.gxt.ui.client.mvc.Dispatcher;
 import com.extjs.gxt.ui.client.store.ListStore;
@@ -24,11 +22,9 @@ public class OrderPanel extends ContentPanel {
 	private OrderList orderList;
 	private OrderDetails orderDetails;
 	
-	private ListStore<Order> store = new ListStore<Order>();  	
+	private PanelState panelState;
 
-	private PanelState panelState = PanelState.FRONTEND;
-
-	public OrderPanel(PanelState panelState) {
+	public OrderPanel(PanelState panelState, final ListStore<Order> store) {
 		this.panelState = panelState;
 		
 		setLayout(new BorderLayout());
@@ -67,24 +63,17 @@ public class OrderPanel extends ContentPanel {
 			}
 		}));
 
-		addButton(getSaveButton());
-
-		getStore().addListener(ListStore.Update, new Listener<BaseEvent>() {
-			public void handleEvent(BaseEvent be) {
-//				getView().refresh(false);
-			};
-		});
-	}
-	
-	private Button getSaveButton() {
-		return new Button("Save", new SelectionListener<ButtonEvent>() {
+		Button saveButton = new Button("Save", new SelectionListener<ButtonEvent>() {
 			@Override
 			public void componentSelected(ButtonEvent ce) {
 				store.commitChanges();
-					Dispatcher.forwardEvent(AppEvents.SaveFrontendOrders,
-							store.getModels());
+				Dispatcher.forwardEvent(AppEvents.SaveFrontendOrders,
+						store.getModels());
 			}
 		});
+		
+		addButton(saveButton);
+
 	}
 
 	public void getPanelHeading() {
@@ -100,14 +89,6 @@ public class OrderPanel extends ContentPanel {
 		
 		order.updateProperties();
 		return order;
-	}
-
-	public ListStore<Order> getStore() {
-		return store;
-	}
-
-	public void setStore(ListStore<Order> store) {
-		this.store = store;
 	}
 
 	public OrderList getOrderList() {

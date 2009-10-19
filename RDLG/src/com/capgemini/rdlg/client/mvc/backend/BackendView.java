@@ -43,7 +43,7 @@ public class BackendView extends View {
 	protected void initialize() {
 		backendWeekMenuPanel = new WeekMenuPanel(PanelState.BACKEND);
 		backendReplacementMealPanel = new ReplacementMealPanel();
-		backendOrdersPanel = new OrderPanel(PanelState.BACKEND);
+		//backendOrdersPanel = new OrderPanel(PanelState.BACKEND);
 		userManagementPanel = new UserManagementPanel();
 		bankManagementPanel = new BankManagementPanel();
 	}

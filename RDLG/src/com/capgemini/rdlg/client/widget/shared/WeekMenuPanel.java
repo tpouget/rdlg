@@ -24,7 +24,6 @@ import com.extjs.gxt.ui.client.store.GroupingStore;
 import com.extjs.gxt.ui.client.store.ListStore;
 import com.extjs.gxt.ui.client.util.DateWrapper;
 import com.extjs.gxt.ui.client.widget.ContentPanel;
-import com.extjs.gxt.ui.client.widget.Info;
 import com.extjs.gxt.ui.client.widget.button.Button;
 import com.extjs.gxt.ui.client.widget.form.DateField;
 import com.extjs.gxt.ui.client.widget.form.Field;
@@ -144,7 +143,7 @@ public class WeekMenuPanel extends ContentPanel {
 					Button b = new Button("Commander", new SelectionListener<ButtonEvent>() {  
 				          @Override  
 				          public void componentSelected(ButtonEvent ce) {  
-				            Info.display("Commander", "Commander");
+				            Dispatcher.forwardEvent(AppEvents.OrderForTheDay, model.getDate());
 				          }  
 			        });  
 			        b.setWidth(grid.getColumnModel().getColumnWidth(colIndex) - 10);  

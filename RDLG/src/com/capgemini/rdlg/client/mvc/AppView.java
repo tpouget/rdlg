@@ -26,7 +26,6 @@ import com.extjs.gxt.ui.client.mvc.Controller;
 import com.extjs.gxt.ui.client.mvc.Dispatcher;
 import com.extjs.gxt.ui.client.mvc.View;
 import com.extjs.gxt.ui.client.util.Margins;
-import com.extjs.gxt.ui.client.widget.HtmlContainer;
 import com.extjs.gxt.ui.client.widget.LayoutContainer;
 import com.extjs.gxt.ui.client.widget.Viewport;
 import com.extjs.gxt.ui.client.widget.button.Button;
@@ -80,12 +79,6 @@ public class AppView extends View {
   }
 
   private void createNorth() {
-    StringBuffer sb = new StringBuffer();
-    sb.append("<div id='demo-header' class='x-small-editor'><div id='demo-theme'></div><div id=demo-title>Ext GWT Mail Demo</div></div>");
-
-    HtmlContainer northPanel = new HtmlContainer(sb.toString());
-    northPanel.setStateful(false);
-    
     ToolBar toolBar = new ToolBar();
     toolBar.setStateful(false);
     toolBar = new ToolBar();

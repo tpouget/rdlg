@@ -10,9 +10,11 @@ import com.extjs.gxt.ui.client.store.ListStore;
 import com.extjs.gxt.ui.client.widget.form.ComboBox;
 import com.extjs.gxt.ui.client.widget.form.DateField;
 import com.extjs.gxt.ui.client.widget.form.FormPanel;
+import com.extjs.gxt.ui.client.widget.form.NumberField;
 import com.extjs.gxt.ui.client.widget.form.TextArea;
 import com.extjs.gxt.ui.client.widget.form.ComboBox.TriggerAction;
 import com.google.gwt.i18n.client.DateTimeFormat;
+import com.google.gwt.i18n.client.NumberFormat;
 import com.google.gwt.user.client.Element;
 
 public class OrderDetails extends FormPanel{
@@ -22,6 +24,7 @@ public class OrderDetails extends FormPanel{
 	private ComboBox<Meal> dishes;
 	private DateField dateField;
 	private TextArea description;
+	private NumberField total;
 	
 	public OrderDetails(){
 		setHeaderVisible(false);
@@ -30,23 +33,26 @@ public class OrderDetails extends FormPanel{
 		starters = new ComboBox<Meal>();
 		starters.setStore(new ListStore<Meal>());
 		starters.setTriggerAction(TriggerAction.ALL);
+		starters.setName("starter");
 		starters.setDisplayField("nom");
 		starters.setFieldLabel("Entrée");
 
 		dishes = new ComboBox<Meal>();
 		dishes.setStore(new ListStore<Meal>());
 		dishes.setTriggerAction(TriggerAction.ALL);
+		dishes.setName("dish");
 		dishes.setDisplayField("nom");
 		dishes.setFieldLabel("Plat");
 		
 		desserts = new ComboBox<Meal>();
 		desserts.setStore(new ListStore<Meal>());
 		desserts.setTriggerAction(TriggerAction.ALL);
+		desserts.setName("dessert");
 		desserts.setDisplayField("nom");
 		desserts.setFieldLabel("Dessert");
 		
 		dateField = new DateField();
-		dateField.setAllowBlank(true);
+		dateField.setName("date");
 		dateField.getPropertyEditor().setFormat(
 				DateTimeFormat.getFormat("dd/MM/yyyy"));
 		dateField.addListener(Events.Change, new Listener<BaseEvent>() {
@@ -59,8 +65,16 @@ public class OrderDetails extends FormPanel{
 		dateField.setFieldLabel("Date");
 		
 		description = new TextArea();  
+		description.setHeight(100);
+		description.setName("description");
 	    description.setPreventScrollbars(true);
-	    description.setFieldLabel("Description"); 
+	    description.setFieldLabel("Description");
+	    
+	    total = new NumberField();
+	    total.setName("total");
+	    total.setFieldLabel("Total");
+	    total.setFormat(NumberFormat.getCurrencyFormat());
+	    total.setReadOnly(true);
 	}
 	
 	@Override
@@ -72,6 +86,7 @@ public class OrderDetails extends FormPanel{
 		add(desserts);
 		add(dateField);
 		add(description);
+		add(total);
 	}
 	
 	public ComboBox<Meal> getStarters() {
@@ -97,4 +112,30 @@ public class OrderDetails extends FormPanel{
 	public void setDishes(ComboBox<Meal> dishes) {
 		this.dishes = dishes;
 	}
+
+	public DateField getDateField() {
+		return dateField;
+	}
+
+	public void setDateField(DateField dateField) {
+		this.dateField = dateField;
+	}
+
+	public TextArea getDescription() {
+		return description;
+	}
+
+	public void setDescription(TextArea description) {
+		this.description = description;
+	}
+
+	public NumberField getTotal() {
+		return total;
+	}
+
+	public void setTotal(NumberField total) {
+		this.total = total;
+	}
+	
+	
 }
