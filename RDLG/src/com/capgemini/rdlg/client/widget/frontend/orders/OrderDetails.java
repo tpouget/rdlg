@@ -58,7 +58,7 @@ public class OrderDetails extends FormPanel{
 		dateField.addListener(Events.Change, new Listener<BaseEvent>() {
 			@Override
 			public void handleEvent(BaseEvent be) {
-				Dispatcher.forwardEvent(AppEvents.UpdateMealLists,
+				Dispatcher.forwardEvent(AppEvents.OrderSelectionChanged,
 						dateField.getValue());
 			}
 		});

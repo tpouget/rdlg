@@ -29,7 +29,7 @@ public class OrdersController extends Controller{
 	public OrdersController(){
 		registerEventTypes(AppEvents.ViewFrontendOrders);
 		registerEventTypes(AppEvents.SaveFrontendOrders);
-		registerEventTypes(AppEvents.UpdateMealLists);
+		registerEventTypes(AppEvents.OrderSelectionChanged);
 		registerEventTypes(AppEvents.OrderForTheDay);
 	}
 	
@@ -50,42 +50,47 @@ public class OrdersController extends Controller{
 			onViewOrders(event);
 		}else if (type == AppEvents.SaveFrontendOrders) {
 			onSaveOrders(event);
-		}else if (type == AppEvents.UpdateMealLists) {
-			onUpdateMealLists(event);
+		}else if (type == AppEvents.OrderSelectionChanged) {
+			onOrderSelectionChanged(event);
 		}
 	}
 	
-	private void onUpdateMealLists(final AppEvent event) {
-		Date date = event.getData();
-		
-		mealService.getMealsByDate(date, new AsyncCallback<ArrayList<Meal>>() {
-			@Override
-			public void onFailure(Throwable caught) {
-				Dispatcher.forwardEvent(AppEvents.Error, caught);
-			}
-			@Override
-			public void onSuccess(ArrayList<Meal> result) {
-				ArrayList<Meal> starters = new ArrayList<Meal>();
-				ArrayList<Meal> dishes = new ArrayList<Meal>();
-				ArrayList<Meal> desserts = new ArrayList<Meal>();
-				
-				for (Meal meal: result){
-					if (meal.getMealType() == MealType.DESSERT)
-						desserts.add(meal);
-					if (meal.getMealType() == MealType.ENTREE)
-						starters.add(meal);
-					if (meal.getMealType() == MealType.PLAT)
-						dishes.add(meal);
+	private void onOrderSelectionChanged(final AppEvent event) {
+		final Order selectedOrder = event.getData();
+		if (selectedOrder!=null){
+			mealService.getMealsByDate(selectedOrder.getDate(), new AsyncCallback<ArrayList<Meal>>() {
+				@Override
+				public void onFailure(Throwable caught) {
+					Dispatcher.forwardEvent(AppEvents.Error, caught);
 				}
-				
-				AppEvent ae = new AppEvent(event.getType());
-				ae.setData("starters", starters);
-				ae.setData("dishes", dishes);
-				ae.setData("desserts", desserts);
-				
-				forwardToView(ordersView, ae);
-			}
-		});
+				@Override
+				public void onSuccess(ArrayList<Meal> result) {
+					ArrayList<Meal> starters = new ArrayList<Meal>();
+					ArrayList<Meal> dishes = new ArrayList<Meal>();
+					ArrayList<Meal> desserts = new ArrayList<Meal>();
+					
+					for (Meal meal: result){
+						if (meal.getMealType() == MealType.DESSERT)
+							desserts.add(meal);
+						if (meal.getMealType() == MealType.ENTREE)
+							starters.add(meal);
+						if (meal.getMealType() == MealType.PLAT)
+							dishes.add(meal);
+					}
+					
+					AppEvent ae = new AppEvent(event.getType());
+					ae.setData("starters", starters);
+					ae.setData("dishes", dishes);
+					ae.setData("desserts", desserts);
+					ae.setData("selectedOrder", selectedOrder);
+					
+					forwardToView(ordersView, ae);
+				}
+			});
+		}else{
+			AppEvent ae = new AppEvent(event.getType());
+			forwardToView(ordersView, ae);
+		}
 	}
 
 	private void onSaveOrders(AppEvent event) {

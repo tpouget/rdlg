@@ -39,6 +39,9 @@ public class OrdersView extends View{
 		formBinding.addFieldBinding(
 			new FieldBinding(
 					ordersPanel.getOrderDetails().getDateField(), "date"));
+		formBinding.addFieldBinding(
+				new FieldBinding(
+						ordersPanel.getOrderDetails().getTotal(), "total"));
 	}
 	
 	@Override
@@ -61,25 +64,33 @@ public class OrdersView extends View{
 			wrapper.add(ordersPanel);
 			wrapper.layout();
 			return;
-		} else if (event.getType() == AppEvents.UpdateMealLists){
-				
+		} else if (event.getType() == AppEvents.OrderSelectionChanged){
+			Order selectedOrder = event.getData("selectedOrder");
+			
 			ordersPanel.getOrderDetails()
 				.getStarters().getStore().removeAll();
 			ordersPanel.getOrderDetails()
-				.getStarters().getStore().add(
-					event.<List<Meal>>getData("starters"));
-			
-			ordersPanel.getOrderDetails()
 				.getDishes().getStore().removeAll();
 			ordersPanel.getOrderDetails()
-				.getDishes().getStore().add(
-					event.<List<Meal>>getData("dishes"));
-			
-			ordersPanel.getOrderDetails()
 				.getDesserts().getStore().removeAll();
-			ordersPanel.getOrderDetails()
-				.getDesserts().getStore().add(
-					event.<List<Meal>>getData("desserts"));
+
+			if (selectedOrder==null)
+				formBinding.unbind();
+			else{
+				formBinding.bind(selectedOrder);
+				
+				ordersPanel.getOrderDetails()
+					.getStarters().getStore().add(
+						event.<List<Meal>>getData("starters"));
+				
+				ordersPanel.getOrderDetails()
+					.getDishes().getStore().add(
+						event.<List<Meal>>getData("dishes"));
+				
+				ordersPanel.getOrderDetails()
+					.getDesserts().getStore().add(
+						event.<List<Meal>>getData("desserts"));
+			}
 			return;
 		}
 	}

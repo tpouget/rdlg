@@ -50,8 +50,8 @@ public class OrderList extends ContentPanel{
 			new SelectionChangedListener<Order>() {
 				@Override
 				public void selectionChanged(SelectionChangedEvent<Order> se) {
-					Dispatcher.forwardEvent(AppEvents.UpdateMealLists,
-							se.getSelectedItem().getDate());
+					Dispatcher.forwardEvent(AppEvents.OrderSelectionChanged,
+							se.getSelectedItem());
 				}
 			});
 	}
