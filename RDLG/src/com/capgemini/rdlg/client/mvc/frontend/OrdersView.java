@@ -34,6 +34,15 @@ public class OrdersView extends View{
 		formBinding = new FormBinding(ordersPanel.getOrderDetails());
 		formBinding.setStore(store);
 		formBinding.addFieldBinding(
+				new FieldBinding(
+						ordersPanel.getOrderDetails().getStarters(), "starter"));
+			formBinding.addFieldBinding(
+				new FieldBinding(
+						ordersPanel.getOrderDetails().getDishes(), "dish"));
+			formBinding.addFieldBinding(
+					new FieldBinding(
+							ordersPanel.getOrderDetails().getDesserts(), "dessert"));
+		formBinding.addFieldBinding(
 			new FieldBinding(
 					ordersPanel.getOrderDetails().getDescription(), "description"));
 		formBinding.addFieldBinding(

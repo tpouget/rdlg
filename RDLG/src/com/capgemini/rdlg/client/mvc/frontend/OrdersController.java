@@ -78,6 +78,23 @@ public class OrdersController extends Controller{
 							dishes.add(meal);
 					}
 					
+					if (selectedOrder.getStarter_id()!=null)
+						for(Meal starter: starters)
+							if (selectedOrder.getStarter_id().equals(starter.getId()))
+								selectedOrder.setStarter(starter);
+					
+					if (selectedOrder.getDish_id()!=null)
+						for(Meal dish: dishes)
+							if (selectedOrder.getDish().equals(dish.getId()))
+								selectedOrder.setDish(dish);
+					
+					if (selectedOrder.getDessert_id()!=null)
+						for(Meal dessert: desserts)
+							if (selectedOrder.getDessert_id().equals(dessert.getId()))
+								selectedOrder.setDessert(dessert);
+					
+					selectedOrder.updateProperties();
+					
 					AppEvent ae = new AppEvent(event.getType());
 					ae.setData("starters", starters);
 					ae.setData("dishes", dishes);
@@ -94,7 +111,6 @@ public class OrdersController extends Controller{
 	}
 
 	private void onSaveOrders(AppEvent event) {
-		
 		ArrayList<Order> orders = event.getData();
 		for (Order order:orders){
 			order.updateObject();

@@ -1,11 +1,6 @@
 package com.capgemini.rdlg.client.widget.frontend.orders;
 
-import com.capgemini.rdlg.client.AppEvents;
 import com.capgemini.rdlg.client.model.Meal;
-import com.extjs.gxt.ui.client.event.BaseEvent;
-import com.extjs.gxt.ui.client.event.Events;
-import com.extjs.gxt.ui.client.event.Listener;
-import com.extjs.gxt.ui.client.mvc.Dispatcher;
 import com.extjs.gxt.ui.client.store.ListStore;
 import com.extjs.gxt.ui.client.widget.form.ComboBox;
 import com.extjs.gxt.ui.client.widget.form.DateField;
@@ -55,13 +50,6 @@ public class OrderDetails extends FormPanel{
 		dateField.setName("date");
 		dateField.getPropertyEditor().setFormat(
 				DateTimeFormat.getFormat("dd/MM/yyyy"));
-		dateField.addListener(Events.Change, new Listener<BaseEvent>() {
-			@Override
-			public void handleEvent(BaseEvent be) {
-				Dispatcher.forwardEvent(AppEvents.OrderSelectionChanged,
-						dateField.getValue());
-			}
-		});
 		dateField.setFieldLabel("Date");
 		
 		description = new TextArea();  

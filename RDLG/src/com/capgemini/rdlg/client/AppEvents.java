@@ -54,5 +54,4 @@ public class AppEvents {
 	public static final EventType ViewBackendBank = new EventType();
 	
 	public static final EventType OrderForTheDay = new EventType();
-
 }
