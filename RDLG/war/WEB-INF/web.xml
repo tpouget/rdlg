@@ -57,10 +57,21 @@ version="2.5">
     <url-pattern>/_ah/mail/*</url-pattern>
   </servlet-mapping>
   
+  <servlet>
+  	<servlet-name>mailSender</servlet-name>
+  	<servlet-class>com.capgemini.rdlg.server.mail.MailSenderServlet</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>mailSender</servlet-name>
+    <url-pattern>/cron/mail</url-pattern>
+  </servlet-mapping>
+  
   <security-constraint>
-    <web-resource-collection>
+   <web-resource-collection>
       <url-pattern>/_ah/mail/*</url-pattern>
-    </web-resource-collection>
+      <url-pattern>/cron/*</url-pattern>
+   </web-resource-collection>
     <auth-constraint>
       <role-name>admin</role-name>
     </auth-constraint>

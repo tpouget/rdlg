@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cronentries>
+  <cron>
+    <url>/cron/mail</url>
+    <description>Sends an e-mail containing the orders for the current working day if there is any. The e-mail is sent at 9:45.</description>
+    <schedule>every  mon,tue,wed,thu,fri 9:45</schedule>
+    <timezone>Europe/Paris</timezone>
+  </cron>
+</cronentries>
