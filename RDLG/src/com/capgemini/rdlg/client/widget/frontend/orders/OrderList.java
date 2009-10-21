@@ -6,6 +6,7 @@ import java.util.List;
 import com.capgemini.rdlg.client.AppEvents;
 import com.capgemini.rdlg.client.model.Order;
 import com.extjs.gxt.ui.client.Style.SelectionMode;
+import com.extjs.gxt.ui.client.Style.SortDir;
 import com.extjs.gxt.ui.client.event.BaseEvent;
 import com.extjs.gxt.ui.client.event.Events;
 import com.extjs.gxt.ui.client.event.Listener;
@@ -34,12 +35,15 @@ public class OrderList extends ContentPanel{
 		});
 		
 		ColumnConfig date = new ColumnConfig("date", "date", getWidth());
-		date.setDateTimeFormat(DateTimeFormat.getFormat("yyyy, MMMM d"));
+		date.setDateTimeFormat(DateTimeFormat.getFormat("yyyy, dd MMMM"));
 		
 		List<ColumnConfig> configs = new ArrayList<ColumnConfig>(1);
 	    configs.add(date);
 	    ColumnModel cm = new ColumnModel(configs);
 		
+	    orderStore.setSortField("date");
+	    orderStore.setSortDir(SortDir.DESC);
+	    
 		orderGrid = new Grid<Order>(orderStore, cm);
 		orderGrid.setBorders(false);
 		orderGrid.setHideHeaders(true);

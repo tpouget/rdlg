@@ -184,7 +184,7 @@ public class BackendController extends Controller {
 
 	private void onViewAdminMenuSemaine(final AppEvent event) {
 
-		mealService.getPlatsMenuSemaine(new AsyncCallback<List<Meal>>() {
+		mealService.getWeekMenuMeals(new AsyncCallback<List<Meal>>() {
 			public void onSuccess(List<Meal> result) {
 
 				for (Meal plat : result) {

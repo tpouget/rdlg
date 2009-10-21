@@ -13,7 +13,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 public interface MealServiceAsync {
 	void persistPlat(Meal plat, AsyncCallback<Meal> callback);
 	void persistPlats(List<Meal> plats, AsyncCallback<List<Meal>> callback);
-	void getPlatsMenuSemaine(AsyncCallback<List<Meal>> callback);
+	void getWeekMenuMeals(AsyncCallback<List<Meal>> callback);
 	void getPlatsRemplacement(AsyncCallback<List<Meal>> callback);
 	void deleteMeal(String id, AsyncCallback<Void> callback);
 	void getMealsByDate(Date date, AsyncCallback<ArrayList<Meal>> callback);

@@ -53,7 +53,7 @@ public class MealServiceImpl extends RemoteServiceServlet implements
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Meal> getPlatsMenuSemaine() {
+	public List<Meal> getWeekMenuMeals() {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		List<Meal> result = new ArrayList<Meal>();
 		try {

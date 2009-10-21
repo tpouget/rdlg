@@ -15,7 +15,7 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 public interface MealService extends RemoteService {
 	public Meal persistPlat(Meal plat);
 	public List<Meal> persistPlats(List<Meal> plats);
-	public List<Meal> getPlatsMenuSemaine();
+	public List<Meal> getWeekMenuMeals();
 	public List<Meal> getPlatsRemplacement();
 	public void deleteMeal(String id);
 	public ArrayList<Meal> getMealsByDate(Date date);
