@@ -9,6 +9,7 @@ import com.capgemini.rdlg.client.model.Meal;
 import com.capgemini.rdlg.client.model.MealType;
 import com.capgemini.rdlg.client.model.Order;
 import com.capgemini.rdlg.client.model.User;
+import com.capgemini.rdlg.client.service.DateServiceAsync;
 import com.capgemini.rdlg.client.service.MealServiceAsync;
 import com.capgemini.rdlg.client.service.OrderServiceAsync;
 import com.extjs.gxt.ui.client.Registry;
@@ -23,6 +24,7 @@ public class OrdersController extends Controller{
 	private OrdersView ordersView;
 	private OrderServiceAsync orderService;
 	private MealServiceAsync mealService;
+	private DateServiceAsync dateService;
 	private String user_id;
 	
 	
@@ -31,6 +33,7 @@ public class OrdersController extends Controller{
 		registerEventTypes(AppEvents.SaveFrontendOrders);
 		registerEventTypes(AppEvents.OrderSelectionChanged);
 		registerEventTypes(AppEvents.OrderForTheDay);
+		registerEventTypes(AppEvents.CreateOrder);
 	}
 	
 	@Override
@@ -39,6 +42,7 @@ public class OrdersController extends Controller{
 		ordersView = new OrdersView(this);
 		orderService = Registry.get(RDLG.ORDER_SERVICE);
 		mealService = Registry.get(RDLG.MEAL_SERVICE);
+		dateService = Registry.get(RDLG.DATE_SERVICE);
 		user_id = ((User)Registry.get(RDLG.USER)).getId();
 	}
 	
@@ -52,9 +56,25 @@ public class OrdersController extends Controller{
 			onSaveOrders(event);
 		}else if (type == AppEvents.OrderSelectionChanged) {
 			onOrderSelectionChanged(event);
-		}
+		}else if (type == AppEvents.CreateOrder)
+			onCreateOrder(event);
 	}
 	
+	private void onCreateOrder(final AppEvent event) {
+		dateService.getUTCDate(new AsyncCallback<Date>() {
+			@Override
+			public void onFailure(Throwable caught) {
+				Dispatcher.forwardEvent(AppEvents.Error, caught);
+			}
+			@Override
+			public void onSuccess(Date result) {
+				AppEvent ae = new AppEvent(event.getType());
+				ae.setData(result);
+				forwardToView(ordersView, ae);
+			}
+		});
+	}
+
 	private void onOrderSelectionChanged(final AppEvent event) {
 		final Order selectedOrder = event.getData();
 		if (selectedOrder!=null){

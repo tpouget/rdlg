@@ -67,6 +67,16 @@ version="2.5">
     <url-pattern>/cron/mail</url-pattern>
   </servlet-mapping>
   
+  <servlet>
+  	<servlet-name>dateService</servlet-name>
+  	<servlet-class>com.capgemini.rdlg.server.service.DateServiceImpl</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>dateService</servlet-name>
+    <url-pattern>/rdlg/date</url-pattern>
+  </servlet-mapping>
+  
   <security-constraint>
    <web-resource-collection>
       <url-pattern>/_ah/mail/*</url-pattern>

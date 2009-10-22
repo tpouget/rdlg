@@ -1,10 +1,7 @@
 package com.capgemini.rdlg.client.widget.frontend.orders;
 
 
-import java.util.Date;
-
 import com.capgemini.rdlg.client.AppEvents;
-import com.capgemini.rdlg.client.DateTools;
 import com.capgemini.rdlg.client.model.Order;
 import com.capgemini.rdlg.client.widget.shared.PanelState;
 import com.extjs.gxt.ui.client.Style.HorizontalAlignment;
@@ -50,8 +47,7 @@ public class OrderPanel extends ContentPanel {
 		add.addSelectionListener(new SelectionListener<ButtonEvent>() {
 			@Override
 			public void componentSelected(ButtonEvent ce) {
-				Order order = createOrder();
-				store.insert(order, 0);
+				createOrder();
 			}
 		});
 		
@@ -86,14 +82,8 @@ public class OrderPanel extends ContentPanel {
 			setHeading("Administration des commandes");
 	}
 
-	private Order createOrder() {
-		Order order = new Order();
-		Date date = DateTools.getUTCDate();
-		
-		order.setDate(date);
-		
-		order.updateProperties();
-		return order;
+	private void createOrder() {
+		Dispatcher.forwardEvent(AppEvents.CreateOrder);
 	}
 
 	public OrderList getOrderList() {

@@ -54,7 +54,6 @@ public class BackendController extends Controller {
 		userService = Registry.get(RDLG.USER_SERVICE);
 		transactionService = Registry.get(RDLG.TRANSACTION_SERVICE);
 		backendView = new BackendView(this);
-		
 	}
 
 	public void handleEvent(AppEvent event) {

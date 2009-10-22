@@ -1,5 +1,6 @@
 package com.capgemini.rdlg.client.mvc.frontend;
 
+import java.util.Date;
 import java.util.List;
 
 import com.capgemini.rdlg.client.AppEvents;
@@ -101,6 +102,12 @@ public class OrdersView extends View{
 						event.<List<Meal>>getData("desserts"));
 			}
 			return;
+		} else if (event.getType() == AppEvents.CreateOrder){
+			Date date = event.getData();
+			Order order = new Order();
+			order.setDate(date);
+			order.updateProperties();
+			store.insert(order, 0);
 		}
 	}
 
