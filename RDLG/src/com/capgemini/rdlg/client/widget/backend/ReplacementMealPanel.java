@@ -197,8 +197,8 @@ public class ReplacementMealPanel extends ContentPanel {
 
 	private Meal createPlat() {
 		Meal plat = new Meal();
-		plat.setNom("Nouveau plat de remplacement");
-		plat.setPrix(0.0);
+		plat.setName("Nouveau plat de remplacement");
+		plat.setPrice(0.0);
 		plat.updateProperties();
 		return plat;
 	}

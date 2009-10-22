@@ -30,6 +30,8 @@ public class MailSenderServlet extends HttpServlet {
 		
 		ArrayList<Order> orders = OrderTool.getOrdersForCurrentDay();
 		
+		OrderMail mail = new OrderMail(orders);
+		
 		if (orders!=null && !orders.isEmpty()){
 			String header = req.getHeader("X-AppEngine-Cron");
 			if (Boolean.parseBoolean(header)){

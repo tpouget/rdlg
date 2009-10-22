@@ -30,8 +30,8 @@ public class MealServiceImpl extends RemoteServiceServlet implements
 			if (newPlat.getId() != null) {
 				result = pm.getObjectById(Meal.class, newPlat.getId());
 
-				result.setNom(newPlat.getNom());
-				result.setPrix(newPlat.getPrix());
+				result.setName(newPlat.getName());
+				result.setPrice(newPlat.getPrice());
 				result.setDate(newPlat.getDate());
 				result.setMealType(newPlat.getMealType());
 				

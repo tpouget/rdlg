@@ -25,10 +25,10 @@ public class Meal extends BaseModel{
 	private String id;
 	
 	@Persistent
-	private String nom;
+	private String name;
 	
 	@Persistent
-	private Double prix;
+	private Double price;
 	
 	@Persistent
 	private MealType mealType;
@@ -39,28 +39,27 @@ public class Meal extends BaseModel{
 	public Meal(){
 	}
 	
-	public Meal(String nom, Double prix, MealType typePlat, Date date){
-		this.setNom(nom);
-		this.setPrix(prix);
+	public Meal(String name, Double price, MealType typePlat, Date date){
+		this.setName(name);
+		this.setPrice(price);
 		this.setMealType(typePlat);
 		this.setDate(date);
 	}
 
-	public void setNom(String nom) {
-		this.nom = nom;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	public String getNom() {
-		
-		return nom;
+	public String getName() {
+		return name;
 	}
 
-	public void setPrix(Double prix) {
-		this.prix = prix;
+	public void setPrice(Double price) {
+		this.price = price;
 	}
 
-	public Double getPrix() {
-		return prix;
+	public Double getPrice() {
+		return price;
 	}
 
 	public void setMealType(MealType typePlat) {
@@ -92,14 +91,14 @@ public class Meal extends BaseModel{
 		set("id", getId());
 		set("date", getDate());
 		set("mealType", getMealType());
-		set("nom", getNom());
-		set("prix", getPrix());
+		set("nom", getName());
+		set("prix", getPrice());
 	}
 
 	public void updateObject(){
 		setDate((Date)get("date"));
-		setNom((String)get("nom"));
-		setPrix((Double)get("prix"));
+		setName((String)get("nom"));
+		setPrice((Double)get("prix"));
 		setMealType((MealType)get("mealType"));
 	}
 }

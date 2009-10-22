@@ -33,8 +33,8 @@ public class OrderTool {
 			c.setTime(today);
 			c.add(Calendar.DAY_OF_YEAR, 1);
 			Date tomorrow = format.parse(format.format(c.getTime()));
-			List<Order> users = (List<Order>) query.execute(today, tomorrow);
-			return new ArrayList<Order>(pm.detachCopyAll(users));
+			List<Order> orders = (List<Order>) query.execute(today, tomorrow);
+			return new ArrayList<Order>(pm.detachCopyAll(orders));
 		} catch (ParseException e) {
 			log.severe(e.getMessage());
 		}finally{

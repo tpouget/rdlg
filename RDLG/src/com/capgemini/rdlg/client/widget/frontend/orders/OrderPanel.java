@@ -1,6 +1,10 @@
 package com.capgemini.rdlg.client.widget.frontend.orders;
 
+
+import java.util.Date;
+
 import com.capgemini.rdlg.client.AppEvents;
+import com.capgemini.rdlg.client.DateTools;
 import com.capgemini.rdlg.client.model.Order;
 import com.capgemini.rdlg.client.widget.shared.PanelState;
 import com.extjs.gxt.ui.client.Style.HorizontalAlignment;
@@ -9,7 +13,6 @@ import com.extjs.gxt.ui.client.event.ButtonEvent;
 import com.extjs.gxt.ui.client.event.SelectionListener;
 import com.extjs.gxt.ui.client.mvc.Dispatcher;
 import com.extjs.gxt.ui.client.store.ListStore;
-import com.extjs.gxt.ui.client.util.DateWrapper;
 import com.extjs.gxt.ui.client.util.Margins;
 import com.extjs.gxt.ui.client.widget.ContentPanel;
 import com.extjs.gxt.ui.client.widget.button.Button;
@@ -85,7 +88,9 @@ public class OrderPanel extends ContentPanel {
 
 	private Order createOrder() {
 		Order order = new Order();
-		order.setDate(new DateWrapper().clearTime().asDate());
+		Date date = DateTools.getUTCDate();
+		
+		order.setDate(date);
 		
 		order.updateProperties();
 		return order;
