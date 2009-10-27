@@ -1,10 +1,3 @@
-/*
- * Ext GWT - Ext for GWT
- * Copyright(c) 2007-2009, Ext JS, LLC.
- * licensing@extjs.com
- * 
- * http://extjs.com/license
- */
 package com.capgemini.rdlg.client.widget.shared;
 
 import java.util.Arrays;
@@ -15,14 +8,11 @@ import com.capgemini.rdlg.client.model.Meal;
 import com.capgemini.rdlg.client.model.MealType;
 import com.extjs.gxt.ui.client.Style.HorizontalAlignment;
 import com.extjs.gxt.ui.client.data.ModelData;
-import com.extjs.gxt.ui.client.event.BaseEvent;
 import com.extjs.gxt.ui.client.event.ButtonEvent;
-import com.extjs.gxt.ui.client.event.Listener;
 import com.extjs.gxt.ui.client.event.SelectionListener;
 import com.extjs.gxt.ui.client.mvc.Dispatcher;
 import com.extjs.gxt.ui.client.store.GroupingStore;
 import com.extjs.gxt.ui.client.store.ListStore;
-import com.extjs.gxt.ui.client.util.DateWrapper;
 import com.extjs.gxt.ui.client.widget.ContentPanel;
 import com.extjs.gxt.ui.client.widget.button.Button;
 import com.extjs.gxt.ui.client.widget.form.DateField;
@@ -50,11 +40,11 @@ public class WeekMenuPanel extends ContentPanel {
 
 	private Grid<Meal> grid;
 	private GroupingView view = new GroupingView();
-	private GroupingStore<Meal> store = new GroupingStore<Meal>();
+	private RowEditor<Meal> re;
 
 	private PanelState panelState = PanelState.FRONTEND;
 
-	public WeekMenuPanel(PanelState panelState) {
+	public WeekMenuPanel(PanelState panelState, final GroupingStore<Meal> store) {
 		this.panelState = panelState;
 					
 		setLayout(new FitLayout());
@@ -63,11 +53,11 @@ public class WeekMenuPanel extends ContentPanel {
 
 		store.groupBy("date", true);
 		
-		ColumnConfig nom = new ColumnConfig("nom", "Nom", 100);
+		ColumnConfig name = new ColumnConfig("name", "Nom", 100);
 
 		TextField<String> text = new TextField<String>();
 		text.setAllowBlank(false);
-		nom.setEditor(new CellEditor(text));
+		name.setEditor(new CellEditor(text));
 
 		ColumnConfig prix = new ColumnConfig("prix", "Prix", 50);
 
@@ -120,16 +110,13 @@ public class WeekMenuPanel extends ContentPanel {
 		
 		DateField dateField = new DateField();
 		dateField.setAllowBlank(true);
-		dateField.getPropertyEditor().setFormat(
-				DateTimeFormat.getFormat("dd/MM/yyyy"));
 		editor = new CellEditor(dateField);
 		date.setEditor(editor);
 		
 		final ColumnModel cm;
 		
-		if (panelState == PanelState.BACKEND)
-		{
-			cm = new ColumnModel(Arrays.asList(nom, prix,
+		if (panelState == PanelState.BACKEND){
+			cm = new ColumnModel(Arrays.asList(name, prix,
 					typePlat, date));
 		}
 		else
@@ -146,7 +133,7 @@ public class WeekMenuPanel extends ContentPanel {
 				            Dispatcher.forwardEvent(AppEvents.OrderForTheDay, model.getDate());
 				          }  
 			        });  
-			        b.setWidth(grid.getColumnModel().getColumnWidth(colIndex) - 10);  
+			        b.setWidth(grid.getColumnModel().getColumnWidth(colIndex) - 10);
 			        b.setToolTip("Passer commande ce jour");
 			        b.setHeight(20);
 			  
@@ -162,10 +149,9 @@ public class WeekMenuPanel extends ContentPanel {
 			orderButton.setWidth(30);  
 			orderButton.setRenderer(buttonRenderer);
 			
-			
 			date.setHidden(true);
 			
-			cm = new ColumnModel(Arrays.asList(nom, prix,
+			cm = new ColumnModel(Arrays.asList(name, prix,
 					typePlat, date, orderButton));
 		}
 
@@ -190,7 +176,7 @@ public class WeekMenuPanel extends ContentPanel {
 		add(grid);
 		
 		if (panelState == PanelState.BACKEND){
-			final RowEditor<Meal> re = new RowEditor<Meal>();
+			re = new RowEditor<Meal>();
 			grid.addPlugin(re);
 
 			ToolBar toolBar = new ToolBar();
@@ -198,12 +184,8 @@ public class WeekMenuPanel extends ContentPanel {
 			add.addSelectionListener(new SelectionListener<ButtonEvent>() {
 				@Override
 				public void componentSelected(ButtonEvent ce) {
-					Meal plat = createMeal();
-	
 					re.stopEditing(false);
-					store.insert(plat, 0);
-	
-					re.startEditing(store.indexOf(plat), true);
+					Dispatcher.forwardEvent(AppEvents.CreateMeal);
 				}
 			});
 	
@@ -218,27 +200,17 @@ public class WeekMenuPanel extends ContentPanel {
 				}
 			}));
 			
-			addButton(getSaveButton());
+			addButton(new Button("Save", new SelectionListener<ButtonEvent>() {
+				@Override
+				public void componentSelected(ButtonEvent ce) {
+					store.commitChanges();
+						Dispatcher.forwardEvent(AppEvents.SaveBackendMenuOfTheWeek,
+								store.getModels());
+				}
+			}));
 		}
-
-		getStore().addListener(GroupingStore.Update, new Listener<BaseEvent>() {
-			public void handleEvent(BaseEvent be) {
-				getView().refresh(false);
-			};
-		});
-
 	}
 
-	private Button getSaveButton() {
-		return new Button("Save", new SelectionListener<ButtonEvent>() {
-			@Override
-			public void componentSelected(ButtonEvent ce) {
-				store.commitChanges();
-					Dispatcher.forwardEvent(AppEvents.SaveBackendMenuOfTheWeek,
-							store.getModels());
-			}
-		});
-	}
 
 	public void getPanelHeading() {
 		if (PanelState.FRONTEND.equals(panelState))
@@ -252,21 +224,11 @@ public class WeekMenuPanel extends ContentPanel {
 		return view;
 	}
 
-	public GroupingStore<Meal> getStore() {
-		return store;
-	}
-
 	public Grid<Meal> getGrid() {
 		return grid;
 	}
 
-	private Meal createMeal() {
-		Meal plat = new Meal();
-		plat.setName("Nouveau plat");
-		plat.setDate(new DateWrapper().asDate());
-		plat.setMealType(MealType.PLAT);
-		plat.setPrice(5.60);
-		plat.updateProperties();
-		return plat;
+	public RowEditor<Meal> getRowEditor() {
+		return re;
 	}
 }

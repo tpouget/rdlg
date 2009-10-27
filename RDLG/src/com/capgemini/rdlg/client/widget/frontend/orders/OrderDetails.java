@@ -53,7 +53,7 @@ public class OrderDetails extends FormPanel{
 		starters.setStore(new ListStore<Meal>());
 		starters.setTriggerAction(TriggerAction.ALL);
 		starters.setName("starter");
-		starters.setDisplayField("nom");
+		starters.setDisplayField("name");
 		starters.setFieldLabel("Entrée");
 		starters.addSelectionChangedListener(scl);
 
@@ -61,7 +61,7 @@ public class OrderDetails extends FormPanel{
 		dishes.setStore(new ListStore<Meal>());
 		dishes.setTriggerAction(TriggerAction.ALL);
 		dishes.setName("dish");
-		dishes.setDisplayField("nom");
+		dishes.setDisplayField("name");
 		dishes.setFieldLabel("Plat");
 		dishes.addSelectionChangedListener(scl);
 		
@@ -69,7 +69,7 @@ public class OrderDetails extends FormPanel{
 		desserts.setStore(new ListStore<Meal>());
 		desserts.setTriggerAction(TriggerAction.ALL);
 		desserts.setName("dessert");
-		desserts.setDisplayField("nom");
+		desserts.setDisplayField("name");
 		desserts.setFieldLabel("Dessert");
 		desserts.addSelectionChangedListener(scl);
 		

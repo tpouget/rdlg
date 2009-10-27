@@ -47,7 +47,7 @@ public class OrderPanel extends ContentPanel {
 		add.addSelectionListener(new SelectionListener<ButtonEvent>() {
 			@Override
 			public void componentSelected(ButtonEvent ce) {
-				createOrder();
+				Dispatcher.forwardEvent(AppEvents.CreateOrder);
 			}
 		});
 		
@@ -80,10 +80,6 @@ public class OrderPanel extends ContentPanel {
 			setHeading("Mes commandes");
 		else if (PanelState.BACKEND.equals(panelState))
 			setHeading("Administration des commandes");
-	}
-
-	private void createOrder() {
-		Dispatcher.forwardEvent(AppEvents.CreateOrder);
 	}
 
 	public OrderList getOrderList() {

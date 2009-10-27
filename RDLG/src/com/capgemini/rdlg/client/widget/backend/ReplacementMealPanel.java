@@ -50,7 +50,7 @@ public class ReplacementMealPanel extends ContentPanel {
 
 		setHeading("Administration des plats de remplacement");
 
-		ColumnConfig nom = new ColumnConfig("nom", "Nom", 100);
+		ColumnConfig name = new ColumnConfig("name", "Nom", 100);
 
 		TextField<String> text = new TextField<String>();
 		text.setAllowBlank(false);
@@ -60,7 +60,7 @@ public class ReplacementMealPanel extends ContentPanel {
 				return null;
 			}
 		});
-		nom.setEditor(new CellEditor(text));
+		name.setEditor(new CellEditor(text));
 
 		ColumnConfig prix = new ColumnConfig("prix", "Prix", 50);
 
@@ -107,7 +107,7 @@ public class ReplacementMealPanel extends ContentPanel {
 		};
 		typePlat.setEditor(editor);
 
-		final ColumnModel cm = new ColumnModel(Arrays.asList(nom, prix,
+		final ColumnModel cm = new ColumnModel(Arrays.asList(name, prix,
 				typePlat));
 
 

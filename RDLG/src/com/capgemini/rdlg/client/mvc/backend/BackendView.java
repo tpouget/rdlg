@@ -1,16 +1,11 @@
-/*
- * Ext GWT - Ext for GWT
- * Copyright(c) 2007-2009, Ext JS, LLC.
- * licensing@extjs.com
- * 
- * http://extjs.com/license
- */
 package com.capgemini.rdlg.client.mvc.backend;
 
+import java.util.Date;
 import java.util.List;
 
 import com.capgemini.rdlg.client.AppEvents;
 import com.capgemini.rdlg.client.model.Meal;
+import com.capgemini.rdlg.client.model.MealType;
 import com.capgemini.rdlg.client.model.Transaction;
 import com.capgemini.rdlg.client.model.User;
 import com.capgemini.rdlg.client.mvc.AppView;
@@ -24,6 +19,7 @@ import com.extjs.gxt.ui.client.Registry;
 import com.extjs.gxt.ui.client.mvc.AppEvent;
 import com.extjs.gxt.ui.client.mvc.Controller;
 import com.extjs.gxt.ui.client.mvc.View;
+import com.extjs.gxt.ui.client.store.GroupingStore;
 import com.extjs.gxt.ui.client.store.ListStore;
 import com.extjs.gxt.ui.client.widget.LayoutContainer;
 
@@ -34,6 +30,7 @@ public class BackendView extends View {
 	private OrderPanel backendOrdersPanel;
 	private UserManagementPanel userManagementPanel;
 	private BankManagementPanel bankManagementPanel;
+	 private GroupingStore<Meal> store = new GroupingStore<Meal>();
 
 	public BackendView(Controller controller) {
 		super(controller);
@@ -41,7 +38,7 @@ public class BackendView extends View {
 
 	@Override
 	protected void initialize() {
-		backendWeekMenuPanel = new WeekMenuPanel(PanelState.BACKEND);
+		backendWeekMenuPanel = new WeekMenuPanel(PanelState.BACKEND, store);
 		backendReplacementMealPanel = new ReplacementMealPanel();
 		//backendOrdersPanel = new OrderPanel(PanelState.BACKEND);
 		userManagementPanel = new UserManagementPanel();
@@ -57,7 +54,6 @@ public class BackendView extends View {
 			wrapper.add(backendWeekMenuPanel);
 			wrapper.layout();
 
-			ListStore<Meal> store = backendWeekMenuPanel.getStore();
 			store.removeAll();
 			store.add(event.<List<Meal>> getData());
 
@@ -75,7 +71,6 @@ public class BackendView extends View {
 			return;
 
 		} else if (event.getType() == AppEvents.ViewBackendOrder) {
-			
 			wrapper.add(backendOrdersPanel);
 			wrapper.layout();
 
@@ -94,6 +89,7 @@ public class BackendView extends View {
 			
 			wrapper.add(bankManagementPanel);
 			wrapper.layout();
+			return;
 			
 		} else if (event.getType() == AppEvents.ViewUserManagement) {
 			wrapper.add(userManagementPanel);
@@ -104,6 +100,22 @@ public class BackendView extends View {
 			store.add(event.<List<User>> getData());
 			wrapper.layout();
 			return;
-		}
+			
+		} else if (event.getType() == AppEvents.CreateMeal){
+	    	Date date = event.getData();
+	    	Meal meal = new Meal();
+	    	meal.setName("Nouveau plat");
+	    	meal.setDate(date);
+	    	meal.setMealType(MealType.PLAT);
+	    	meal.setPrice(meal.getMealType().getPrice());
+	    	meal.updateProperties();
+	    	store.insert(meal, 0);
+	    	wrapper.add(backendWeekMenuPanel);
+	    	wrapper.layout();
+	    	backendWeekMenuPanel.getRowEditor()
+	    		.startEditing(store.indexOf(meal), true);
+	    	return;
+	    }
+		
 	}
 }

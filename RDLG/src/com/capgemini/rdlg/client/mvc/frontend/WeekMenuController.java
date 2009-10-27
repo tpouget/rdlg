@@ -1,10 +1,3 @@
-/*
- * Ext GWT - Ext for GWT
- * Copyright(c) 2007-2009, Ext JS, LLC.
- * licensing@extjs.com
- * 
- * http://extjs.com/license
- */
 package com.capgemini.rdlg.client.mvc.frontend;
 
 import java.util.List;
@@ -21,18 +14,17 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public class WeekMenuController extends Controller {
 
-	private MealServiceAsync platService;
+	private MealServiceAsync mealService;
 	private WeekMenuView weekMenuView;
 
 	public WeekMenuController() {
-		registerEventTypes(AppEvents.Init);
 		registerEventTypes(AppEvents.ViewFrontendMenuSemaine);
 	}
 
 	@Override
 	public void initialize() {
 		super.initialize();
-		platService = (MealServiceAsync) Registry.get(RDLG.MEAL_SERVICE);
+		mealService = (MealServiceAsync) Registry.get(RDLG.MEAL_SERVICE);
 		weekMenuView = new WeekMenuView(this);
 	}
 
@@ -40,11 +32,11 @@ public class WeekMenuController extends Controller {
 
 		if (event.getType() == AppEvents.ViewFrontendMenuSemaine) {
 			onViewFrontendMenuSemaine(event);
-		}
+		} 
 	}
 
 	private void onViewFrontendMenuSemaine(final AppEvent event) {
-		platService.getWeekMenuMeals(new AsyncCallback<List<Meal>>() {
+		mealService.getWeekMenuMeals(new AsyncCallback<List<Meal>>() {
 			public void onSuccess(List<Meal> result) {
 				for (Meal plat : result)
 					plat.updateProperties();				

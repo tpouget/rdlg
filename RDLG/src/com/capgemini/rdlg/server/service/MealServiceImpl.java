@@ -21,22 +21,18 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 public class MealServiceImpl extends RemoteServiceServlet implements
 		MealService {
 
-	public Meal persistPlat(Meal newPlat) {
-		//Mise à jour des attributs de l'objet en fonction de ces attributs GXT
-		
+	public Meal persistPlat(Meal meal) {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		Meal result;
 		try {
-			if (newPlat.getId() != null) {
-				result = pm.getObjectById(Meal.class, newPlat.getId());
-
-				result.setName(newPlat.getName());
-				result.setPrice(newPlat.getPrice());
-				result.setDate(newPlat.getDate());
-				result.setMealType(newPlat.getMealType());
-				
+			if (meal.getId() != null) {
+				result = pm.getObjectById(Meal.class, meal.getId());
+				result.setName(meal.getName());
+				result.setPrice(meal.getPrice());
+				result.setDate(meal.getDate());
+				result.setMealType(meal.getMealType());
 			} else
-				result = pm.makePersistent(newPlat);
+				result = pm.makePersistent(meal);
 
 			return pm.detachCopy(result);
 		} finally {

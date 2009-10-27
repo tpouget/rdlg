@@ -1,13 +1,7 @@
-/*
- * Ext GWT - Ext for GWT
- * Copyright(c) 2007-2009, Ext JS, LLC.
- * licensing@extjs.com
- * 
- * http://extjs.com/license
- */
 package com.capgemini.rdlg.client.mvc.backend;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import com.capgemini.rdlg.client.AppEvents;
@@ -45,6 +39,7 @@ public class BackendController extends Controller {
 		registerEventTypes(AppEvents.SaveUserManagement);
 	    registerEventTypes(AppEvents.DeleteUser);
 	    registerEventTypes(AppEvents.DeleteReplacementMeal);
+	    registerEventTypes(AppEvents.CreateMeal);
 	}
 
 	@Override
@@ -78,9 +73,15 @@ public class BackendController extends Controller {
 	        onDeleteReplacementMeal(event);
 	    } else if (type == AppEvents.ViewBackendBank){
 	    	onViewBank(event);
-	    }
+	    } else if (event.getType() == AppEvents.CreateMeal){
+			onCreateMeal(event);
+		}
 	}
 
+	private void onCreateMeal(AppEvent event) {
+		forwardToView(backendView, new AppEvent(event.getType(), new Date()));
+	}
+	
 	private void onViewBank(final AppEvent event) {
 
 		transactionService.getTransactions(new AsyncCallback<ArrayList<Transaction>>() {

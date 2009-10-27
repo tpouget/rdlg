@@ -80,7 +80,6 @@ public class Meal extends BaseModel{
 	}
 
 	public void setDate(Date date) {
-		
 		this.date = date;
 	}
 
@@ -92,13 +91,13 @@ public class Meal extends BaseModel{
 		set("id", getId());
 		set("date", getDate());
 		set("mealType", getMealType());
-		set("nom", getName());
+		set("name", getName());
 		set("prix", getPrice());
 	}
 
 	public void updateObject(){
 		setDate((Date)get("date"));
-		setName((String)get("nom"));
+		setName((String)get("name"));
 		setPrice((Double)get("prix"));
 		setMealType((MealType)get("mealType"));
 	}

@@ -1,12 +1,4 @@
-/*
- * Ext GWT - Ext for GWT
- * Copyright(c) 2007-2009, Ext JS, LLC.
- * licensing@extjs.com
- * 
- * http://extjs.com/license
- */
 package com.capgemini.rdlg.client.mvc.frontend;
-
 
 import java.util.List;
 
@@ -16,6 +8,8 @@ import com.capgemini.rdlg.client.mvc.AppView;
 import com.capgemini.rdlg.client.widget.shared.PanelState;
 import com.capgemini.rdlg.client.widget.shared.WeekMenuPanel;
 import com.extjs.gxt.ui.client.Registry;
+import com.extjs.gxt.ui.client.event.BaseEvent;
+import com.extjs.gxt.ui.client.event.Listener;
 import com.extjs.gxt.ui.client.mvc.AppEvent;
 import com.extjs.gxt.ui.client.mvc.Controller;
 import com.extjs.gxt.ui.client.mvc.View;
@@ -25,7 +19,9 @@ import com.extjs.gxt.ui.client.widget.LayoutContainer;
 public class WeekMenuView extends View {
 
   private WeekMenuPanel weekMenuPanel;
-  
+  private LayoutContainer wrapper 
+  	= (LayoutContainer) Registry.get(AppView.CENTER_PANEL);
+  private GroupingStore<Meal> store = new GroupingStore<Meal>();
 
   public WeekMenuView(Controller controller) {
     super(controller);
@@ -33,23 +29,25 @@ public class WeekMenuView extends View {
 
   @Override
   protected void initialize() {
-	  weekMenuPanel = new WeekMenuPanel(PanelState.FRONTEND);
+	  weekMenuPanel = new WeekMenuPanel(PanelState.FRONTEND, store);
   }
 
   @Override
   protected void handleEvent(AppEvent event) {
     if (event.getType() == AppEvents.ViewFrontendMenuSemaine) {
-      LayoutContainer wrapper = (LayoutContainer) Registry.get(AppView.CENTER_PANEL);
       wrapper.removeAll();
       wrapper.add(weekMenuPanel);
-       
-      GroupingStore<Meal> store = weekMenuPanel.getStore();
+      
       store.removeAll();
       store.add(event.<List<Meal>>getData());
-
+      store.addListener(GroupingStore.Update, new Listener<BaseEvent>() {
+			public void handleEvent(BaseEvent be) {
+				weekMenuPanel.getView().refresh(false);
+			};
+		});
       wrapper.layout();
-      
       return;
-    }
+      
+    } 
   }
 }
