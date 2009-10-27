@@ -222,7 +222,6 @@ public class BackendController extends Controller {
 	}
 
 	private void onSaveBackendMenuSemaine(final AppEvent event){
-
 		List<Meal> meals = event.getData();
 		
 		for(Meal meal : meals)

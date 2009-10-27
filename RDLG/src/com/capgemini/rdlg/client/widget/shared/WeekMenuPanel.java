@@ -110,6 +110,8 @@ public class WeekMenuPanel extends ContentPanel {
 		
 		DateField dateField = new DateField();
 		dateField.setAllowBlank(true);
+		dateField.getPropertyEditor().setFormat(DateTimeFormat.getFullDateTimeFormat());
+		dateField.setAutoValidate(false);
 		editor = new CellEditor(dateField);
 		date.setEditor(editor);
 		
