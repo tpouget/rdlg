@@ -56,4 +56,6 @@ public class AppEvents {
 	public static final EventType OrderForTheDay = new EventType();
 	
 	public static final EventType CreateOrder = new EventType();
+	
+	public static final EventType UpdateOrderTotal = new EventType();
 }

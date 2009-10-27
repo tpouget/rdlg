@@ -1,6 +1,11 @@
 package com.capgemini.rdlg.client.widget.frontend.orders;
 
+import com.capgemini.rdlg.client.AppEvents;
 import com.capgemini.rdlg.client.model.Meal;
+import com.extjs.gxt.ui.client.event.SelectionChangedEvent;
+import com.extjs.gxt.ui.client.event.SelectionChangedListener;
+import com.extjs.gxt.ui.client.mvc.AppEvent;
+import com.extjs.gxt.ui.client.mvc.Dispatcher;
 import com.extjs.gxt.ui.client.store.ListStore;
 import com.extjs.gxt.ui.client.widget.form.ComboBox;
 import com.extjs.gxt.ui.client.widget.form.DateField;
@@ -25,12 +30,32 @@ public class OrderDetails extends FormPanel{
 		setHeaderVisible(false);
 		setLayoutOnChange(true);
 		
+		SelectionChangedListener<Meal> scl 
+			= new SelectionChangedListener<Meal>() {
+				@Override
+				public void selectionChanged(SelectionChangedEvent<Meal> se) {
+					AppEvent event = new AppEvent(AppEvents.UpdateOrderTotal);
+					
+					if (starters.getValue()!=null)
+						event.setData("starterprice",
+								starters.getValue().getPrice());
+					if (dishes.getValue()!=null)
+						event.setData("dishprice",
+								dishes.getValue().getPrice());
+					if (desserts.getValue()!=null)
+						event.setData("dessertprice",
+								desserts.getValue().getPrice());
+					Dispatcher.forwardEvent(event);
+				}
+			};
+		
 		starters = new ComboBox<Meal>();
 		starters.setStore(new ListStore<Meal>());
 		starters.setTriggerAction(TriggerAction.ALL);
 		starters.setName("starter");
 		starters.setDisplayField("nom");
 		starters.setFieldLabel("Entrée");
+		starters.addSelectionChangedListener(scl);
 
 		dishes = new ComboBox<Meal>();
 		dishes.setStore(new ListStore<Meal>());
@@ -38,6 +63,7 @@ public class OrderDetails extends FormPanel{
 		dishes.setName("dish");
 		dishes.setDisplayField("nom");
 		dishes.setFieldLabel("Plat");
+		dishes.addSelectionChangedListener(scl);
 		
 		desserts = new ComboBox<Meal>();
 		desserts.setStore(new ListStore<Meal>());
@@ -45,12 +71,15 @@ public class OrderDetails extends FormPanel{
 		desserts.setName("dessert");
 		desserts.setDisplayField("nom");
 		desserts.setFieldLabel("Dessert");
+		desserts.addSelectionChangedListener(scl);
 		
 		dateField = new DateField();
 		dateField.setName("date");
 		dateField.getPropertyEditor().setFormat(
-				DateTimeFormat.getFormat("dd/MM/yyyy"));
+				DateTimeFormat.getFormat("EEEE dd MMMM yyyy"));
 		dateField.setFieldLabel("Date");
+		dateField.setReadOnly(true);
+		dateField.setHideTrigger(true);
 		
 		description = new TextArea();  
 		description.setHeight(100);

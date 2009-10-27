@@ -64,6 +64,7 @@ public class Meal extends BaseModel{
 
 	public void setMealType(MealType typePlat) {
 		this.mealType = typePlat;
+		this.price = typePlat.getPrice(); 
 	}
 
 	public MealType getMealType() {

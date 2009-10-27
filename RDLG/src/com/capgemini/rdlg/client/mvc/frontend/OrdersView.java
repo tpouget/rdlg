@@ -37,18 +37,18 @@ public class OrdersView extends View{
 		formBinding.addFieldBinding(
 				new FieldBinding(
 						ordersPanel.getOrderDetails().getStarters(), "starter"));
-			formBinding.addFieldBinding(
+		formBinding.addFieldBinding(
 				new FieldBinding(
 						ordersPanel.getOrderDetails().getDishes(), "dish"));
-			formBinding.addFieldBinding(
-					new FieldBinding(
-							ordersPanel.getOrderDetails().getDesserts(), "dessert"));
 		formBinding.addFieldBinding(
-			new FieldBinding(
-					ordersPanel.getOrderDetails().getDescription(), "description"));
+				new FieldBinding(
+						ordersPanel.getOrderDetails().getDesserts(), "dessert"));
 		formBinding.addFieldBinding(
-			new FieldBinding(
-					ordersPanel.getOrderDetails().getDateField(), "date"));
+				new FieldBinding(
+						ordersPanel.getOrderDetails().getDescription(), "description"));
+		formBinding.addFieldBinding(
+				new FieldBinding(
+						ordersPanel.getOrderDetails().getDateField(), "date"));
 		formBinding.addFieldBinding(
 				new FieldBinding(
 						ordersPanel.getOrderDetails().getTotal(), "total"));
@@ -102,12 +102,22 @@ public class OrdersView extends View{
 						event.<List<Meal>>getData("desserts"));
 			}
 			return;
+			
 		} else if (event.getType() == AppEvents.CreateOrder){
 			Date date = event.getData();
 			Order order = new Order();
 			order.setDate(date);
 			order.updateProperties();
 			store.insert(order, 0);
+			
+		} else if (event.getType() == AppEvents.UpdateOrderTotal){
+			Order model = (Order) formBinding.getModel();
+			if (model!=null){
+				double total = event.getData();
+				model.set("total", total);
+				model.setTotal(total);
+				wrapper.layout();
+			}
 		}
 	}
 

@@ -9,7 +9,6 @@ import com.capgemini.rdlg.client.model.Meal;
 import com.capgemini.rdlg.client.model.MealType;
 import com.capgemini.rdlg.client.model.Order;
 import com.capgemini.rdlg.client.model.User;
-import com.capgemini.rdlg.client.service.DateServiceAsync;
 import com.capgemini.rdlg.client.service.MealServiceAsync;
 import com.capgemini.rdlg.client.service.OrderServiceAsync;
 import com.extjs.gxt.ui.client.Registry;
@@ -24,7 +23,7 @@ public class OrdersController extends Controller{
 	private OrdersView ordersView;
 	private OrderServiceAsync orderService;
 	private MealServiceAsync mealService;
-	private DateServiceAsync dateService;
+	//private DateServiceAsync dateService;
 	private String user_id;
 	
 	
@@ -34,6 +33,7 @@ public class OrdersController extends Controller{
 		registerEventTypes(AppEvents.OrderSelectionChanged);
 		registerEventTypes(AppEvents.OrderForTheDay);
 		registerEventTypes(AppEvents.CreateOrder);
+		registerEventTypes(AppEvents.UpdateOrderTotal);
 	}
 	
 	@Override
@@ -42,7 +42,7 @@ public class OrdersController extends Controller{
 		ordersView = new OrdersView(this);
 		orderService = Registry.get(RDLG.ORDER_SERVICE);
 		mealService = Registry.get(RDLG.MEAL_SERVICE);
-		dateService = Registry.get(RDLG.DATE_SERVICE);
+		//dateService = Registry.get(RDLG.DATE_SERVICE);
 		user_id = ((User)Registry.get(RDLG.USER)).getId();
 	}
 	
@@ -56,23 +56,51 @@ public class OrdersController extends Controller{
 			onSaveOrders(event);
 		}else if (type == AppEvents.OrderSelectionChanged) {
 			onOrderSelectionChanged(event);
-		}else if (type == AppEvents.CreateOrder)
+		}else if (type == AppEvents.CreateOrder) {
 			onCreateOrder(event);
+		}else if (type == AppEvents.UpdateOrderTotal)
+			onUpdateOrderTotal(event);
 	}
 	
+	private void onUpdateOrderTotal(AppEvent event) {
+		double starterPrice;
+		double dishPrice;
+		double dessertPrice;
+		if (event.getData("starterprice")!=null)
+			starterPrice = event.getData("starterprice");
+		else
+			starterPrice = 0.0;
+		if (event.getData("dishprice")!=null)
+			dishPrice = event.getData("dishprice");
+		else
+			dishPrice = 0.0;
+		if (event.getData("dessertprice")!=null)
+			dessertPrice = event.getData("dessertprice");
+		else
+			dessertPrice = 0.0;
+		
+		double total = starterPrice 
+					 + dishPrice
+					 + dessertPrice;
+		
+		forwardToView(ordersView, new AppEvent(event.getType(), total));
+	}
+
 	private void onCreateOrder(final AppEvent event) {
-		dateService.getUTCDate(new AsyncCallback<Date>() {
-			@Override
-			public void onFailure(Throwable caught) {
-				Dispatcher.forwardEvent(AppEvents.Error, caught);
-			}
-			@Override
-			public void onSuccess(Date result) {
-				AppEvent ae = new AppEvent(event.getType());
-				ae.setData(result);
-				forwardToView(ordersView, ae);
-			}
-		});
+//		dateService.getUTCDate(new AsyncCallback<Date>() {
+//			@Override
+//			public void onFailure(Throwable caught) {
+//				Dispatcher.forwardEvent(AppEvents.Error, caught);
+//			}
+//			@Override
+//			public void onSuccess(Date result) {
+//				AppEvent ae = new AppEvent(event.getType());
+//				ae.setData(new DateWrapper(result).asDate());
+//				forwardToView(ordersView, ae);
+//			}
+//		});
+		
+		forwardToView(ordersView, new AppEvent(event.getType(), new Date()));
 	}
 
 	private void onOrderSelectionChanged(final AppEvent event) {
@@ -105,7 +133,7 @@ public class OrdersController extends Controller{
 					
 					if (selectedOrder.getDish_id()!=null)
 						for(Meal dish: dishes)
-							if (selectedOrder.getDish().equals(dish.getId()))
+							if (selectedOrder.getDish_id().equals(dish.getId()))
 								selectedOrder.setDish(dish);
 					
 					if (selectedOrder.getDessert_id()!=null)

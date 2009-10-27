@@ -198,7 +198,7 @@ public class WeekMenuPanel extends ContentPanel {
 			add.addSelectionListener(new SelectionListener<ButtonEvent>() {
 				@Override
 				public void componentSelected(ButtonEvent ce) {
-					Meal plat = createPlat();
+					Meal plat = createMeal();
 	
 					re.stopEditing(false);
 					store.insert(plat, 0);
@@ -260,12 +260,12 @@ public class WeekMenuPanel extends ContentPanel {
 		return grid;
 	}
 
-	private Meal createPlat() {
+	private Meal createMeal() {
 		Meal plat = new Meal();
 		plat.setName("Nouveau plat");
-		plat.setDate(new DateWrapper().clearTime().asDate());
-		plat.setMealType(MealType.ENTREE);
-		plat.setPrice(0.0);
+		plat.setDate(new DateWrapper().asDate());
+		plat.setMealType(MealType.PLAT);
+		plat.setPrice(5.60);
 		plat.updateProperties();
 		return plat;
 	}

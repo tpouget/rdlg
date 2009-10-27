@@ -59,6 +59,7 @@ public class RDLG implements EntryPoint {
 		    dispatcher.dispatch(AppEvents.Login);
 		    
 		    GXT.hideLoadingPanel("loading");
+		    
 	}
 
 }

@@ -17,7 +17,7 @@ public class DateServiceImpl extends RemoteServiceServlet implements DateService
 	@Override
 	public Date getUTCDate() {
 		SimpleDateFormat format = new SimpleDateFormat("dd/MM/yy");
-		format.setTimeZone(TimeZone.getTimeZone("GMT"));
+		format.setTimeZone(TimeZone.getTimeZone("UTC"));
 		try {
 			Date date = format.parse(format.format(new Date()));
 			return date;
@@ -26,5 +26,4 @@ public class DateServiceImpl extends RemoteServiceServlet implements DateService
 		}
 		return new Date();
 	}
-
 }
