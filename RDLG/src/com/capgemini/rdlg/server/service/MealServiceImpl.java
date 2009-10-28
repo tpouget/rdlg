@@ -1,9 +1,12 @@
 package com.capgemini.rdlg.server.service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Logger;
 
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
@@ -12,6 +15,8 @@ import com.capgemini.rdlg.client.model.Meal;
 import com.capgemini.rdlg.client.model.MealType;
 import com.capgemini.rdlg.client.service.MealService;
 import com.capgemini.rdlg.server.PMF;
+import com.capgemini.rdlg.server.tools.DateTools;
+import com.capgemini.rdlg.server.tools.OrderTool;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 /**
@@ -21,6 +26,8 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 public class MealServiceImpl extends RemoteServiceServlet implements
 		MealService {
 
+	private static Logger log = Logger.getLogger(OrderTool.class.getName());
+	
 	public Meal persistPlat(Meal meal) {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		Meal result;
@@ -130,11 +137,22 @@ public class MealServiceImpl extends RemoteServiceServlet implements
 	public ArrayList<Meal> getMealsByDate(Date date) {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		try {
-			Query query = pm.newQuery(Meal.class, "date == d");
+			Query query = pm.newQuery(Meal.class, "date>=today && date<=tomorrow");
 			query.declareImports("import java.util.Date");
-			query.declareParameters("Date d");
+			query.declareParameters("Date today, Date tomorrow");
 
-			List<Meal> results = (List<Meal>) query.execute(date);
+			SimpleDateFormat format = DateTools.getEuropeParisDateFormat();
+			Date today = null;
+			try {
+				today = format.parse(
+						format.format(DateTools.getEuropeParisDate()));
+			} catch (ParseException e) {
+				log.severe(e.getMessage());
+			}
+			
+			List<Meal> results = (List<Meal>) query.execute(
+					today,
+					DateTools.getEuropeParisDayAfterDate(today));
 			ArrayList<Meal> toReturn = new ArrayList<Meal>(pm.detachCopyAll(results));
 			for (Meal meal: toReturn)
 				meal.updateProperties();

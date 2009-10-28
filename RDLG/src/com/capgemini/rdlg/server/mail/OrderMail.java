@@ -16,7 +16,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 import com.capgemini.rdlg.client.model.Order;
-import com.capgemini.rdlg.server.service.MealTool;
+import com.capgemini.rdlg.server.tools.MealTool;
 
 public class OrderMail {
 	private static Logger log = Logger.getLogger(MailSenderServlet.class.getName());

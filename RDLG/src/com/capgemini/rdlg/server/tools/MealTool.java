@@ -1,4 +1,4 @@
-package com.capgemini.rdlg.server.service;
+package com.capgemini.rdlg.server.tools;
 
 import javax.jdo.PersistenceManager;
 

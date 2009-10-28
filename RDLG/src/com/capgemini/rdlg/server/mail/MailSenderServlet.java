@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.capgemini.rdlg.client.model.Order;
-import com.capgemini.rdlg.server.service.OrderTool;
+import com.capgemini.rdlg.server.tools.OrderTool;
 
 @SuppressWarnings("serial")
 public class MailSenderServlet extends HttpServlet { 

@@ -53,19 +53,19 @@ public class WeekMenuPanel extends ContentPanel {
 
 		store.groupBy("date", true);
 		
-		ColumnConfig name = new ColumnConfig("name", "Nom", 100);
+		ColumnConfig name = new ColumnConfig("name", "Nom", 50);
 
 		TextField<String> text = new TextField<String>();
 		text.setAllowBlank(false);
 		name.setEditor(new CellEditor(text));
 
-		ColumnConfig prix = new ColumnConfig("prix", "Prix", 50);
+		ColumnConfig prix = new ColumnConfig("prix", "Prix", 30);
 
 		NumberField dble = new NumberField();
 		dble.setAllowBlank(true);
 		prix.setEditor(new CellEditor(dble));
 		
-		ColumnConfig typePlat = new ColumnConfig("mealType", "Type", 50);
+		ColumnConfig typePlat = new ColumnConfig("mealType", "Type", 30);
 		
 		
 		final SimpleComboBox<MealType> combo = new SimpleComboBox<MealType>();
@@ -110,8 +110,6 @@ public class WeekMenuPanel extends ContentPanel {
 		
 		DateField dateField = new DateField();
 		dateField.setAllowBlank(true);
-		dateField.getPropertyEditor().setFormat(DateTimeFormat.getFullDateTimeFormat());
-		dateField.setAutoValidate(false);
 		editor = new CellEditor(dateField);
 		date.setEditor(editor);
 		
@@ -179,6 +177,8 @@ public class WeekMenuPanel extends ContentPanel {
 		
 		if (panelState == PanelState.BACKEND){
 			re = new RowEditor<Meal>();
+			re.setErrorSummary(false);
+			re.setMonitorValid(false);
 			grid.addPlugin(re);
 
 			ToolBar toolBar = new ToolBar();
