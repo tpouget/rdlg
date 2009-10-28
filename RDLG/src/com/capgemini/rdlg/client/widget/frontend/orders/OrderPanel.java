@@ -35,7 +35,7 @@ public class OrderPanel extends ContentPanel {
 		orderDetails = new OrderDetails();
 		orderList = new OrderList(store, this);
 		
-		BorderLayoutData data = new BorderLayoutData(LayoutRegion.WEST, 150, 100, 250);
+		BorderLayoutData data = new BorderLayoutData(LayoutRegion.WEST, 150, 100, 200);
 		data.setSplit(true);
 		data.setMargins(new Margins(5));
 		add(orderList, data);
@@ -58,6 +58,10 @@ public class OrderPanel extends ContentPanel {
 		deleteSelectedOrder.addSelectionListener(new SelectionListener<ButtonEvent>() {
 			@Override
 			public void componentSelected(ButtonEvent ce) {
+				/*
+				 * FIXME Delete from store and check on server if it has been persisted
+				 * 		 before trying to delete it.
+				 */
 				Dispatcher.forwardEvent(AppEvents.DeleteOrder, orderList.getSelectedOrderId());
 			}
 		});
@@ -83,6 +87,7 @@ public class OrderPanel extends ContentPanel {
 			}
 		}));
 
+		orderList.layout();
 	}
 
 	public Button getDeleteSelectedOrder() {
