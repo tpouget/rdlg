@@ -36,6 +36,10 @@ public class OrderServiceImpl extends RemoteServiceServlet implements OrderServi
 	
 	@Override
 	public void deleteOrder(String id) {
+		/*
+		 * FIXME Should NOT physically delete.
+		 *       Should use a history flag.
+		 */
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		try{
 			Order userToDelete = pm.getObjectById(Order.class, id);
@@ -50,8 +54,11 @@ public class OrderServiceImpl extends RemoteServiceServlet implements OrderServi
 	public ArrayList<Order> getOrders() {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		try{
-			List<Order> users = (List<Order>) pm.newQuery(Order.class).execute();
-			return new ArrayList<Order>(pm.detachCopyAll(users));
+			List<Order> orders = (List<Order>) pm.newQuery(Order.class).execute();
+			ArrayList<Order> detachedOrders = new ArrayList<Order>(pm.detachCopyAll(orders));
+			for (Order order : detachedOrders) 
+				order.updateProperties();
+			return detachedOrders;
 		}finally{
 			pm.close();
 		}
@@ -64,15 +71,13 @@ public class OrderServiceImpl extends RemoteServiceServlet implements OrderServi
 		Query query = pm.newQuery(Order.class, "user_id == id");
 		query.declareParameters("String id");
 		try{
-			List<Order> users = (List<Order>) query.execute(userId);
-			return new ArrayList<Order>(pm.detachCopyAll(users));
+			List<Order> orders = (List<Order>) query.execute(userId);
+			ArrayList<Order> detachedOrders = new ArrayList<Order>(pm.detachCopyAll(orders));
+			for (Order order : detachedOrders) 
+				order.updateProperties();
+			return detachedOrders;
 		}finally{
 			pm.close();
 		}
-	}
-
-	@Override
-	public void updateOrder(String id) {
-		// TODO Auto-generated method stub
 	}
 }

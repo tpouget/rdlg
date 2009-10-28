@@ -49,11 +49,4 @@ public class TransactionServiceImpl extends RemoteServiceServlet implements
 		List<Transaction> transactions = (List<Transaction>) pm.newQuery(Transaction.class).execute();
 		return new ArrayList<Transaction>(pm.detachCopyAll(transactions));
 	}
-
-	@Override
-	public void updateTransaction(Transaction transaction) {
-		// TODO Auto-generated method stub
-		
-	}
-
 }

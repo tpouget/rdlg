@@ -23,6 +23,8 @@ public class OrderPanel extends ContentPanel {
 	private OrderDetails orderDetails;
 	
 	private PanelState panelState;
+	
+	private Button deleteSelectedOrder;
 
 	public OrderPanel(PanelState panelState, final ListStore<Order> store) {
 		this.panelState = panelState;
@@ -31,7 +33,7 @@ public class OrderPanel extends ContentPanel {
 		setHeaderVisible(false);
 		
 		orderDetails = new OrderDetails();
-		orderList = new OrderList(store);
+		orderList = new OrderList(store, this);
 		
 		BorderLayoutData data = new BorderLayoutData(LayoutRegion.WEST, 150, 100, 250);
 		data.setSplit(true);
@@ -51,7 +53,17 @@ public class OrderPanel extends ContentPanel {
 			}
 		});
 		
+		deleteSelectedOrder = new Button("Supprimer la commande");
+		deleteSelectedOrder.setEnabled(false);
+		deleteSelectedOrder.addSelectionListener(new SelectionListener<ButtonEvent>() {
+			@Override
+			public void componentSelected(ButtonEvent ce) {
+				Dispatcher.forwardEvent(AppEvents.DeleteOrder, orderList.getSelectedOrderId());
+			}
+		});
+		
 		toolBar.add(add);
+		toolBar.add(deleteSelectedOrder);
 		setTopComponent(toolBar);
 
 		setButtonAlign(HorizontalAlignment.CENTER);
@@ -61,18 +73,20 @@ public class OrderPanel extends ContentPanel {
 				store.rejectChanges();
 			}
 		}));
-
-		Button saveButton = new Button("Save", new SelectionListener<ButtonEvent>() {
+		
+		addButton(new Button("Save", new SelectionListener<ButtonEvent>() {
 			@Override
 			public void componentSelected(ButtonEvent ce) {
 				store.commitChanges();
 				Dispatcher.forwardEvent(AppEvents.SaveFrontendOrders,
 						store.getModels());
 			}
-		});
-		
-		addButton(saveButton);
+		}));
 
+	}
+
+	public Button getDeleteSelectedOrder() {
+		return deleteSelectedOrder;
 	}
 
 	public void getPanelHeading() {

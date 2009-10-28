@@ -10,7 +10,6 @@ public interface UserServiceAsync {
 	void getUsers(AsyncCallback<ArrayList<User>> callback);
 	void addUser(User user, AsyncCallback<Void> callback);
 	void deleteUser(String id, AsyncCallback<Void> callback);
-	void updateUser(User user, AsyncCallback<Void> callback);
 	void addUsers(ArrayList<User> users, AsyncCallback<Void> asyncCallback);
 	void checkLogin(HashMap<String, String> loginInfo,
 			AsyncCallback<User> callback);

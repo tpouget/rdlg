@@ -60,7 +60,7 @@ public class OrderMail {
 	}
 
 	private String getTableBottom() {
-		// TODO Auto-generated method stub
+		// TODO getTableBottom()
 		return null;
 	}
 
@@ -105,7 +105,7 @@ public class OrderMail {
 	}
 
 	private String getOrderUser() {
-		// TODO Auto-generated method stub
+		// TODO getOrderUser()
 		return null;
 	}
 

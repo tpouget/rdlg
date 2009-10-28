@@ -44,6 +44,9 @@ public class Order extends BaseModel {
 	
 	@Persistent
 	private String description;
+	
+	@Persistent
+	private OrderStatus status;
 
 	private Meal starter = null;
 	private Meal dish = null;
@@ -96,28 +99,6 @@ public class Order extends BaseModel {
 	public String getId() {
 		return id;
 	}
-
-	public void updateProperties(){
-		set("date", getDate());
-		set("starter", getStarter());
-		set("dish", getDish());
-		set("dessert", getDessert());
-		set("total", getTotal());
-		set("description", getDescription());
-	}
-
-	public void updateObject(){
-		setDate((Date)get("date"));
-		if (get("starter")!=null)
-			setStarter_id(((Meal)get("starter")).getId());
-		if (get("dish")!=null)
-			setDish_id(((Meal)get("dish")).getId());
-		if (get("dessert")!=null)
-			setDessert_id(((Meal)get("dessert")).getId());
-		setTotal((Double)get("total"));
-		setDescription((String) get("description"));
-	}
-
 	public void setUser_id(String user_id) {
 		this.user_id = user_id;
 	}
@@ -156,5 +137,37 @@ public class Order extends BaseModel {
 
 	public Meal getDessert() {
 		return dessert;
+	}
+
+	public void setStatus(OrderStatus status) {
+		this.status = status;
+	}
+
+	public OrderStatus getStatus() {
+		return status;
+	}
+
+	public void updateProperties(){
+		set("date", getDate());
+		set("starter", getStarter());
+		set("dish", getDish());
+		set("dessert", getDessert());
+		set("total", getTotal());
+		set("description", getDescription());
+		set("status", getStatus());
+	}
+
+	public void updateObject(){
+		setDate((Date)get("date"));
+		if (get("starter")!=null)
+			setStarter_id(((Meal)get("starter")).getId());
+		if (get("dish")!=null)
+			setDish_id(((Meal)get("dish")).getId());
+		if (get("dessert")!=null)
+			setDessert_id(((Meal)get("dessert")).getId());
+		setTotal((Double)get("total"));
+		setDescription((String) get("description"));
+		if (get("status")!=null)
+			setStatus((OrderStatus) get("status"));
 	}
 }

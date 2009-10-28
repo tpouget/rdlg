@@ -8,6 +8,7 @@ import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 
 import com.capgemini.rdlg.client.model.Order;
+import com.capgemini.rdlg.client.model.OrderStatus;
 import com.capgemini.rdlg.server.PMF;
 
 public class OrderTool {
@@ -29,5 +30,28 @@ public class OrderTool {
 		} finally{
 			pm.close();
 		}
+	}
+
+	/**
+	 * This method should be called from the server only.
+	 * It is assumed that passed orders directly come from the datastore.
+	 * Their status is updated and they are then directly persisted
+	 * without checking their presence in the datastore.
+	 * @param orders
+	 */
+	public static void setOrdersOrdered(ArrayList<Order> orders) {
+		for (Order order: orders){
+			order.setStatus(OrderStatus.ORDERED);
+			PersistenceManager pm = PMF.get().getPersistenceManager();
+			try{
+				pm.makePersistent(order);
+			}finally{
+				pm.close();
+			}
+		}
+			
+		
+		
+		
 	}
 }

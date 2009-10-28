@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.capgemini.rdlg.client.AppEvents;
 import com.capgemini.rdlg.client.model.Order;
+import com.capgemini.rdlg.client.model.OrderStatus;
 import com.extjs.gxt.ui.client.Style.SelectionMode;
 import com.extjs.gxt.ui.client.Style.SortDir;
 import com.extjs.gxt.ui.client.event.BaseEvent;
@@ -24,8 +25,10 @@ import com.google.gwt.user.client.Element;
 public class OrderList extends ContentPanel{
 	
 	private Grid<Order> orderGrid;
+	private OrderPanel parent;
 	
-	public OrderList(ListStore<Order> orderStore){
+	public OrderList(ListStore<Order> orderStore, OrderPanel orderPanel){
+		this.parent = orderPanel;
 		setHeading("Commandes");
 		addListener(Events.Resize, new Listener<BaseEvent>() {
 			@Override
@@ -54,8 +57,20 @@ public class OrderList extends ContentPanel{
 			new SelectionChangedListener<Order>() {
 				@Override
 				public void selectionChanged(SelectionChangedEvent<Order> se) {
-					Dispatcher.forwardEvent(AppEvents.OrderSelectionChanged,
-							se.getSelectedItem());
+					if (se.getSelectedItem()!=null){
+						parent.getDeleteSelectedOrder().setEnabled(
+								 se.getSelectedItem().getStatus()!=null
+							 && (se.getSelectedItem().getStatus().equals(
+									 OrderStatus.EDITABLE)
+							 ||  se.getSelectedItem().getStatus().equals(
+									 OrderStatus.ADDED_AFTER_MAIL_WAS_SENT)
+							 	)
+						);
+						
+						Dispatcher.forwardEvent(AppEvents.OrderSelectionChanged,
+								se.getSelectedItem());
+					}else
+						parent.getDeleteSelectedOrder().disable();
 				}
 			});
 	}
@@ -64,5 +79,9 @@ public class OrderList extends ContentPanel{
 	protected void onRender(Element parent, int pos) {
 		super.onRender(parent, pos);
 		add(orderGrid);
+	}
+
+	public String getSelectedOrderId() {
+		return orderGrid.getSelectionModel().getSelectedItem().getId();
 	}
 }

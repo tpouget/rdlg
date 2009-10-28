@@ -9,7 +9,6 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 public interface OrderService extends RemoteService{
 	public void addOrder(Order order);
 	public void addOrders(ArrayList<Order> order);
-	public void updateOrder(String id);
 	public void deleteOrder(String id);
 	public ArrayList<Order> getOrders();
 	public ArrayList<Order> getOrdersByUser(String userId);

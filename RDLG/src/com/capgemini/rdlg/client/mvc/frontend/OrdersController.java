@@ -34,6 +34,7 @@ public class OrdersController extends Controller{
 		registerEventTypes(AppEvents.OrderForTheDay);
 		registerEventTypes(AppEvents.CreateOrder);
 		registerEventTypes(AppEvents.UpdateOrderTotal);
+		registerEventTypes(AppEvents.DeleteOrder);
 	}
 	
 	@Override
@@ -58,10 +59,27 @@ public class OrdersController extends Controller{
 			onOrderSelectionChanged(event);
 		}else if (type == AppEvents.CreateOrder) {
 			onCreateOrder(event);
-		}else if (type == AppEvents.UpdateOrderTotal)
+		}else if (type == AppEvents.UpdateOrderTotal) {
 			onUpdateOrderTotal(event);
+		}else if (type == AppEvents.DeleteOrder) 
+			onDeleteOrder(event);
 	}
 	
+	private void onDeleteOrder(final AppEvent event) {
+		String orderId = event.getData();
+		
+		orderService.deleteOrder(orderId, new AsyncCallback<Void>() {
+			@Override
+			public void onSuccess(Void result) {
+				Dispatcher.forwardEvent(new AppEvent(AppEvents.ViewFrontendOrders));
+			}
+			@Override
+			public void onFailure(Throwable caught) {
+				Dispatcher.forwardEvent(AppEvents.Error, caught);
+			}
+		});
+	}
+
 	private void onUpdateOrderTotal(AppEvent event) {
 		double starterPrice;
 		double dishPrice;
@@ -184,11 +202,7 @@ public class OrdersController extends Controller{
 				Dispatcher.forwardEvent(AppEvents.Error, caught);
 			}
 			@Override
-			public void onSuccess(ArrayList<Order> result) {
-				//FIXME Do it on Server
-				for (Order order : result) 
-					order.updateProperties();
-				
+			public void onSuccess(ArrayList<Order> result) {			
 				AppEvent ae = new AppEvent(event.getType());
 				ae.setData("userOrders", result);
 				

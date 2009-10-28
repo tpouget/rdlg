@@ -10,7 +10,6 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 @RemoteServiceRelativePath("user")
 public interface UserService extends RemoteService{
 	public void addUser(User user);
-	public void updateUser(User user);
 	public void deleteUser(String id);
 	public ArrayList<User> getUsers();
 	public void addUsers(ArrayList<User> users);

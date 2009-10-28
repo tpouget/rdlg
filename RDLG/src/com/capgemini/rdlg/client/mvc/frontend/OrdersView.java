@@ -6,6 +6,7 @@ import java.util.List;
 import com.capgemini.rdlg.client.AppEvents;
 import com.capgemini.rdlg.client.model.Meal;
 import com.capgemini.rdlg.client.model.Order;
+import com.capgemini.rdlg.client.model.OrderStatus;
 import com.capgemini.rdlg.client.mvc.AppView;
 import com.capgemini.rdlg.client.widget.frontend.orders.OrderPanel;
 import com.capgemini.rdlg.client.widget.shared.PanelState;
@@ -106,6 +107,7 @@ public class OrdersView extends View{
 		} else if (event.getType() == AppEvents.CreateOrder){
 			Date date = event.getData();
 			Order order = new Order();
+			order.setStatus(OrderStatus.EDITABLE);
 			order.setDate(date);
 			order.updateProperties();
 			store.insert(order, 0);
@@ -118,7 +120,7 @@ public class OrdersView extends View{
 				model.setTotal(total);
 				wrapper.layout();
 			}
-		}
+		} 
 	}
 
 }

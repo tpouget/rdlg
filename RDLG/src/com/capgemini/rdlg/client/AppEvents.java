@@ -60,4 +60,6 @@ public class AppEvents {
 	public static final EventType UpdateOrderTotal = new EventType();
 	
 	public static final EventType CreateMeal = new EventType();
+	
+	public static final EventType DeleteOrder = new EventType();
 }

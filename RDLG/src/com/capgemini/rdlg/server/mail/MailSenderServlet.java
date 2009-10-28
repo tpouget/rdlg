@@ -48,6 +48,8 @@ public class MailSenderServlet extends HttpServlet {
 		            msg.setSubject("[RDLG] Test Cron Service");
 		            msg.setText("RDLG : bon faudrait peut-être penser à me terminer !!!!");
 		            Transport.send(msg);
+		            
+		            OrderTool.setOrdersOrdered(orders);
 		        } catch (AddressException e) {
 		        	log.warning(e.getMessage());
 		        } catch (MessagingException e) {

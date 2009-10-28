@@ -11,8 +11,6 @@ public interface TransactionServiceAsync {
 
 	void deleteTransaction(String id, AsyncCallback<Void> callback);
 
-	void updateTransaction(Transaction transaction, AsyncCallback<Void> callback);
-
 	void getTransactions(AsyncCallback<ArrayList<Transaction>> asyncCallback);
 
 }
