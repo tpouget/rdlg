@@ -88,7 +88,6 @@ public class OrderServiceImpl extends RemoteServiceServlet implements OrderServi
 	@SuppressWarnings("unchecked")
 	@Override
 	public ArrayList<Order> getOrdersByDate(Date date) {
-		//FIXME Not using passed date anymore !!!!
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		try {
 			Query query = pm.newQuery(Order.class, "date>=today && date<=tomorrow");
@@ -99,7 +98,7 @@ public class OrderServiceImpl extends RemoteServiceServlet implements OrderServi
 			Date today = null;
 			try {
 				today = format.parse(
-						format.format(DateTools.getEuropeParisDate()));
+						format.format(date));
 			} catch (ParseException e) {
 				log.severe(e.getMessage());
 			}

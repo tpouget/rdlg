@@ -136,7 +136,6 @@ public class MealServiceImpl extends RemoteServiceServlet implements
 	@SuppressWarnings("unchecked")
 	@Override
 	public ArrayList<Meal> getMealsByDate(Date date) {
-		//FIXME Not using passed date anymore !!!!
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		try {
 			Query query = pm.newQuery(Meal.class, "date>=today && date<=tomorrow");
@@ -147,7 +146,7 @@ public class MealServiceImpl extends RemoteServiceServlet implements
 			Date today = null;
 			try {
 				today = format.parse(
-						format.format(DateTools.getEuropeParisDate()));
+						format.format(date));
 			} catch (ParseException e) {
 				log.severe(e.getMessage());
 			}
