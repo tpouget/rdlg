@@ -1,6 +1,7 @@
 package com.capgemini.rdlg.client.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import com.capgemini.rdlg.client.model.Order;
 import com.google.gwt.user.client.rpc.RemoteService;
@@ -12,4 +13,5 @@ public interface OrderService extends RemoteService{
 	public void deleteOrder(String id);
 	public ArrayList<Order> getOrders();
 	public ArrayList<Order> getOrdersByUser(String userId);
+	public ArrayList<Order> getOrdersByDate(Date date);
 }

@@ -20,6 +20,7 @@ import com.extjs.gxt.ui.client.widget.grid.ColumnConfig;
 import com.extjs.gxt.ui.client.widget.grid.ColumnModel;
 import com.extjs.gxt.ui.client.widget.grid.Grid;
 import com.extjs.gxt.ui.client.widget.grid.GridView;
+import com.extjs.gxt.ui.client.widget.layout.FitLayout;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.Element;
 
@@ -31,6 +32,7 @@ public class OrderList extends ContentPanel{
 	
 	public OrderList(ListStore<Order> orderStore, OrderPanel orderPanel){
 		this.parent = orderPanel;
+		setLayout(new FitLayout());
 		setHeading("Commandes");
 		addListener(Events.Resize, new Listener<BaseEvent>() {
 			@Override

@@ -62,4 +62,6 @@ public class AppEvents {
 	public static final EventType CreateMeal = new EventType();
 	
 	public static final EventType DeleteOrder = new EventType();
+
+	public static final EventType ViewDayOrders = new EventType();
 }

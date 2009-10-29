@@ -2,6 +2,7 @@ package com.capgemini.rdlg.client;
 
 import com.capgemini.rdlg.client.mvc.AppController;
 import com.capgemini.rdlg.client.mvc.backend.BackendController;
+import com.capgemini.rdlg.client.mvc.frontend.DayOrdersController;
 import com.capgemini.rdlg.client.mvc.frontend.OrdersController;
 import com.capgemini.rdlg.client.mvc.frontend.WeekMenuController;
 import com.capgemini.rdlg.client.service.DateService;
@@ -53,11 +54,11 @@ public class RDLG implements EntryPoint {
 		    dispatcher.addController(new BackendController());
 		    dispatcher.addController(new WeekMenuController());
 		    dispatcher.addController(new OrdersController());
+		    dispatcher.addController(new DayOrdersController());
 
 		    dispatcher.dispatch(AppEvents.Login);
 		    
 		    GXT.hideLoadingPanel("loading");
-		    
 	}
 
 }

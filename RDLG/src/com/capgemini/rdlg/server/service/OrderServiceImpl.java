@@ -1,7 +1,11 @@
 package com.capgemini.rdlg.server.service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.logging.Logger;
 
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
@@ -9,15 +13,15 @@ import javax.jdo.Query;
 import com.capgemini.rdlg.client.model.Order;
 import com.capgemini.rdlg.client.service.OrderService;
 import com.capgemini.rdlg.server.PMF;
+import com.capgemini.rdlg.server.tools.DateTools;
+import com.capgemini.rdlg.server.tools.OrderTool;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
+@SuppressWarnings("serial")
 public class OrderServiceImpl extends RemoteServiceServlet implements OrderService{
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 6791698348125528787L;
-
+	private static Logger log = Logger.getLogger(OrderTool.class.getName());
+	
 	@Override
 	public void addOrder(Order order) {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
@@ -76,6 +80,38 @@ public class OrderServiceImpl extends RemoteServiceServlet implements OrderServi
 			for (Order order : detachedOrders) 
 				order.updateProperties();
 			return detachedOrders;
+		}finally{
+			pm.close();
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public ArrayList<Order> getOrdersByDate(Date date) {
+		//FIXME Not using passed date anymore !!!!
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		try {
+			Query query = pm.newQuery(Order.class, "date>=today && date<=tomorrow");
+			query.declareImports("import java.util.Date");
+			query.declareParameters("Date today, Date tomorrow");
+
+			SimpleDateFormat format = DateTools.getEuropeParisDateFormat();
+			Date today = null;
+			try {
+				today = format.parse(
+						format.format(DateTools.getEuropeParisDate()));
+			} catch (ParseException e) {
+				log.severe(e.getMessage());
+			}
+			
+			List<Order> results = (List<Order>) query.execute(
+					today,
+					DateTools.getEuropeParisDayAfterDate(today));
+			ArrayList<Order> toReturn 
+				= new ArrayList<Order>(pm.detachCopyAll(results));
+			for (Order meal: toReturn)
+				meal.updateProperties();
+			return toReturn;
 		}finally{
 			pm.close();
 		}

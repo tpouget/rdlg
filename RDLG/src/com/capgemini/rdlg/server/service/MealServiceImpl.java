@@ -26,7 +26,8 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 public class MealServiceImpl extends RemoteServiceServlet implements
 		MealService {
 
-	private static Logger log = Logger.getLogger(OrderTool.class.getName());
+	private static Logger log 
+		= Logger.getLogger(OrderTool.class.getName());
 	
 	public Meal persistPlat(Meal meal) {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
@@ -135,6 +136,7 @@ public class MealServiceImpl extends RemoteServiceServlet implements
 	@SuppressWarnings("unchecked")
 	@Override
 	public ArrayList<Meal> getMealsByDate(Date date) {
+		//FIXME Not using passed date anymore !!!!
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		try {
 			Query query = pm.newQuery(Meal.class, "date>=today && date<=tomorrow");
@@ -153,7 +155,8 @@ public class MealServiceImpl extends RemoteServiceServlet implements
 			List<Meal> results = (List<Meal>) query.execute(
 					today,
 					DateTools.getEuropeParisDayAfterDate(today));
-			ArrayList<Meal> toReturn = new ArrayList<Meal>(pm.detachCopyAll(results));
+			ArrayList<Meal> toReturn 
+				= new ArrayList<Meal>(pm.detachCopyAll(results));
 			for (Meal meal: toReturn)
 				meal.updateProperties();
 			return toReturn;

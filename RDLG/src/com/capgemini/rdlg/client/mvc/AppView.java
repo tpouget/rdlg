@@ -100,9 +100,26 @@ public class AppView extends View {
     
     Button item3 = new Button("Mes Paiements");
  
+    item3.addSelectionListener(new SelectionListener<ButtonEvent>() {
+		@Override
+		public void componentSelected(ButtonEvent ce) {
+			//Dispatcher.forwardEvent(AppEvents.ViewFrontendOrders);
+		}
+	});
+    
+    Button dayOrders = new Button("Liste des Commandes");
+    
+    dayOrders.addSelectionListener(new SelectionListener<ButtonEvent>() {
+		@Override
+		public void componentSelected(ButtonEvent ce) {
+			Dispatcher.forwardEvent(AppEvents.ViewDayOrders);
+		}
+	});
+    
     toolBar.add(item1);
     toolBar.add(item2);
     toolBar.add(item3);
+    toolBar.add(dayOrders);
     
     if (((User)Registry.get(RDLG.USER)).getUserType().equals(UserType.ADMIN)){
 	    Button item4 = new Button("Administration");
@@ -162,8 +179,7 @@ public class AppView extends View {
 	    toolBar.add(item4);
     }
     
-    toolBar.add(new FillToolItem());
-    
+    toolBar.add(new FillToolItem());    
     toolBar.add(new LabelToolItem("Bienvenue "+
     		((User)Registry.get(RDLG.USER)).getFirstname()));
     

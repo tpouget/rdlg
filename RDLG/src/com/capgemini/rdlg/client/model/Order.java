@@ -11,13 +11,9 @@ import javax.jdo.annotations.PrimaryKey;
 
 import com.extjs.gxt.ui.client.data.BaseModel;
 
+@SuppressWarnings("serial")
 @PersistenceCapable(identityType = IdentityType.APPLICATION, detachable = "false")
 public class Order extends BaseModel {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -4895121367239341730L;
 
 	@PrimaryKey
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
@@ -51,6 +47,8 @@ public class Order extends BaseModel {
 	private Meal starter = null;
 	private Meal dish = null;
 	private Meal dessert = null;
+	
+	private User user = null;
 	
 	public void setDate(Date date) {
 		this.date = date;
@@ -169,5 +167,13 @@ public class Order extends BaseModel {
 		setDescription((String) get("description"));
 		if (get("status")!=null)
 			setStatus((OrderStatus) get("status"));
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public User getUser() {
+		return user;
 	}
 }

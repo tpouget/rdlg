@@ -169,7 +169,7 @@ public class WeekMenuPanel extends ContentPanel {
 			}
 		});
 		
-		Grid<Meal> grid = new Grid<Meal>(store, cm);
+		grid = new Grid<Meal>(store, cm);
 		grid.setView(view);
 		grid.setBorders(true);
 
@@ -219,7 +219,6 @@ public class WeekMenuPanel extends ContentPanel {
 			setHeading("Menu de la semaine");
 		else if (PanelState.BACKEND.equals(panelState))
 			setHeading("Administration du menu de la semaine");
-
 	}
 
 	public GroupingView getView() {
