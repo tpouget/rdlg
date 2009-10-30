@@ -101,4 +101,9 @@ public class Meal extends BaseModel{
 		setPrice((Double)get("prix"));
 		setMealType((MealType)get("mealType"));
 	}
+	
+	@Override
+	public String toString() {
+		return name;
+	}
 }

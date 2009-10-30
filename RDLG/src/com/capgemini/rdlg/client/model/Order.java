@@ -153,6 +153,7 @@ public class Order extends BaseModel {
 		set("total", getTotal());
 		set("description", getDescription());
 		set("status", getStatus());
+		set("user", getUser());
 	}
 
 	public void updateObject(){
@@ -167,6 +168,8 @@ public class Order extends BaseModel {
 		setDescription((String) get("description"));
 		if (get("status")!=null)
 			setStatus((OrderStatus) get("status"));
+		if (get("user")!=null)
+			setUser((User) get("user"));
 	}
 
 	public void setUser(User user) {

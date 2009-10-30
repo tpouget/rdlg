@@ -1,5 +1,7 @@
 package com.capgemini.rdlg.client.mvc.frontend;
 
+import java.util.ArrayList;
+
 import com.capgemini.rdlg.client.AppEvents;
 import com.capgemini.rdlg.client.model.Order;
 import com.capgemini.rdlg.client.mvc.AppView;
@@ -36,11 +38,12 @@ public class DayOrdersView extends View{
 	}
 
 	private void onViewDayOrders(AppEvent event) {
-//		store.removeAll();
-//		store.add(event.<List<Order>> getData("orders"));
+		ArrayList<Order> orders = event.getData();
+		store.removeAll();
+		if (orders!=null)
+			store.add(orders);
 		wrapper.removeAll();
 		wrapper.add(dayOrdersPanel);
 		wrapper.layout();
 	}
-
 }

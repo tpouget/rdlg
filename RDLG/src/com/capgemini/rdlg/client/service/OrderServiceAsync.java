@@ -12,5 +12,5 @@ public interface OrderServiceAsync {
 	public void deleteOrder(String id, AsyncCallback<Void> callback);
 	public void getOrders(AsyncCallback<ArrayList<Order>> callback);
 	public void getOrdersByUser(String userId, AsyncCallback<ArrayList<Order>> callback);
-	public void getOrdersByDate(Date date, AsyncCallback<ArrayList<Order>> callback);
+	public void getReadyOrdersByDate(Date date, AsyncCallback<ArrayList<Order>> callback);
 }

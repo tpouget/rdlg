@@ -13,5 +13,5 @@ public interface OrderService extends RemoteService{
 	public void deleteOrder(String id);
 	public ArrayList<Order> getOrders();
 	public ArrayList<Order> getOrdersByUser(String userId);
-	public ArrayList<Order> getOrdersByDate(Date date);
+	public ArrayList<Order> getReadyOrdersByDate(Date date);
 }

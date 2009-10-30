@@ -115,6 +115,7 @@ public class User extends BaseModel{
 		setUserType((UserType)get("userType"));
 	}
 	
+	@Override
 	public String toString(){
 		return firstname + " "+ lastname;
 	}

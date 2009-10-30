@@ -3,7 +3,12 @@ package com.capgemini.rdlg.client.widget.frontend.orders;
 import java.util.Arrays;
 import java.util.Date;
 
+import com.capgemini.rdlg.client.AppEvents;
 import com.capgemini.rdlg.client.model.Order;
+import com.extjs.gxt.ui.client.event.BaseEvent;
+import com.extjs.gxt.ui.client.event.Events;
+import com.extjs.gxt.ui.client.event.Listener;
+import com.extjs.gxt.ui.client.mvc.Dispatcher;
 import com.extjs.gxt.ui.client.store.ListStore;
 import com.extjs.gxt.ui.client.widget.ContentPanel;
 import com.extjs.gxt.ui.client.widget.form.DateField;
@@ -44,6 +49,15 @@ public class DayOrdersPanel extends ContentPanel {
 		
 		dateField = new DateField();
 		dateField.setValue(new Date());
+		/*
+		 * XXX Try and improve this listener
+		 */
+		dateField.addListener(Events.Change, new Listener<BaseEvent>() {
+			@Override
+			public void handleEvent(BaseEvent be) {
+				Dispatcher.forwardEvent(AppEvents.ViewDayOrders, dateField.getValue());
+			}
+		});
 		LabelField labelField = new LabelField("Commande du :");
 		
 		ToolBar toolBar = new ToolBar();

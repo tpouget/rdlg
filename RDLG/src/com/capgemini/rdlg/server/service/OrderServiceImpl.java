@@ -14,7 +14,9 @@ import com.capgemini.rdlg.client.model.Order;
 import com.capgemini.rdlg.client.service.OrderService;
 import com.capgemini.rdlg.server.PMF;
 import com.capgemini.rdlg.server.tools.DateTools;
+import com.capgemini.rdlg.server.tools.MealTool;
 import com.capgemini.rdlg.server.tools.OrderTool;
+import com.capgemini.rdlg.server.tools.UserTools;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 @SuppressWarnings("serial")
@@ -87,10 +89,11 @@ public class OrderServiceImpl extends RemoteServiceServlet implements OrderServi
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public ArrayList<Order> getOrdersByDate(Date date) {
+	public ArrayList<Order> getReadyOrdersByDate(Date date) {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		try {
-			Query query = pm.newQuery(Order.class, "date>=today && date<=tomorrow");
+			Query query = pm.newQuery(Order.class,
+					"date>=today && date<=tomorrow");
 			query.declareImports("import java.util.Date");
 			query.declareParameters("Date today, Date tomorrow");
 
@@ -108,8 +111,17 @@ public class OrderServiceImpl extends RemoteServiceServlet implements OrderServi
 					DateTools.getEuropeParisDayAfterDate(today));
 			ArrayList<Order> toReturn 
 				= new ArrayList<Order>(pm.detachCopyAll(results));
-			for (Order meal: toReturn)
+			for (Order meal: toReturn){
+				meal.setStarter(
+					MealTool.getMealById(meal.getStarter_id()));
+				meal.setDish(
+					MealTool.getMealById(meal.getDish_id()));
+				meal.setDessert(
+					MealTool.getMealById(meal.getDessert_id()));
+				meal.setUser(
+					UserTools.getUserById(meal.getUser_id()));
 				meal.updateProperties();
+			}
 			return toReturn;
 		}finally{
 			pm.close();
