@@ -19,7 +19,6 @@ import com.extjs.gxt.ui.client.widget.ContentPanel;
 import com.extjs.gxt.ui.client.widget.grid.ColumnConfig;
 import com.extjs.gxt.ui.client.widget.grid.ColumnModel;
 import com.extjs.gxt.ui.client.widget.grid.Grid;
-import com.extjs.gxt.ui.client.widget.grid.GridView;
 import com.extjs.gxt.ui.client.widget.layout.FitLayout;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.Element;
@@ -27,7 +26,6 @@ import com.google.gwt.user.client.Element;
 public class OrderList extends ContentPanel{
 	
 	private Grid<Order> orderGrid;
-	private GridView view = new GridView();
 	private OrderPanel parent;
 	
 	public OrderList(ListStore<Order> orderStore, OrderPanel orderPanel){
@@ -49,11 +47,10 @@ public class OrderList extends ContentPanel{
 	    ColumnModel cm = new ColumnModel(configs);
 		
 	    orderStore.setSortField("date");
-	    orderStore.setSortDir(SortDir.DESC);
+	    orderStore.setSortDir(SortDir.ASC);
 	    
 		orderGrid = new Grid<Order>(orderStore, cm);
 		orderGrid.setAutoExpandColumn("date");
-		orderGrid.setView(view);
 		orderGrid.setHideHeaders(true);
 		orderGrid.setAutoHeight(true);
 		orderGrid.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
@@ -77,9 +74,6 @@ public class OrderList extends ContentPanel{
 						parent.getDeleteSelectedOrder().disable();
 				}
 			});
-		
-		view.setForceFit(true);
-	    view.setAutoFill(true);
 	}
 	
 	@Override

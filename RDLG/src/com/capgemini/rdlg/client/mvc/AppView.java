@@ -120,8 +120,10 @@ public class AppView extends View {
     toolBar.add(item2);
     toolBar.add(item3);
     toolBar.add(dayOrders);
+    toolBar.add(new FillToolItem());
     
     if (((User)Registry.get(RDLG.USER)).getUserType().equals(UserType.ADMIN)){
+    	
 	    Button item4 = new Button("Administration");
 	    
 	    Menu menu = new Menu();  
@@ -179,7 +181,6 @@ public class AppView extends View {
 	    toolBar.add(item4);
     }
     
-    toolBar.add(new FillToolItem());    
     toolBar.add(new LabelToolItem("Bienvenue "+
     		((User)Registry.get(RDLG.USER)).getFirstname()));
     

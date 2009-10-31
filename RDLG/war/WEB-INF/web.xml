@@ -77,9 +77,20 @@ version="2.5">
     <url-pattern>/rdlg/date</url-pattern>
   </servlet-mapping>
   
+  <servlet>
+  	<servlet-name>mailTest</servlet-name>
+  	<servlet-class>com.capgemini.rdlg.server.dev.TestMailServlet</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>mailTest</servlet-name>
+    <url-pattern>/dev/mail</url-pattern>
+  </servlet-mapping>
+  
   <security-constraint>
    <web-resource-collection>
       <url-pattern>/_ah/mail/*</url-pattern>
+      <url-pattern>/dev/*</url-pattern>
       <url-pattern>/cron/*</url-pattern>
    </web-resource-collection>
     <auth-constraint>

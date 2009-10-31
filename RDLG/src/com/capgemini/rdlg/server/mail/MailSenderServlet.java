@@ -2,16 +2,10 @@ package com.capgemini.rdlg.server.mail;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Properties;
 import java.util.logging.Logger;
 
-import javax.mail.Message;
 import javax.mail.MessagingException;
-import javax.mail.Session;
 import javax.mail.Transport;
-import javax.mail.internet.AddressException;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -36,25 +30,11 @@ public class MailSenderServlet extends HttpServlet {
 			String header = req.getHeader("X-AppEngine-Cron");
 			if (Boolean.parseBoolean(header)){
 				try {
-					Properties props = new Properties();
-			        Session session = Session.getDefaultInstance(props, null);
-					
-		            Message msg = new MimeMessage(session);
-		            msg.setFrom(new InternetAddress("tpouget@gmail.com", "RDLG"));
-		            msg.addRecipient(Message.RecipientType.TO,
-		                             new InternetAddress("tpouget@gmail.com"));
-		            msg.addRecipient(Message.RecipientType.CC,
-		                    new InternetAddress("sebastien.etter@gmail.com"));
-		            msg.setSubject("[RDLG] Test Cron Service");
-		            msg.setText("RDLG : bon faudrait peut-être penser à me terminer !!!!");
-		            Transport.send(msg);
-		            
-		            OrderTool.setOrdersOrdered(orders);
-		        } catch (AddressException e) {
-		        	log.warning(e.getMessage());
-		        } catch (MessagingException e) {
-		        	log.warning(e.getMessage());
-		        }
+					Transport.send(mail.getMessage());
+				} catch (MessagingException e) {
+					log.severe(e.getMessage());
+				}
+	            OrderTool.setOrdersOrdered(orders);
 			} else
 				log.warning("Pas de Header X-AppEngine-Cron");
 		}else
