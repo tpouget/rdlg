@@ -27,11 +27,6 @@ public class OrderServiceImpl extends RemoteServiceServlet implements OrderServi
 	@Override
 	public void addOrder(Order order) {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
-		//The following fields are set to null to prevent creation of new entities.
-		order.setStarter(null);
-		order.setDish(null);
-		order.setDessert(null);
-		order.setUser(null);
 		
 		try{
 			pm.makePersistent(order);
