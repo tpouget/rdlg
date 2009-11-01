@@ -13,5 +13,12 @@ public interface OrderService extends RemoteService{
 	public void deleteOrder(String id);
 	public ArrayList<Order> getOrders();
 	public ArrayList<Order> getOrdersByUser(String userId);
+	/**
+	 * Returns orders with object properties updated.
+	 * In other words, the field starter, dish, dessert and user
+	 * are updated before returning the order list.
+	 * @param date : date to look for
+	 * @return
+	 */
 	public ArrayList<Order> getReadyOrdersByDate(Date date);
 }

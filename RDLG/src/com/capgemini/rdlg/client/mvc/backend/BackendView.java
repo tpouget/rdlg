@@ -12,7 +12,6 @@ import com.capgemini.rdlg.client.mvc.AppView;
 import com.capgemini.rdlg.client.widget.backend.BankManagementPanel;
 import com.capgemini.rdlg.client.widget.backend.ReplacementMealPanel;
 import com.capgemini.rdlg.client.widget.backend.UserManagementPanel;
-import com.capgemini.rdlg.client.widget.frontend.orders.OrderPanel;
 import com.capgemini.rdlg.client.widget.shared.PanelState;
 import com.capgemini.rdlg.client.widget.shared.WeekMenuPanel;
 import com.extjs.gxt.ui.client.Registry;
@@ -27,7 +26,6 @@ public class BackendView extends View {
 
 	private WeekMenuPanel backendWeekMenuPanel;
 	private ReplacementMealPanel backendReplacementMealPanel;
-	private OrderPanel backendOrdersPanel;
 	private UserManagementPanel userManagementPanel;
 	private BankManagementPanel bankManagementPanel;
 	 private GroupingStore<Meal> store = new GroupingStore<Meal>();
@@ -40,7 +38,6 @@ public class BackendView extends View {
 	protected void initialize() {
 		backendWeekMenuPanel = new WeekMenuPanel(PanelState.BACKEND, store);
 		backendReplacementMealPanel = new ReplacementMealPanel();
-		//backendOrdersPanel = new OrderPanel(PanelState.BACKEND);
 		userManagementPanel = new UserManagementPanel();
 		bankManagementPanel = new BankManagementPanel();
 	}
@@ -69,10 +66,6 @@ public class BackendView extends View {
 
 			wrapper.layout();
 			return;
-
-		} else if (event.getType() == AppEvents.ViewBackendOrder) {
-			wrapper.add(backendOrdersPanel);
-			wrapper.layout();
 
 		} else if (event.getType() == AppEvents.ViewBackendBank){
 			ListStore<Transaction> storeT = bankManagementPanel.getStore();

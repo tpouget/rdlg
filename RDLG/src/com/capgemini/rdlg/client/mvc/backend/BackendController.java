@@ -31,7 +31,6 @@ public class BackendController extends Controller {
 		registerEventTypes(AppEvents.Init);
 		registerEventTypes(AppEvents.ViewBackendWeekMenu);
 		registerEventTypes(AppEvents.ViewBackendReplacementMeal);
-		registerEventTypes(AppEvents.ViewBackendOrder);
 		registerEventTypes(AppEvents.SaveBackendMenuOfTheWeek);
 		registerEventTypes(AppEvents.ViewBackendBank);
 		registerEventTypes(AppEvents.SaveBackendReplacementMeal);
@@ -55,8 +54,6 @@ public class BackendController extends Controller {
 		EventType type = event.getType();
 		if (type == AppEvents.ViewBackendWeekMenu) {
 			onViewAdminMenuSemaine(event);
-		} else if (type == AppEvents.ViewBackendOrder) {
-			forwardToView(backendView, event);
 		} else if (type == AppEvents.ViewBackendReplacementMeal) {
 			onViewBackEndReplacementMeal(event);
 		} else if (type == AppEvents.SaveBackendMenuOfTheWeek) {

@@ -11,6 +11,7 @@ import com.capgemini.rdlg.client.model.Order;
 import com.capgemini.rdlg.client.model.User;
 import com.capgemini.rdlg.client.service.MealServiceAsync;
 import com.capgemini.rdlg.client.service.OrderServiceAsync;
+import com.capgemini.rdlg.client.service.UserServiceAsync;
 import com.extjs.gxt.ui.client.Registry;
 import com.extjs.gxt.ui.client.event.EventType;
 import com.extjs.gxt.ui.client.mvc.AppEvent;
@@ -23,7 +24,7 @@ public class OrdersController extends Controller{
 	private OrdersView ordersView;
 	private OrderServiceAsync orderService;
 	private MealServiceAsync mealService;
-	//private DateServiceAsync dateService;
+	private UserServiceAsync userService;
 	private String user_id;
 	
 	
@@ -43,7 +44,7 @@ public class OrdersController extends Controller{
 		ordersView = new OrdersView(this);
 		orderService = Registry.get(RDLG.ORDER_SERVICE);
 		mealService = Registry.get(RDLG.MEAL_SERVICE);
-		//dateService = Registry.get(RDLG.DATE_SERVICE);
+		userService = Registry.get(RDLG.USER_SERVICE);
 		user_id = ((User)Registry.get(RDLG.USER)).getId();
 	}
 	
@@ -178,10 +179,8 @@ public class OrdersController extends Controller{
 
 	private void onSaveOrders(AppEvent event) {
 		ArrayList<Order> orders = event.getData();
-		for (Order order:orders){
+		for (Order order:orders)
 			order.updateObject();
-			order.setUser_id(user_id);
-		}
 		
 		orderService.addOrders(orders, new AsyncCallback<Void>() {
 			@Override
@@ -213,9 +212,23 @@ public class OrdersController extends Controller{
 					
 					ae.setData("orderOfTheDay", order);
 				}
-				forwardToView(ordersView, ae);
+				updateUserList(ae);
 			}
 		});
 	}
 
+	protected void updateUserList(final AppEvent ae) {
+		userService.getUsers(new AsyncCallback<ArrayList<User>>() {
+			@Override
+			public void onSuccess(ArrayList<User> result) {
+				ae.setData("users", result);
+				forwardToView(ordersView, ae);
+			}
+			@Override
+			public void onFailure(Throwable caught) {
+				Dispatcher.forwardEvent(AppEvents.Error, caught);
+			}
+		});
+		
+	}
 }

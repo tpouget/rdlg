@@ -169,7 +169,7 @@ public class Order extends BaseModel {
 		if (get("status")!=null)
 			setStatus((OrderStatus) get("status"));
 		if (get("user")!=null)
-			setUser((User) get("user"));
+			setUser_id(((User) get("user")).getId());
 	}
 
 	public void setUser(User user) {

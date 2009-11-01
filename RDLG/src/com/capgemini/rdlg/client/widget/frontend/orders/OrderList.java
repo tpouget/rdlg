@@ -39,7 +39,8 @@ public class OrderList extends ContentPanel{
 			}
 		});
 		
-		ColumnConfig date = new ColumnConfig("date", "date", getWidth());
+		ColumnConfig date = new ColumnConfig();
+		date.setId("date");
 		date.setDateTimeFormat(DateTimeFormat.getFormat("yyyy, dd MMMM"));
 		
 		List<ColumnConfig> configs = new ArrayList<ColumnConfig>(1);
@@ -50,6 +51,7 @@ public class OrderList extends ContentPanel{
 	    orderStore.setSortDir(SortDir.ASC);
 	    
 		orderGrid = new Grid<Order>(orderStore, cm);
+		orderGrid.setWidth(150);
 		orderGrid.setAutoExpandColumn("date");
 		orderGrid.setHideHeaders(true);
 		orderGrid.setAutoHeight(true);

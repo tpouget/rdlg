@@ -29,8 +29,6 @@ public class AppEvents {
 
 	public static final EventType ViewBackendWeekMenu = new EventType();
 
-	public static final EventType ViewBackendOrder = new EventType();
-
 	public static final EventType ViewFrontendMenuSemaine = new EventType();
 
 	public static final EventType ViewFrontendOrders = new EventType();

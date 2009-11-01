@@ -7,12 +7,14 @@ import com.capgemini.rdlg.client.AppEvents;
 import com.capgemini.rdlg.client.model.Meal;
 import com.capgemini.rdlg.client.model.Order;
 import com.capgemini.rdlg.client.model.OrderStatus;
+import com.capgemini.rdlg.client.model.User;
 import com.capgemini.rdlg.client.mvc.AppView;
 import com.capgemini.rdlg.client.widget.frontend.orders.OrderPanel;
 import com.capgemini.rdlg.client.widget.shared.PanelState;
 import com.extjs.gxt.ui.client.Registry;
 import com.extjs.gxt.ui.client.binding.FieldBinding;
 import com.extjs.gxt.ui.client.binding.FormBinding;
+import com.extjs.gxt.ui.client.event.EventType;
 import com.extjs.gxt.ui.client.mvc.AppEvent;
 import com.extjs.gxt.ui.client.mvc.Controller;
 import com.extjs.gxt.ui.client.mvc.View;
@@ -24,6 +26,7 @@ public class OrdersView extends View{
 	private OrderPanel ordersPanel;
 	private ListStore<Order> store = new ListStore<Order>();
 	private FormBinding formBinding;
+	LayoutContainer wrapper;
 	
 	public OrdersView(Controller controller) {
 		super(controller);
@@ -53,74 +56,100 @@ public class OrdersView extends View{
 		formBinding.addFieldBinding(
 				new FieldBinding(
 						ordersPanel.getOrderDetails().getTotal(), "total"));
+		formBinding.addFieldBinding(
+				new FieldBinding(
+						ordersPanel.getOrderDetails().getUser(), "user"));
 	}
 	
 	@Override
 	protected void handleEvent(AppEvent event) {
-		LayoutContainer wrapper = Registry.get(AppView.CENTER_PANEL);
+		wrapper = Registry.get(AppView.CENTER_PANEL);
+		EventType type = event.getType();
 		
-		if (event.getType() == AppEvents.ViewFrontendOrders
-				|| event.getType() == AppEvents.OrderForTheDay) {
-			
-			store.removeAll();
-			store.add(event.<List<Order>> getData("userOrders"));
-			
-			if (event.getType() == AppEvents.OrderForTheDay){
-				Order order = event.getData("orderOfTheDay");
-				order.updateProperties();
-				store.add(order);
-			}
-				
-			wrapper.removeAll();
-			wrapper.add(ordersPanel);
+		if (type == AppEvents.ViewFrontendOrders
+				|| type == AppEvents.OrderForTheDay) {
+			onViewOrders(event);
+		}else if (type == AppEvents.OrderSelectionChanged) {
+			onOrderSelectionChanged(event);
+		}else if (type == AppEvents.CreateOrder) {
+			onCreateOrder(event);
+		}else if (type == AppEvents.UpdateOrderTotal) {
+			onUpdateOrderTotal(event);
+		}
+	}
+		
+	private void onUpdateOrderTotal(AppEvent event) {
+		Order model = (Order) formBinding.getModel();
+		if (model!=null){
+			double total = event.getData();
+			model.set("total", total);
+			model.setTotal(total);
 			wrapper.layout();
-			return;
-		} else if (event.getType() == AppEvents.OrderSelectionChanged){
-			Order selectedOrder = event.getData("selectedOrder");
-			
-			ordersPanel.getOrderDetails()
-				.getStarters().getStore().removeAll();
-			ordersPanel.getOrderDetails()
-				.getDishes().getStore().removeAll();
-			ordersPanel.getOrderDetails()
-				.getDesserts().getStore().removeAll();
-
-			if (selectedOrder==null)
-				formBinding.unbind();
-			else{
-				formBinding.bind(selectedOrder);
-				
-				ordersPanel.getOrderDetails()
-					.getStarters().getStore().add(
-						event.<List<Meal>>getData("starters"));
-				
-				ordersPanel.getOrderDetails()
-					.getDishes().getStore().add(
-						event.<List<Meal>>getData("dishes"));
-				
-				ordersPanel.getOrderDetails()
-					.getDesserts().getStore().add(
-						event.<List<Meal>>getData("desserts"));
-			}
-			return;
-			
-		} else if (event.getType() == AppEvents.CreateOrder){
-			Date date = event.getData();
-			Order order = new Order();
-			order.setStatus(OrderStatus.EDITABLE);
-			order.setDate(date);
-			order.updateProperties();
-			store.insert(order, 0);
-			
-		} else if (event.getType() == AppEvents.UpdateOrderTotal){
-			Order model = (Order) formBinding.getModel();
-			if (model!=null){
-				double total = event.getData();
-				model.set("total", total);
-				model.setTotal(total);
-				wrapper.layout();
-			}
-		} 
+		}
 	}
 
+	private void onCreateOrder(AppEvent event) {
+		Date date = event.getData();
+		Order order = new Order();
+		order.setStatus(OrderStatus.EDITABLE);
+		order.setDate(date);
+		order.updateProperties();
+		store.insert(order, 0);
+	}
+
+	private void onOrderSelectionChanged(AppEvent event) {
+		Order selectedOrder = event.getData("selectedOrder");
+		
+		ordersPanel.getOrderDetails()
+			.getStarters().getStore().removeAll();
+		ordersPanel.getOrderDetails()
+			.getDishes().getStore().removeAll();
+		ordersPanel.getOrderDetails()
+			.getDesserts().getStore().removeAll();
+
+		for (User user: ordersPanel.getOrderDetails()
+				.getUser().getStore().getModels()){
+			if (user.getId().equals(selectedOrder.getUser_id()))
+				selectedOrder.setUser(user);
+			selectedOrder.updateProperties();
+		}
+		
+		if (selectedOrder==null)
+			formBinding.unbind();
+		else{
+			formBinding.bind(selectedOrder);
+			
+			ordersPanel.getOrderDetails()
+				.getStarters().getStore().add(
+					event.<List<Meal>>getData("starters"));
+			
+			ordersPanel.getOrderDetails()
+				.getDishes().getStore().add(
+					event.<List<Meal>>getData("dishes"));
+			
+			ordersPanel.getOrderDetails()
+				.getDesserts().getStore().add(
+					event.<List<Meal>>getData("desserts"));
+		}
+	}
+
+	private void onViewOrders(AppEvent event) {
+		store.removeAll();
+		store.add(event.<List<Order>> getData("userOrders"));
+		
+		if (event.getType() == AppEvents.OrderForTheDay){
+			Order order = event.getData("orderOfTheDay");
+			order.updateProperties();
+			store.add(order);
+		}
+		ordersPanel.getOrderDetails()
+			.getUser().getStore().removeAll();
+		ordersPanel.getOrderDetails()
+			.getUser().getStore().add(
+				event.<List<User>>getData("users"));
+		
+		wrapper.removeAll();
+		wrapper.add(ordersPanel);
+		wrapper.layout();
+	}
 }

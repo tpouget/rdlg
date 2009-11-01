@@ -5,7 +5,6 @@ import com.capgemini.rdlg.client.mvc.backend.BackendController;
 import com.capgemini.rdlg.client.mvc.frontend.DayOrdersController;
 import com.capgemini.rdlg.client.mvc.frontend.OrdersController;
 import com.capgemini.rdlg.client.mvc.frontend.WeekMenuController;
-import com.capgemini.rdlg.client.service.DateService;
 import com.capgemini.rdlg.client.service.MealService;
 import com.capgemini.rdlg.client.service.OrderService;
 import com.capgemini.rdlg.client.service.TransactionService;
@@ -44,7 +43,6 @@ public class RDLG implements EntryPoint {
 		    Registry.register(USER_SERVICE, GWT.create(UserService.class));
 		    Registry.register(ORDER_SERVICE, GWT.create(OrderService.class));
 		    Registry.register(TRANSACTION_SERVICE, GWT.create(TransactionService.class));
-		    Registry.register(DATE_SERVICE, GWT.create(DateService.class));
 		    
 		    //DevTools.addAdmin("setter", "setter");
 		    //DevTools.addUser("Thibault", "Pouget", "tpouget", "toto", UserType.ADMIN);

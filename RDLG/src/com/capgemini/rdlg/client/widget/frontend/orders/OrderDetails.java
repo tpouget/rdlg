@@ -2,6 +2,7 @@ package com.capgemini.rdlg.client.widget.frontend.orders;
 
 import com.capgemini.rdlg.client.AppEvents;
 import com.capgemini.rdlg.client.model.Meal;
+import com.capgemini.rdlg.client.model.User;
 import com.extjs.gxt.ui.client.event.SelectionChangedEvent;
 import com.extjs.gxt.ui.client.event.SelectionChangedListener;
 import com.extjs.gxt.ui.client.mvc.AppEvent;
@@ -10,6 +11,7 @@ import com.extjs.gxt.ui.client.store.ListStore;
 import com.extjs.gxt.ui.client.widget.form.ComboBox;
 import com.extjs.gxt.ui.client.widget.form.DateField;
 import com.extjs.gxt.ui.client.widget.form.FormPanel;
+import com.extjs.gxt.ui.client.widget.form.LabelField;
 import com.extjs.gxt.ui.client.widget.form.NumberField;
 import com.extjs.gxt.ui.client.widget.form.TextArea;
 import com.extjs.gxt.ui.client.widget.form.ComboBox.TriggerAction;
@@ -25,6 +27,8 @@ public class OrderDetails extends FormPanel{
 	private DateField dateField;
 	private TextArea description;
 	private NumberField total;
+	private LabelField blank;
+	private ComboBox<User> user;
 	
 	public OrderDetails(){
 		setHeaderVisible(false);
@@ -92,6 +96,15 @@ public class OrderDetails extends FormPanel{
 	    total.setFieldLabel("Total");
 	    total.setFormat(NumberFormat.getCurrencyFormat());
 	    total.setReadOnly(true);
+	    
+	    blank = new LabelField("");
+	    
+	    user = new ComboBox<User>();
+	    user.setStore(new ListStore<User>());
+	    user.setTriggerAction(TriggerAction.ALL);
+	    user.setName("user");
+	    user.setFieldLabel("Utilisateur");
+	    user.setDisplayField("firstLastName");
 	}
 	
 	@Override
@@ -104,6 +117,8 @@ public class OrderDetails extends FormPanel{
 		add(dateField);
 		add(description);
 		add(total);
+		add(blank);
+		add(user);
 	}
 	
 	public ComboBox<Meal> getStarters() {
@@ -153,6 +168,12 @@ public class OrderDetails extends FormPanel{
 	public void setTotal(NumberField total) {
 		this.total = total;
 	}
-	
-	
+
+	public ComboBox<User> getUser() {
+		return user;
+	}
+
+	public void setUser(ComboBox<User> user) {
+		this.user = user;
+	}
 }

@@ -177,9 +177,7 @@ public class BankManagementPanel extends ContentPanel {
 	}
 
 	public void getPanelHeading() {
-
 		setHeading("Gestion de la caisse");
-
 	}
 
 	public GroupingView getView() {

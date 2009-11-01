@@ -68,16 +68,6 @@ version="2.5">
   </servlet-mapping>
   
   <servlet>
-  	<servlet-name>dateService</servlet-name>
-  	<servlet-class>com.capgemini.rdlg.server.service.DateServiceImpl</servlet-class>
-  </servlet>
-  
-  <servlet-mapping>
-    <servlet-name>dateService</servlet-name>
-    <url-pattern>/rdlg/date</url-pattern>
-  </servlet-mapping>
-  
-  <servlet>
   	<servlet-name>mailTest</servlet-name>
   	<servlet-class>com.capgemini.rdlg.server.dev.TestMailServlet</servlet-class>
   </servlet>

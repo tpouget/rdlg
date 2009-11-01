@@ -156,23 +156,13 @@ public class AppView extends View {
 			}
 		});
 	   
-	    menu.add(menuItem);  
-	  
-	  
-	    menuItem = new MenuItem("Commandes");
-	    menuItem.addSelectionListener(new SelectionListener<MenuEvent>() {
-			@Override
-			public void componentSelected(MenuEvent ce) {
-				Dispatcher.forwardEvent(AppEvents.ViewBackendOrder);				
-			}
-		});
-	    menu.add(menuItem);  
+	    menu.add(menuItem);
 	    
 	    menuItem = new MenuItem("Caisse");
 	    menuItem.addSelectionListener(new SelectionListener<MenuEvent>() {
 			@Override
 			public void componentSelected(MenuEvent ce) {
-				Dispatcher.forwardEvent(AppEvents.ViewBackendBank);				
+				Dispatcher.forwardEvent(AppEvents.ViewBackendBank);		
 			}
 		});
 	    menu.add(menuItem);  

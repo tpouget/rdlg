@@ -35,7 +35,7 @@ public class OrderPanel extends ContentPanel {
 		orderDetails = new OrderDetails();
 		orderList = new OrderList(store, this);
 		
-		BorderLayoutData data = new BorderLayoutData(LayoutRegion.WEST, 150, 100, 200);
+		BorderLayoutData data = new BorderLayoutData(LayoutRegion.WEST, 120, 100, 200);
 		data.setSplit(true);
 		data.setMargins(new Margins(5));
 		add(orderList, data);
