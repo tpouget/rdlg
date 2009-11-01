@@ -114,8 +114,10 @@ public class OrdersView extends View{
 			selectedOrder.updateProperties();
 		}
 		
-		if (selectedOrder==null)
+		if (selectedOrder==null){
 			formBinding.unbind();
+			ordersPanel.getOrderDetails().disable();
+		}
 		else{
 			formBinding.bind(selectedOrder);
 			
@@ -130,6 +132,8 @@ public class OrdersView extends View{
 			ordersPanel.getOrderDetails()
 				.getDesserts().getStore().add(
 					event.<List<Meal>>getData("desserts"));
+			
+			ordersPanel.getOrderDetails().enable();
 		}
 	}
 
@@ -142,12 +146,16 @@ public class OrdersView extends View{
 			order.updateProperties();
 			store.add(order);
 		}
-		ordersPanel.getOrderDetails()
-			.getUser().getStore().removeAll();
-		ordersPanel.getOrderDetails()
-			.getUser().getStore().add(
-				event.<List<User>>getData("users"));
 		
+		if (event.getData("users")!=null){
+			ordersPanel.getOrderDetails()
+				.getUser().getStore().removeAll();
+			ordersPanel.getOrderDetails()
+				.getUser().getStore().add(
+					event.<List<User>>getData("users"));
+		}
+		ordersPanel.getOrderDetails().clear();
+		ordersPanel.getOrderDetails().disable();
 		wrapper.removeAll();
 		wrapper.add(ordersPanel);
 		wrapper.layout();
