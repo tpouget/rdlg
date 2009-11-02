@@ -5,6 +5,7 @@ import java.util.Date;
 import javax.jdo.annotations.Extension;
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.IdentityType;
+import javax.jdo.annotations.NotPersistent;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
@@ -26,10 +27,10 @@ public class Transaction extends BaseModel {
 	private String id;
 
 	@Persistent
-	private User from;
+	private String from_user_id;
 
 	@Persistent
-	private User to;
+	private String to_user_id;
 
 	@Persistent
 	private Double amount = 0.0;
@@ -37,6 +38,12 @@ public class Transaction extends BaseModel {
 	@Persistent
 	private Date date = new Date();
 
+	@NotPersistent
+	private User from;
+
+	@NotPersistent
+	private User to;
+	
 	public Date getDate() {
 		return date;
 	}
@@ -49,9 +56,9 @@ public class Transaction extends BaseModel {
 
 	}
 
-	public Transaction(User from, User to, Double amount) {
-		setFrom(from);
-		setTo(to);
+	public Transaction(String from_user_id, String to_user_id, Double amount) {
+		setFrom_user_id(from_user_id);
+		setTo_user_id(to_user_id);
 		setAmount(amount);
 	}
 
@@ -86,6 +93,22 @@ public class Transaction extends BaseModel {
 	public String getId() {
 		return id;
 	}
+	
+	public void setFrom_user_id(String from_user_id) {
+		this.from_user_id = from_user_id;
+	}
+
+	public String getFrom_user_id() {
+		return from_user_id;
+	}
+	
+	public void setTo_user_id(String to_user_id) {
+		this.to_user_id = to_user_id;
+	}
+
+	public String getTo_user_id() {
+		return to_user_id;
+	}
 
 	public void updateProperties() {
 		set("date", getDate());
@@ -97,8 +120,10 @@ public class Transaction extends BaseModel {
 
 	public void updateObject() {
 		setDate((Date) get("date"));
-		setFrom((User) get("from"));
-		setTo((User) get("to"));
+		if (get("from")!=null);
+			setFrom_user_id(((User) get("from")).getId());
+		if (get("to")!=null);
+			setTo_user_id(((User) get("to")).getId());
 		setAmount((Double) get("amount"));
 	}
 }

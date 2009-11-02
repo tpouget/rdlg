@@ -9,9 +9,7 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 @RemoteServiceRelativePath("transaction")
 public interface TransactionService extends RemoteService {
 	public void addTransaction(Transaction transaction);
-
 	public void deleteTransaction(String id);
-
 	public ArrayList<Transaction> getTransactions();
-
+	public ArrayList<Transaction> getTransactionsByFrom(String from_user_id);
 }
