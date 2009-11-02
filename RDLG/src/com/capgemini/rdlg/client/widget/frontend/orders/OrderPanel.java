@@ -21,6 +21,7 @@ public class OrderPanel extends ContentPanel {
 
 	private OrderList orderList;
 	private OrderDetails orderDetails;
+	private OrderInfo orderInfo;
 	
 	private PanelState panelState;
 	
@@ -34,14 +35,21 @@ public class OrderPanel extends ContentPanel {
 		
 		orderDetails = new OrderDetails();
 		orderList = new OrderList(store, this);
+		orderInfo = new OrderInfo();
 		
 		BorderLayoutData data = new BorderLayoutData(LayoutRegion.WEST, 120, 100, 200);
 		data.setSplit(true);
 		data.setMargins(new Margins(5));
 		add(orderList, data);
 		data = new BorderLayoutData(LayoutRegion.CENTER);  
-		data.setMargins(new Margins(5, 0, 5, 0));  
+		data.setMargins(new Margins(5, 0, 5, 0));
 		add(orderDetails, data);
+		data = new BorderLayoutData(LayoutRegion.EAST, 300, 5, 300);
+		data.setSplit(true);
+		data.setCollapsible(true);
+		data.setFloatable(true);
+		data.setMargins(new Margins(5));
+		add(orderInfo, data);
 		
 		ToolBar toolBar = new ToolBar();
 		
