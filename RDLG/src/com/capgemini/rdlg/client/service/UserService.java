@@ -14,4 +14,5 @@ public interface UserService extends RemoteService{
 	public ArrayList<User> getUsers();
 	public void addUsers(ArrayList<User> users);
 	public User checkLogin(HashMap<String, String> loginInfo);
+	double getUserBalance(String userId);
 }

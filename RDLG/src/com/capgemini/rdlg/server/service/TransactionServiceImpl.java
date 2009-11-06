@@ -9,6 +9,7 @@ import javax.jdo.Query;
 import com.capgemini.rdlg.client.model.Transaction;
 import com.capgemini.rdlg.client.service.TransactionService;
 import com.capgemini.rdlg.server.PMF;
+import com.extjs.gxt.ui.client.data.PagingLoadResult;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 public class TransactionServiceImpl extends RemoteServiceServlet implements
@@ -69,5 +70,12 @@ public class TransactionServiceImpl extends RemoteServiceServlet implements
 		}finally{
 			pm.close();
 		}
+	}
+
+	@Override
+	public PagingLoadResult<Transaction> getTransactionPagingByFrom(
+			String fromUserId) {
+		// FIXME Auto-generated method stub
+		return null;
 	}
 }

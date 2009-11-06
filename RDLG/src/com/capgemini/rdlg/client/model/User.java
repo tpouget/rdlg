@@ -38,9 +38,6 @@ public class User extends BaseModel{
 	@Persistent
 	private UserType userType;
 	
-	@Persistent
-	private Double balance;
-	
 	public User(){
 	}
 	
@@ -81,14 +78,6 @@ public class User extends BaseModel{
 
 	public void setEmail(String email) {
 		this.email = email;
-	}
-	
-	public void setBalance(Double balance) {
-		this.balance = balance;
-	}
-
-	public Double getBalance() {
-		return balance;
 	}
 
 	public String getPassword() {

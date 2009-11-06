@@ -13,5 +13,5 @@ public interface UserServiceAsync {
 	void addUsers(ArrayList<User> users, AsyncCallback<Void> asyncCallback);
 	void checkLogin(HashMap<String, String> loginInfo,
 			AsyncCallback<User> callback);
-
+	void getUserBalance(String userId, AsyncCallback<Double> asyncCallback);
 }

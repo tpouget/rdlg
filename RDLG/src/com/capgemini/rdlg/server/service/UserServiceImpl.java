@@ -79,4 +79,10 @@ public class UserServiceImpl extends RemoteServiceServlet implements
 		}
 	}
 
+	@Override
+	public double getUserBalance(String userId) {
+		//FIXME Compute user Balance
+		return 0;
+	}
+
 }

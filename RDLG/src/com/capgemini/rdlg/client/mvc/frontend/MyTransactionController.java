@@ -1,7 +1,5 @@
 package com.capgemini.rdlg.client.mvc.frontend;
 
-import java.util.ArrayList;
-
 import com.capgemini.rdlg.client.AppEvents;
 import com.capgemini.rdlg.client.RDLG;
 import com.capgemini.rdlg.client.model.Transaction;
@@ -9,6 +7,8 @@ import com.capgemini.rdlg.client.model.User;
 import com.capgemini.rdlg.client.service.TransactionServiceAsync;
 import com.capgemini.rdlg.client.service.UserServiceAsync;
 import com.extjs.gxt.ui.client.Registry;
+import com.extjs.gxt.ui.client.data.PagingLoadResult;
+import com.extjs.gxt.ui.client.data.RpcProxy;
 import com.extjs.gxt.ui.client.event.EventType;
 import com.extjs.gxt.ui.client.mvc.AppEvent;
 import com.extjs.gxt.ui.client.mvc.Controller;
@@ -20,6 +20,7 @@ public class MyTransactionController extends Controller {
 	private MyTransactionView view;
 	private UserServiceAsync userService;
 	private TransactionServiceAsync transactionService;
+	private RpcProxy<PagingLoadResult<Transaction>> proxy = null;
 	
 	@Override
 	protected void initialize() {
@@ -37,24 +38,31 @@ public class MyTransactionController extends Controller {
 	}
 
 	private void onViewMyTransaction(final AppEvent event) {
-		transactionService.getTransactionsByFrom(
-			((User)Registry.get(RDLG.USER)).getId(),
-			new AsyncCallback<ArrayList<Transaction>>() {
+		final String user_id =  ((User)Registry.get(RDLG.USER)).getId();
+		if (proxy==null){
+			 proxy = new RpcProxy<PagingLoadResult<Transaction>>() {  
+			      @Override  
+			      public void load(Object loadConfig, AsyncCallback<PagingLoadResult<Transaction>> callback) {  
+			    	  transactionService.getTransactionPagingByFrom(user_id, callback);
+			      }  
+			 };
+		 
+		}
+		 
+		 userService.getUserBalance(
+			 user_id,
+			 new AsyncCallback<Double>() {
 				@Override
 				public void onFailure(Throwable caught) {
 					Dispatcher.forwardEvent(AppEvents.Error, caught);
 				}
 				@Override
-				public void onSuccess(ArrayList<Transaction> result) {
-					event.setData("transactions", result);
-					event.setData("balance",
-						((User)Registry.get(RDLG.USER)).getBalance());
-					event.setData("tickets",
-						getTicketNumber(
-							((User)Registry.get(RDLG.USER)).getBalance()));
+				public void onSuccess(Double result) {
+					event.setData("balance", result);
+					event.setData("tickets", getTicketNumber(result));
 					forwardToView(view, event);
 				}
-			}
+			 }
 		);
 	}
 

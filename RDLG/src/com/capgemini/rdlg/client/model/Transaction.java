@@ -38,6 +38,9 @@ public class Transaction extends BaseModel {
 	@Persistent
 	private Date date = new Date();
 
+	@Persistent
+	private TransactionMode transactionMode;
+	
 	@NotPersistent
 	private User from;
 
@@ -109,13 +112,21 @@ public class Transaction extends BaseModel {
 	public String getTo_user_id() {
 		return to_user_id;
 	}
+	
+	public void setTransactionMode(TransactionMode transactionMode) {
+		this.transactionMode = transactionMode;
+	}
+
+	public TransactionMode getTransactionMode() {
+		return transactionMode;
+	}
 
 	public void updateProperties() {
 		set("date", getDate());
 		set("from", getFrom());
 		set("to", getTo());
 		set("amount", getAmount());
-		
+		set("transactionMode", getTransactionMode());
 	}
 
 	public void updateObject() {
@@ -125,5 +136,7 @@ public class Transaction extends BaseModel {
 		if (get("to")!=null);
 			setTo_user_id(((User) get("to")).getId());
 		setAmount((Double) get("amount"));
+		setTransactionMode(
+				(TransactionMode) get("transactionMode"));
 	}
 }
