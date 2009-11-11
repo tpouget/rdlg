@@ -62,4 +62,8 @@ public class AppEvents {
 	public static final EventType ViewDayOrders = new EventType();
 
 	public static final EventType ViewMyTransaction = new EventType();
+
+	public static final EventType ViewMailPanel = new EventType();
+	
+	public static final EventType SendMailAgain = new EventType();
 }

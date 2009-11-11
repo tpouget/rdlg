@@ -165,8 +165,19 @@ public class AppView extends View {
 				Dispatcher.forwardEvent(AppEvents.ViewBackendBank);		
 			}
 		});
+	    menu.add(menuItem); 
+	    
+	    menuItem = new MenuItem("E-mails");  
+	    menuItem.addSelectionListener(new SelectionListener<MenuEvent>() {
+			@Override
+			public void componentSelected(MenuEvent ce) {
+				Dispatcher.forwardEvent(AppEvents.ViewMailPanel);
+			}
+		});
+	   
 	    menu.add(menuItem);  
-	    item4.setMenu(menu);  
+	    
+	    item4.setMenu(menu);
 	    
 	    toolBar.add(item4);
     }

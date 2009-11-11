@@ -77,6 +77,16 @@ version="2.5">
     <url-pattern>/dev/mail</url-pattern>
   </servlet-mapping>
   
+  <servlet>
+  	<servlet-name>emailClient</servlet-name>
+  	<servlet-class>com.capgemini.rdlg.server.service.EmailServiceImpl</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>emailClient</servlet-name>
+    <url-pattern>/rdlg/email</url-pattern>
+  </servlet-mapping>
+  
   <security-constraint>
    <web-resource-collection>
       <url-pattern>/_ah/mail/*</url-pattern>
