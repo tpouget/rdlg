@@ -139,6 +139,14 @@ public class OrdersView extends View{
 					event.<List<Meal>>getData("desserts"));
 			
 			ordersPanel.getOrderDetails().enable();
+			
+			if (selectedOrder.getStatus().equals(OrderStatus.ORDERED)
+					||selectedOrder.getStatus().equals(OrderStatus.ADDED_AFTER_MAIL_WAS_SENT)){
+				/* TODO find a way for orders 
+				 * ADDED_AFTER_MAIL_WAS_SENT which are not saved (persisted yet)
+				 */
+				ordersPanel.getOrderDetails().setReadOnly(true);
+			}
 		}
 	}
 
