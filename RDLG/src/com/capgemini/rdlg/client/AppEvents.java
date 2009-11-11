@@ -33,8 +33,6 @@ public class AppEvents {
 
 	public static final EventType ViewFrontendOrders = new EventType();
 
-	public static final EventType ViewPaiements = new EventType();
-
 	public static final EventType ViewBackendReplacementMeal = new EventType();
 	
 	public static final EventType ViewUserManagement = new EventType();

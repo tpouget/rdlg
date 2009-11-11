@@ -6,7 +6,6 @@ import com.capgemini.rdlg.client.mvc.AppView;
 import com.capgemini.rdlg.client.widget.frontend.transaction.MyTransactionPanel;
 import com.extjs.gxt.ui.client.Registry;
 import com.extjs.gxt.ui.client.data.BasePagingLoader;
-import com.extjs.gxt.ui.client.data.ModelData;
 import com.extjs.gxt.ui.client.data.PagingLoadResult;
 import com.extjs.gxt.ui.client.data.PagingLoader;
 import com.extjs.gxt.ui.client.data.RpcProxy;
@@ -18,6 +17,7 @@ import com.extjs.gxt.ui.client.widget.LayoutContainer;
 public class MyTransactionView extends View {
 
 	private MyTransactionPanel myTransactionPanel;
+	private PagingLoader<PagingLoadResult<Transaction>> loader;
 	private LayoutContainer wrapper = Registry.get(AppView.CENTER_PANEL);
 	
 	public MyTransactionView(Controller controller) {
@@ -39,12 +39,15 @@ public class MyTransactionView extends View {
 		if (myTransactionPanel==null){
 			RpcProxy<PagingLoadResult<Transaction>> proxy = 
 				event.getData("proxy");
-			//XXX might need to be a class field
-			final PagingLoader<PagingLoadResult<ModelData>> loader 
-	    		= new BasePagingLoader<PagingLoadResult<ModelData>>(proxy); 
+			loader = new BasePagingLoader<PagingLoadResult<Transaction>>(proxy); 
 			loader.setRemoteSort(true);
 			myTransactionPanel = new MyTransactionPanel(loader);
 		}
+		
+		double balance = event.getData("balance");
+		int tickets = event.getData("tickets");
+		myTransactionPanel.getTransactionBalance().setBalance(balance);
+		myTransactionPanel.getTransactionBalance().setTickets(tickets);
 		
 		wrapper.removeAll();
 		wrapper.add(myTransactionPanel);

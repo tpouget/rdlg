@@ -6,7 +6,6 @@ import java.util.Map;
 import com.capgemini.rdlg.client.model.Transaction;
 import com.extjs.gxt.ui.client.Style.SortDir;
 import com.extjs.gxt.ui.client.data.BasePagingLoadConfig;
-import com.extjs.gxt.ui.client.data.ModelData;
 import com.extjs.gxt.ui.client.data.PagingLoadConfig;
 import com.extjs.gxt.ui.client.data.PagingLoadResult;
 import com.extjs.gxt.ui.client.data.PagingLoader;
@@ -26,7 +25,7 @@ public class MyTransactionList extends ContentPanel{
 
 	private Grid<Transaction> grid;
 	
-	public MyTransactionList(final PagingLoader<PagingLoadResult<ModelData>> loader) {
+	public MyTransactionList(final PagingLoader<PagingLoadResult<Transaction>> loader) {
 		
 		setLayout(new FitLayout());
 		setHeaderVisible(false);
@@ -40,9 +39,6 @@ public class MyTransactionList extends ContentPanel{
 			Arrays.asList(date, transactionMode,amount));
 	  
 	    ListStore<Transaction> store = new ListStore<Transaction>(loader);
-	    
-	    final PagingToolBar toolBar = new PagingToolBar(50);  
-	    toolBar.bind(loader);  
 		
 		grid = new Grid<Transaction>(store, cm);
 		grid.setBorders(true);
@@ -53,7 +49,7 @@ public class MyTransactionList extends ContentPanel{
 		      public void handleEvent(GridEvent<Transaction> be) {  
 		        PagingLoadConfig config = new BasePagingLoadConfig();  
 		        config.setOffset(0);  
-		        config.setLimit(50);  
+		        config.setLimit(25);
 		          
 		        Map<String, Object> state = grid.getState();  
 		        if (state.containsKey("offset")) {
@@ -75,5 +71,10 @@ public class MyTransactionList extends ContentPanel{
 		grid.setView(view);
 		
 		add(grid);
+		
+		final PagingToolBar toolBar = new PagingToolBar(25);  
+	    toolBar.bind(loader);  
+		setBottomComponent(toolBar);
+		setFrame(true);
 	}
 }

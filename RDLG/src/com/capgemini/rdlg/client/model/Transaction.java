@@ -12,15 +12,9 @@ import javax.jdo.annotations.PrimaryKey;
 
 import com.extjs.gxt.ui.client.data.BaseModel;
 
+@SuppressWarnings("serial")
 @PersistenceCapable(identityType = IdentityType.APPLICATION, detachable = "false")
 public class Transaction extends BaseModel {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 5239668251543449619L;
-
-
 	@PrimaryKey
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
 	@Extension(vendorName = "datanucleus", key = "gae.encoded-pk", value = "true")

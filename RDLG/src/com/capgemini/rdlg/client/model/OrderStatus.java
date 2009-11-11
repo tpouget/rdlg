@@ -2,7 +2,7 @@ package com.capgemini.rdlg.client.model;
 
 public enum OrderStatus {
 	EDITABLE("Modifiable"),
-	ORDERED("Passée"), 
+	ORDERED("Passée"),
 	CONFIRMED("Confirmée"),
 	DELIVERED("Livrée"), 
 	ADDED_AFTER_MAIL_WAS_SENT("Ajoutée après envoi du mail");

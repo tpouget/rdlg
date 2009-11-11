@@ -103,7 +103,7 @@ public class AppView extends View {
     item3.addSelectionListener(new SelectionListener<ButtonEvent>() {
 		@Override
 		public void componentSelected(ButtonEvent ce) {
-			//Dispatcher.forwardEvent(AppEvents.ViewFrontendOrders);
+			Dispatcher.forwardEvent(AppEvents.ViewMyTransaction);
 		}
 	});
     

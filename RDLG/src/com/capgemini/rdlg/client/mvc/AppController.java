@@ -58,8 +58,10 @@ public class AppController extends Controller {
 			}
 			@Override
 			public void onSuccess(User result) {
-				if (result!=null)
+				if (result!=null){
 					Registry.register(RDLG.USER, result);
+					//DevTools.addTransactionsToCurrentUser();
+				}
 				forwardToView(new AppEvent(
 					(result!=null) ? AppEvents.LoginHide : AppEvents.LoginReset));
 			}

@@ -89,10 +89,15 @@ public class OrdersView extends View{
 	}
 
 	private void onCreateOrder(AppEvent event) {
-		Date date = event.getData();
+		Date date = event.getData("date");
 		Order order = new Order();
 		order.setStatus(OrderStatus.EDITABLE);
 		order.setDate(date);
+		
+		Boolean isDayOrderPassed = event.getData("isDayOrderPassed");
+		if (isDayOrderPassed)
+			order.setStatus(OrderStatus.ADDED_AFTER_MAIL_WAS_SENT);
+			
 		order.updateProperties();
 		store.insert(order, 0);
 	}

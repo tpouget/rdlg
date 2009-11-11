@@ -106,20 +106,20 @@ public class OrdersController extends Controller{
 	}
 
 	private void onCreateOrder(final AppEvent event) {
-//		dateService.getUTCDate(new AsyncCallback<Date>() {
-//			@Override
-//			public void onFailure(Throwable caught) {
-//				Dispatcher.forwardEvent(AppEvents.Error, caught);
-//			}
-//			@Override
-//			public void onSuccess(Date result) {
-//				AppEvent ae = new AppEvent(event.getType());
-//				ae.setData(new DateWrapper(result).asDate());
-//				forwardToView(ordersView, ae);
-//			}
-//		});
+		orderService.isDayOrderPassed(new AsyncCallback<Boolean>() {
+			@Override
+			public void onSuccess(Boolean result) {
+				AppEvent ae = new AppEvent(event.getType());
+				ae.setData("date", new Date());
+				ae.setData("isDayOrderPassed", result);
+				forwardToView(ordersView, ae);
+			}
+			@Override
+			public void onFailure(Throwable caught) {
+				Dispatcher.forwardEvent(AppEvents.Error, caught);
+			}
+		});
 		
-		forwardToView(ordersView, new AppEvent(event.getType(), new Date()));
 	}
 
 	private void onOrderSelectionChanged(final AppEvent event) {

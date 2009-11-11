@@ -21,4 +21,5 @@ public interface OrderService extends RemoteService{
 	 * @return
 	 */
 	public ArrayList<Order> getReadyOrdersByDate(Date date);
+	public boolean isDayOrderPassed();
 }

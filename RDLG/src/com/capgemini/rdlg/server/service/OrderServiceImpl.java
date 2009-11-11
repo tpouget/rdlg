@@ -11,6 +11,7 @@ import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 
 import com.capgemini.rdlg.client.model.Order;
+import com.capgemini.rdlg.client.model.OrderStatus;
 import com.capgemini.rdlg.client.service.OrderService;
 import com.capgemini.rdlg.server.PMF;
 import com.capgemini.rdlg.server.tools.DateTools;
@@ -127,5 +128,14 @@ public class OrderServiceImpl extends RemoteServiceServlet implements OrderServi
 		}finally{
 			pm.close();
 		}
+	}
+
+	@Override
+	public boolean isDayOrderPassed() {
+		ArrayList<Order> orders = getReadyOrdersByDate(new Date());
+		for (Order o : orders)
+			if (o.getStatus().equals(OrderStatus.ORDERED))
+					return true;
+		return false;
 	}
 }

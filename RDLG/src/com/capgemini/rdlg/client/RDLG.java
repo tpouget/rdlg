@@ -3,6 +3,7 @@ package com.capgemini.rdlg.client;
 import com.capgemini.rdlg.client.mvc.AppController;
 import com.capgemini.rdlg.client.mvc.backend.BackendController;
 import com.capgemini.rdlg.client.mvc.frontend.DayOrdersController;
+import com.capgemini.rdlg.client.mvc.frontend.MyTransactionController;
 import com.capgemini.rdlg.client.mvc.frontend.OrdersController;
 import com.capgemini.rdlg.client.mvc.frontend.WeekMenuController;
 import com.capgemini.rdlg.client.service.MealService;
@@ -37,26 +38,28 @@ public class RDLG implements EntryPoint {
 	 */
 	public void onModuleLoad() {
 		
-		  	GXT.setDefaultTheme(Theme.GRAY, true);
+	  	GXT.setDefaultTheme(Theme.GRAY, true);
 
-		    Registry.register(MEAL_SERVICE, GWT.create(MealService.class));
-		    Registry.register(USER_SERVICE, GWT.create(UserService.class));
-		    Registry.register(ORDER_SERVICE, GWT.create(OrderService.class));
-		    Registry.register(TRANSACTION_SERVICE, GWT.create(TransactionService.class));
-		    
-		    //DevTools.addAdmin("setter", "setter");
-		    //DevTools.addUser("Thibault", "Pouget", "tpouget", "toto", UserType.ADMIN);
+	    Registry.register(MEAL_SERVICE, GWT.create(MealService.class));
+	    Registry.register(USER_SERVICE, GWT.create(UserService.class));
+	    Registry.register(ORDER_SERVICE, GWT.create(OrderService.class));
+	    Registry.register(TRANSACTION_SERVICE, GWT.create(TransactionService.class));
+	    
+	    //DevTools.addAdmin("setter", "setter");
+	    //DevTools.addUser("Thibault", "Pouget", "tpouget", "toto", UserType.ADMIN);
+	    
 
-		    Dispatcher dispatcher = Dispatcher.get();
-		    dispatcher.addController(new AppController());
-		    dispatcher.addController(new BackendController());
-		    dispatcher.addController(new WeekMenuController());
-		    dispatcher.addController(new OrdersController());
-		    dispatcher.addController(new DayOrdersController());
+	    Dispatcher dispatcher = Dispatcher.get();
+	    dispatcher.addController(new AppController());
+	    dispatcher.addController(new BackendController());
+	    dispatcher.addController(new WeekMenuController());
+	    dispatcher.addController(new OrdersController());
+	    dispatcher.addController(new DayOrdersController());
+	    dispatcher.addController(new MyTransactionController());
 
-		    dispatcher.dispatch(AppEvents.Login);
-		    
-		    GXT.hideLoadingPanel("loading");
+	    dispatcher.dispatch(AppEvents.Login);
+	    
+	    GXT.hideLoadingPanel("loading");
 	}
 
 }

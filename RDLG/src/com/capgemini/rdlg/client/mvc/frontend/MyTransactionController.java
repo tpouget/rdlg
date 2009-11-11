@@ -7,6 +7,7 @@ import com.capgemini.rdlg.client.model.User;
 import com.capgemini.rdlg.client.service.TransactionServiceAsync;
 import com.capgemini.rdlg.client.service.UserServiceAsync;
 import com.extjs.gxt.ui.client.Registry;
+import com.extjs.gxt.ui.client.data.PagingLoadConfig;
 import com.extjs.gxt.ui.client.data.PagingLoadResult;
 import com.extjs.gxt.ui.client.data.RpcProxy;
 import com.extjs.gxt.ui.client.event.EventType;
@@ -22,11 +23,15 @@ public class MyTransactionController extends Controller {
 	private TransactionServiceAsync transactionService;
 	private RpcProxy<PagingLoadResult<Transaction>> proxy = null;
 	
+	public MyTransactionController(){
+		registerEventTypes(AppEvents.ViewMyTransaction);
+	}
+	
 	@Override
 	protected void initialize() {
 		super.initialize();
 		view = new MyTransactionView(this);
-		userService = Registry.get(RDLG.ORDER_SERVICE);
+		userService = Registry.get(RDLG.USER_SERVICE);
 		transactionService = Registry.get(RDLG.TRANSACTION_SERVICE);
 	}
 	
@@ -43,10 +48,13 @@ public class MyTransactionController extends Controller {
 			 proxy = new RpcProxy<PagingLoadResult<Transaction>>() {  
 			      @Override  
 			      public void load(Object loadConfig, AsyncCallback<PagingLoadResult<Transaction>> callback) {  
-			    	  transactionService.getTransactionPagingByFrom(user_id, callback);
+			    	  transactionService.getTransactionPagingByFrom(
+			    			  user_id,
+			    			  (PagingLoadConfig) loadConfig,
+			    			  callback);
 			      }  
 			 };
-		 
+			 event.setData("proxy", proxy);
 		}
 		 
 		 userService.getUserBalance(
@@ -66,8 +74,8 @@ public class MyTransactionController extends Controller {
 		);
 	}
 
-	protected Object getTicketNumber(double balance) {
-		return Math.abs(balance/8.0);
+	protected int getTicketNumber(double balance) {
+		return (int) Math.abs(balance/8.0);
 	}
 
 }
