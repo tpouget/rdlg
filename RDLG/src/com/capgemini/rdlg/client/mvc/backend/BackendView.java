@@ -15,6 +15,8 @@ import com.capgemini.rdlg.client.widget.backend.UserManagementPanel;
 import com.capgemini.rdlg.client.widget.shared.PanelState;
 import com.capgemini.rdlg.client.widget.shared.WeekMenuPanel;
 import com.extjs.gxt.ui.client.Registry;
+import com.extjs.gxt.ui.client.data.BeanModel;
+import com.extjs.gxt.ui.client.data.BeanModelLookup;
 import com.extjs.gxt.ui.client.mvc.AppEvent;
 import com.extjs.gxt.ui.client.mvc.Controller;
 import com.extjs.gxt.ui.client.mvc.View;
@@ -28,7 +30,7 @@ public class BackendView extends View {
 	private ReplacementMealPanel backendReplacementMealPanel;
 	private UserManagementPanel userManagementPanel;
 	private BankManagementPanel bankManagementPanel;
-	 private GroupingStore<Meal> store = new GroupingStore<Meal>();
+	 private GroupingStore<BeanModel> store = new GroupingStore<BeanModel>();
 
 	public BackendView(Controller controller) {
 		super(controller);
@@ -52,7 +54,10 @@ public class BackendView extends View {
 			wrapper.layout();
 
 			store.removeAll();
-			store.add(event.<List<Meal>> getData());
+
+			List<BeanModel> mealsModel = BeanModelLookup.get().getFactory(Meal.class).createModel((List<Meal>)event.getData());
+		
+			store.add(mealsModel);
 
 			wrapper.layout();
 			return;
@@ -60,9 +65,12 @@ public class BackendView extends View {
 			wrapper.add(backendReplacementMealPanel);
 			wrapper.layout();
 
-			ListStore<Meal> store = backendReplacementMealPanel.getStore();
+			ListStore<BeanModel> store = backendReplacementMealPanel.getStore();
 			store.removeAll();
-			store.add(event.<List<Meal>> getData());
+			
+			List<BeanModel> mealsModel = BeanModelLookup.get().getFactory(Meal.class).createModel((List<Meal>)event.getData());
+			
+			store.add(mealsModel);
 
 			wrapper.layout();
 			return;
@@ -101,12 +109,13 @@ public class BackendView extends View {
 	    	meal.setDate(date);
 	    	meal.setMealType(MealType.PLAT);
 	    	meal.setPrice(meal.getMealType().getPrice());
-	    	meal.updateProperties();
-	    	store.insert(meal, 0);
+	    	BeanModel mealModel = BeanModelLookup.get().getFactory(Meal.class).createModel(meal);
+			
+	    	store.insert(mealModel, store.getCount());
 	    	wrapper.add(backendWeekMenuPanel);
 	    	wrapper.layout();
 	    	backendWeekMenuPanel.getRowEditor()
-	    		.startEditing(store.indexOf(meal), true);
+	    		.startEditing(store.indexOf(mealModel), true);
 	    	return;
 	    }
 		

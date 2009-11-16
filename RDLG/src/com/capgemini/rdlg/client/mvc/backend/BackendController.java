@@ -13,6 +13,8 @@ import com.capgemini.rdlg.client.service.MealServiceAsync;
 import com.capgemini.rdlg.client.service.TransactionServiceAsync;
 import com.capgemini.rdlg.client.service.UserServiceAsync;
 import com.extjs.gxt.ui.client.Registry;
+import com.extjs.gxt.ui.client.data.BeanModel;
+import com.extjs.gxt.ui.client.data.BeanModelLookup;
 import com.extjs.gxt.ui.client.event.EventType;
 import com.extjs.gxt.ui.client.mvc.AppEvent;
 import com.extjs.gxt.ui.client.mvc.Controller;
@@ -183,10 +185,6 @@ public class BackendController extends Controller {
 
 		mealService.getWeekMenuMeals(new AsyncCallback<List<Meal>>() {
 			public void onSuccess(List<Meal> result) {
-
-				for (Meal plat : result) {
-					plat.updateProperties();
-				}
 				AppEvent ae = new AppEvent(event.getType(), result);
 
 				forwardToView(backendView, ae);
@@ -203,10 +201,6 @@ public class BackendController extends Controller {
 		mealService.getPlatsRemplacement(new AsyncCallback<List<Meal>>() {
 			public void onSuccess(List<Meal> result) {
 
-				for (Meal meal : result) {
-					meal.updateProperties();
-
-				}
 				AppEvent ae = new AppEvent(event.getType(), result);
 
 				forwardToView(backendView, ae);
@@ -219,10 +213,12 @@ public class BackendController extends Controller {
 	}
 
 	private void onSaveBackendMenuSemaine(final AppEvent event){
-		List<Meal> meals = event.getData();
+		List<BeanModel> mealsModel = event.getData();
+		List<Meal> meals = new ArrayList<Meal>();
 		
-		for(Meal meal : meals)
-			meal.updateObject();
+		for(BeanModel mealModel : mealsModel){
+			meals.add((Meal)mealModel.getBean());
+		}
 		
 		mealService.persistPlats(meals, new AsyncCallback<List<Meal>>() {
 			@Override
@@ -239,10 +235,6 @@ public class BackendController extends Controller {
 	private void onSaveBackendPlatRemplacement(final AppEvent event){
 
 		List<Meal> meals = event.getData();
-		
-		for(Meal meal : meals)
-			meal.updateObject();
-		
 		mealService.persistPlats(meals, new AsyncCallback<List<Meal>>() {
 			@Override
 			public void onFailure(Throwable caught) {

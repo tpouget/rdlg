@@ -7,6 +7,7 @@ import com.capgemini.rdlg.client.AppEvents;
 import com.capgemini.rdlg.client.model.Meal;
 import com.capgemini.rdlg.client.model.MealType;
 import com.extjs.gxt.ui.client.Style.HorizontalAlignment;
+import com.extjs.gxt.ui.client.data.BeanModel;
 import com.extjs.gxt.ui.client.data.ModelData;
 import com.extjs.gxt.ui.client.event.ButtonEvent;
 import com.extjs.gxt.ui.client.event.SelectionListener;
@@ -38,13 +39,13 @@ import com.google.gwt.i18n.client.DateTimeFormat;
 
 public class WeekMenuPanel extends ContentPanel {
 
-	private Grid<Meal> grid;
+	private Grid<BeanModel> grid;
 	private GroupingView view = new GroupingView();
-	private RowEditor<Meal> re;
+	private RowEditor<BeanModel> re;
 
 	private PanelState panelState = PanelState.FRONTEND;
 
-	public WeekMenuPanel(PanelState panelState, final GroupingStore<Meal> store) {
+	public WeekMenuPanel(PanelState panelState, final GroupingStore<BeanModel> store) {
 		this.panelState = panelState;
 					
 		setLayout(new FitLayout());
@@ -59,7 +60,7 @@ public class WeekMenuPanel extends ContentPanel {
 		text.setAllowBlank(false);
 		name.setEditor(new CellEditor(text));
 
-		ColumnConfig prix = new ColumnConfig("prix", "Prix", 30);
+		ColumnConfig prix = new ColumnConfig("price", "Prix", 30);
 
 		NumberField dble = new NumberField();
 		dble.setAllowBlank(true);
@@ -121,16 +122,16 @@ public class WeekMenuPanel extends ContentPanel {
 		}
 		else
 		{
-			GridCellRenderer<Meal> buttonRenderer = new GridCellRenderer<Meal>(){
+			GridCellRenderer<BeanModel> buttonRenderer = new GridCellRenderer<BeanModel>(){
+		
 				@Override
-				public Object render(final Meal model, String property, ColumnData config, 
-						int rowIndex, int colIndex, ListStore<Meal> store, Grid<Meal> grid)
-				{
-					
+				public Object render(final BeanModel model, String property,
+						ColumnData config, int rowIndex, int colIndex,
+						ListStore<BeanModel> store, Grid<BeanModel> grid) {
 					Button b = new Button("Commander", new SelectionListener<ButtonEvent>() {  
 				          @Override  
 				          public void componentSelected(ButtonEvent ce) {  
-				            Dispatcher.forwardEvent(AppEvents.OrderForTheDay, model.getDate());
+				            Dispatcher.forwardEvent(AppEvents.OrderForTheDay, model.get("date"));
 				          }  
 			        });  
 			        b.setWidth(grid.getColumnModel().getColumnWidth(colIndex) - 10);
@@ -169,14 +170,14 @@ public class WeekMenuPanel extends ContentPanel {
 			}
 		});
 		
-		grid = new Grid<Meal>(store, cm);
+		grid = new Grid<BeanModel>(store, cm);
 		grid.setView(view);
 		grid.setBorders(true);
 
 		add(grid);
 		
 		if (panelState == PanelState.BACKEND){
-			re = new RowEditor<Meal>();
+			re = new RowEditor<BeanModel>();
 			re.setErrorSummary(false);
 			re.setMonitorValid(false);
 			grid.addPlugin(re);
@@ -225,11 +226,11 @@ public class WeekMenuPanel extends ContentPanel {
 		return view;
 	}
 
-	public Grid<Meal> getGrid() {
+	public Grid<BeanModel> getGrid() {
 		return grid;
 	}
 
-	public RowEditor<Meal> getRowEditor() {
+	public RowEditor<BeanModel> getRowEditor() {
 		return re;
 	}
 }

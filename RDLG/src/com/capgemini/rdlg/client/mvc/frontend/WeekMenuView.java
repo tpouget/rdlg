@@ -8,6 +8,8 @@ import com.capgemini.rdlg.client.mvc.AppView;
 import com.capgemini.rdlg.client.widget.shared.PanelState;
 import com.capgemini.rdlg.client.widget.shared.WeekMenuPanel;
 import com.extjs.gxt.ui.client.Registry;
+import com.extjs.gxt.ui.client.data.BeanModel;
+import com.extjs.gxt.ui.client.data.BeanModelLookup;
 import com.extjs.gxt.ui.client.event.BaseEvent;
 import com.extjs.gxt.ui.client.event.Listener;
 import com.extjs.gxt.ui.client.mvc.AppEvent;
@@ -21,7 +23,7 @@ public class WeekMenuView extends View {
   private WeekMenuPanel weekMenuPanel;
   private LayoutContainer wrapper 
   	= (LayoutContainer) Registry.get(AppView.CENTER_PANEL);
-  private GroupingStore<Meal> store = new GroupingStore<Meal>();
+  private GroupingStore<BeanModel> store = new GroupingStore<BeanModel>();
 
   public WeekMenuView(Controller controller) {
     super(controller);
@@ -39,7 +41,10 @@ public class WeekMenuView extends View {
       wrapper.add(weekMenuPanel);
       
       store.removeAll();
-      store.add(event.<List<Meal>>getData());
+
+		List<BeanModel> mealsModel = BeanModelLookup.get().getFactory(Meal.class).createModel((List<Meal>)event.getData());
+	
+      store.add(mealsModel);
       store.addListener(GroupingStore.Update, new Listener<BaseEvent>() {
 			public void handleEvent(BaseEvent be) {
 				weekMenuPanel.getView().refresh(false);

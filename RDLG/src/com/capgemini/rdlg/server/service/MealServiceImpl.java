@@ -77,7 +77,6 @@ public class MealServiceImpl extends RemoteServiceServlet implements
 
 			while (it.hasNext()) {
 				Meal plat = it.next();
-				plat.updateProperties();
 				result.add(plat);
 			}
 
@@ -111,7 +110,6 @@ public class MealServiceImpl extends RemoteServiceServlet implements
 
 			while (it.hasNext()) {
 				Meal plat = it.next();
-				plat.updateProperties();
 				result.add(plat);
 			}
 
@@ -156,8 +154,7 @@ public class MealServiceImpl extends RemoteServiceServlet implements
 					DateTools.getEuropeParisDayAfterDate(today));
 			ArrayList<Meal> toReturn 
 				= new ArrayList<Meal>(pm.detachCopyAll(results));
-			for (Meal meal: toReturn)
-				meal.updateProperties();
+			
 			return toReturn;
 		}finally{
 			pm.close();

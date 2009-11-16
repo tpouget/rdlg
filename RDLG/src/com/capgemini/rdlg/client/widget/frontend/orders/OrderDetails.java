@@ -3,6 +3,7 @@ package com.capgemini.rdlg.client.widget.frontend.orders;
 import com.capgemini.rdlg.client.AppEvents;
 import com.capgemini.rdlg.client.model.Meal;
 import com.capgemini.rdlg.client.model.User;
+import com.extjs.gxt.ui.client.data.BeanModel;
 import com.extjs.gxt.ui.client.event.SelectionChangedEvent;
 import com.extjs.gxt.ui.client.event.SelectionChangedListener;
 import com.extjs.gxt.ui.client.mvc.AppEvent;
@@ -21,9 +22,9 @@ import com.google.gwt.user.client.Element;
 
 public class OrderDetails extends FormPanel{
 
-	private ComboBox<Meal> starters;
-	private ComboBox<Meal> desserts;
-	private ComboBox<Meal> dishes;
+	private ComboBox<BeanModel> starters;
+	private ComboBox<BeanModel> desserts;
+	private ComboBox<BeanModel> dishes;
 	private DateField dateField;
 	private TextArea description;
 	private NumberField total;
@@ -34,43 +35,43 @@ public class OrderDetails extends FormPanel{
 		setHeaderVisible(false);
 		setLayoutOnChange(true);
 		
-		SelectionChangedListener<Meal> scl 
-			= new SelectionChangedListener<Meal>() {
+		SelectionChangedListener<BeanModel> scl 
+			= new SelectionChangedListener<BeanModel>() {
 				@Override
-				public void selectionChanged(SelectionChangedEvent<Meal> se) {
+				public void selectionChanged(SelectionChangedEvent<BeanModel> se) {
 					AppEvent event = new AppEvent(AppEvents.UpdateOrderTotal);
 					
 					if (starters.getValue()!=null)
 						event.setData("starterprice",
-								starters.getValue().getPrice());
+								starters.getValue().get("price"));
 					if (dishes.getValue()!=null)
 						event.setData("dishprice",
-								dishes.getValue().getPrice());
+								dishes.getValue().get("price"));
 					if (desserts.getValue()!=null)
 						event.setData("dessertprice",
-								desserts.getValue().getPrice());
+								desserts.getValue().get("price"));
 					Dispatcher.forwardEvent(event);
 				}
 			};
 		
-		starters = new ComboBox<Meal>();
-		starters.setStore(new ListStore<Meal>());
+		starters = new ComboBox<BeanModel>();
+		starters.setStore(new ListStore<BeanModel>());
 		starters.setTriggerAction(TriggerAction.ALL);
 		starters.setName("starter");
 		starters.setDisplayField("name");
 		starters.setFieldLabel("Entrée");
 		starters.addSelectionChangedListener(scl);
 
-		dishes = new ComboBox<Meal>();
-		dishes.setStore(new ListStore<Meal>());
+		dishes = new ComboBox<BeanModel>();
+		dishes.setStore(new ListStore<BeanModel>());
 		dishes.setTriggerAction(TriggerAction.ALL);
 		dishes.setName("dish");
 		dishes.setDisplayField("name");
 		dishes.setFieldLabel("Plat");
 		dishes.addSelectionChangedListener(scl);
 		
-		desserts = new ComboBox<Meal>();
-		desserts.setStore(new ListStore<Meal>());
+		desserts = new ComboBox<BeanModel>();
+		desserts.setStore(new ListStore<BeanModel>());
 		desserts.setTriggerAction(TriggerAction.ALL);
 		desserts.setName("dessert");
 		desserts.setDisplayField("name");
@@ -121,27 +122,27 @@ public class OrderDetails extends FormPanel{
 		add(user);
 	}
 	
-	public ComboBox<Meal> getStarters() {
+	public ComboBox<BeanModel> getStarters() {
 		return starters;
 	}
 
-	public void setStarters(ComboBox<Meal> starters) {
+	public void setStarters(ComboBox<BeanModel> starters) {
 		this.starters = starters;
 	}
 
-	public ComboBox<Meal> getDesserts() {
+	public ComboBox<BeanModel> getDesserts() {
 		return desserts;
 	}
 
-	public void setDesserts(ComboBox<Meal> desserts) {
+	public void setDesserts(ComboBox<BeanModel> desserts) {
 		this.desserts = desserts;
 	}
 
-	public ComboBox<Meal> getDishes() {
+	public ComboBox<BeanModel> getDishes() {
 		return dishes;
 	}
 
-	public void setDishes(ComboBox<Meal> dishes) {
+	public void setDishes(ComboBox<BeanModel> dishes) {
 		this.dishes = dishes;
 	}
 

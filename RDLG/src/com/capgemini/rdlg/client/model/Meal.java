@@ -1,5 +1,6 @@
 package com.capgemini.rdlg.client.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.jdo.annotations.Extension;
@@ -9,10 +10,10 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
-import com.extjs.gxt.ui.client.data.BaseModel;
+import com.extjs.gxt.ui.client.data.BeanModelTag;
 
 @PersistenceCapable(identityType = IdentityType.APPLICATION, detachable = "false")
-public class Meal extends BaseModel{
+public class Meal implements BeanModelTag, Serializable{
 	
 	/**
 	 * 
@@ -85,21 +86,6 @@ public class Meal extends BaseModel{
 
 	public Date getDate() {
 		return date;
-	}
-	
-	public void updateProperties(){
-		set("id", getId());
-		set("date", getDate());
-		set("mealType", getMealType());
-		set("name", getName());
-		set("prix", getPrice());
-	}
-
-	public void updateObject(){
-		setDate((Date)get("date"));
-		setName((String)get("name"));
-		setPrice((Double)get("prix"));
-		setMealType((MealType)get("mealType"));
 	}
 	
 	@Override

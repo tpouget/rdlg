@@ -138,9 +138,6 @@ public class UserManagementPanel extends ContentPanel {
 	    grid.setView(view);
 	    grid.setBorders(true);
 	    
-	    final RowEditor<Meal> re = new RowEditor<Meal>();
-		grid.addPlugin(re);
-	    
 	    add(grid);
 	    
 	    ToolBar toolBar = new ToolBar();

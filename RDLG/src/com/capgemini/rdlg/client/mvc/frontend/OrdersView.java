@@ -14,6 +14,8 @@ import com.capgemini.rdlg.client.widget.shared.PanelState;
 import com.extjs.gxt.ui.client.Registry;
 import com.extjs.gxt.ui.client.binding.FieldBinding;
 import com.extjs.gxt.ui.client.binding.FormBinding;
+import com.extjs.gxt.ui.client.data.BeanModel;
+import com.extjs.gxt.ui.client.data.BeanModelLookup;
 import com.extjs.gxt.ui.client.event.EventType;
 import com.extjs.gxt.ui.client.mvc.AppEvent;
 import com.extjs.gxt.ui.client.mvc.Controller;
@@ -126,17 +128,19 @@ public class OrdersView extends View{
 		else{
 			formBinding.bind(selectedOrder);
 			
+
+			List<BeanModel> startersModel = BeanModelLookup.get().getFactory(Meal.class).createModel((List<Meal>)event.getData("starters"));
+			List<BeanModel> dishesModel = BeanModelLookup.get().getFactory(Meal.class).createModel((List<Meal>)event.getData("dishes"));
+			List<BeanModel> dessertsModel = BeanModelLookup.get().getFactory(Meal.class).createModel((List<Meal>)event.getData("desserts"));
+		
 			ordersPanel.getOrderDetails()
-				.getStarters().getStore().add(
-					event.<List<Meal>>getData("starters"));
+				.getStarters().getStore().add(startersModel);
 			
 			ordersPanel.getOrderDetails()
-				.getDishes().getStore().add(
-					event.<List<Meal>>getData("dishes"));
+				.getDishes().getStore().add(dishesModel);
 			
 			ordersPanel.getOrderDetails()
-				.getDesserts().getStore().add(
-					event.<List<Meal>>getData("desserts"));
+				.getDesserts().getStore().add(dessertsModel);
 			
 			ordersPanel.getOrderDetails().enable();
 			

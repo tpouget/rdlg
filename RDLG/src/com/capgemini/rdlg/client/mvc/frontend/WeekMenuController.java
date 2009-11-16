@@ -38,8 +38,6 @@ public class WeekMenuController extends Controller {
 	private void onViewFrontendMenuSemaine(final AppEvent event) {
 		mealService.getWeekMenuMeals(new AsyncCallback<List<Meal>>() {
 			public void onSuccess(List<Meal> result) {
-				for (Meal plat : result)
-					plat.updateProperties();				
 				
 				AppEvent ae = new AppEvent(event.getType(), result);
 				

@@ -13,6 +13,9 @@ import com.capgemini.rdlg.client.AppEvents;
 import com.capgemini.rdlg.client.model.Meal;
 import com.capgemini.rdlg.client.model.MealType;
 import com.extjs.gxt.ui.client.Style.HorizontalAlignment;
+import com.extjs.gxt.ui.client.data.BeanModel;
+import com.extjs.gxt.ui.client.data.BeanModelFactory;
+import com.extjs.gxt.ui.client.data.BeanModelLookup;
 import com.extjs.gxt.ui.client.data.ModelData;
 import com.extjs.gxt.ui.client.event.BaseEvent;
 import com.extjs.gxt.ui.client.event.ButtonEvent;
@@ -37,11 +40,12 @@ import com.extjs.gxt.ui.client.widget.grid.GridView;
 import com.extjs.gxt.ui.client.widget.grid.RowEditor;
 import com.extjs.gxt.ui.client.widget.layout.FitLayout;
 import com.extjs.gxt.ui.client.widget.toolbar.ToolBar;
+import com.extjs.gxt.ui.rebind.core.BeanModelGenerator;
 
 public class ReplacementMealPanel extends ContentPanel {
 
-	private Grid<Meal> grid;
-	private ListStore<Meal> store = new ListStore<Meal>();
+	private Grid<BeanModel> grid;
+	private ListStore<BeanModel> store = new ListStore<BeanModel>();
 	private GridView view = new GridView();
 	
 	public ReplacementMealPanel() {
@@ -111,14 +115,14 @@ public class ReplacementMealPanel extends ContentPanel {
 				typePlat));
 
 
-		final Grid<Meal> grid = new Grid<Meal>(store, cm);
+		final Grid<BeanModel> grid = new Grid<BeanModel>(store, cm);
 
 		grid.setBorders(true);
 		view.setForceFit(true);
 		grid.setView(view);
 		add(grid);
 
-		final RowEditor<Meal> re = new RowEditor<Meal>();
+		final RowEditor<BeanModel> re = new RowEditor<BeanModel>();
 		grid.addPlugin(re);
 
 		ToolBar toolBar = new ToolBar();
@@ -129,9 +133,11 @@ public class ReplacementMealPanel extends ContentPanel {
 				Meal plat = createPlat();
 
 				re.stopEditing(false);
-				store.insert(plat, 0);
-
-				re.startEditing(store.indexOf(plat), true);
+			
+				BeanModel mealModel = BeanModelLookup.get().getFactory(Meal.class).createModel(plat);
+				
+				store.insert(mealModel, 0);
+				re.startEditing(store.indexOf(mealModel), true);
 			}
 
 		});
@@ -187,11 +193,11 @@ public class ReplacementMealPanel extends ContentPanel {
 		return view;
 	}
 
-	public ListStore<Meal> getStore() {
+	public ListStore<BeanModel> getStore() {
 		return store;
 	}
 
-	public Grid<Meal> getGrid() {
+	public Grid<BeanModel> getGrid() {
 		return grid;
 	}
 
@@ -199,7 +205,7 @@ public class ReplacementMealPanel extends ContentPanel {
 		Meal plat = new Meal();
 		plat.setName("Nouveau plat de remplacement");
 		plat.setPrice(0.0);
-		plat.updateProperties();
+		
 		return plat;
 	}
 
