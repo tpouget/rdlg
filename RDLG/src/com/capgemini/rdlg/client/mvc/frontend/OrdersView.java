@@ -128,10 +128,15 @@ public class OrdersView extends View{
 		else{
 			formBinding.bind(selectedOrder);
 			
-
-			List<BeanModel> startersModel = BeanModelLookup.get().getFactory(Meal.class).createModel((List<Meal>)event.getData("starters"));
-			List<BeanModel> dishesModel = BeanModelLookup.get().getFactory(Meal.class).createModel((List<Meal>)event.getData("dishes"));
-			List<BeanModel> dessertsModel = BeanModelLookup.get().getFactory(Meal.class).createModel((List<Meal>)event.getData("desserts"));
+			List<Meal> starters = event.getData("starters");
+			List<BeanModel> startersModel 
+				= BeanModelLookup.get().getFactory(Meal.class).createModel(starters);
+			List<Meal> dishes = event.getData("dishes");
+			List<BeanModel> dishesModel 
+				= BeanModelLookup.get().getFactory(Meal.class).createModel(dishes);
+			List<Meal> desserts = event.getData("desserts");
+			List<BeanModel> dessertsModel 
+				= BeanModelLookup.get().getFactory(Meal.class).createModel(desserts);
 		
 			ordersPanel.getOrderDetails()
 				.getStarters().getStore().add(startersModel);

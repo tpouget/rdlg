@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.capgemini.rdlg.client.AppEvents;
-import com.capgemini.rdlg.client.model.Meal;
 import com.capgemini.rdlg.client.model.User;
 import com.capgemini.rdlg.client.model.UserType;
 import com.extjs.gxt.ui.client.Style.HorizontalAlignment;
@@ -27,7 +26,6 @@ import com.extjs.gxt.ui.client.widget.grid.ColumnConfig;
 import com.extjs.gxt.ui.client.widget.grid.ColumnModel;
 import com.extjs.gxt.ui.client.widget.grid.Grid;
 import com.extjs.gxt.ui.client.widget.grid.GridView;
-import com.extjs.gxt.ui.client.widget.grid.RowEditor;
 import com.extjs.gxt.ui.client.widget.layout.FitLayout;
 import com.extjs.gxt.ui.client.widget.toolbar.SeparatorToolItem;
 import com.extjs.gxt.ui.client.widget.toolbar.ToolBar;

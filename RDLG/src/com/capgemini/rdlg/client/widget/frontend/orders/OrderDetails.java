@@ -1,7 +1,6 @@
 package com.capgemini.rdlg.client.widget.frontend.orders;
 
 import com.capgemini.rdlg.client.AppEvents;
-import com.capgemini.rdlg.client.model.Meal;
 import com.capgemini.rdlg.client.model.User;
 import com.extjs.gxt.ui.client.data.BeanModel;
 import com.extjs.gxt.ui.client.event.SelectionChangedEvent;

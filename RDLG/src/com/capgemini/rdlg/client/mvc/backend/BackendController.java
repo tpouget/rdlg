@@ -14,7 +14,6 @@ import com.capgemini.rdlg.client.service.TransactionServiceAsync;
 import com.capgemini.rdlg.client.service.UserServiceAsync;
 import com.extjs.gxt.ui.client.Registry;
 import com.extjs.gxt.ui.client.data.BeanModel;
-import com.extjs.gxt.ui.client.data.BeanModelLookup;
 import com.extjs.gxt.ui.client.event.EventType;
 import com.extjs.gxt.ui.client.mvc.AppEvent;
 import com.extjs.gxt.ui.client.mvc.Controller;

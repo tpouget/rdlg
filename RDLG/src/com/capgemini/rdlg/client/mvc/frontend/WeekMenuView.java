@@ -42,7 +42,9 @@ public class WeekMenuView extends View {
       
       store.removeAll();
 
-		List<BeanModel> mealsModel = BeanModelLookup.get().getFactory(Meal.class).createModel((List<Meal>)event.getData());
+      List<Meal> meals = event.getData();
+	  List<BeanModel> mealsModel 
+			= BeanModelLookup.get().getFactory(Meal.class).createModel(meals);
 	
       store.add(mealsModel);
       store.addListener(GroupingStore.Update, new Listener<BaseEvent>() {

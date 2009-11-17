@@ -55,7 +55,9 @@ public class BackendView extends View {
 
 			store.removeAll();
 
-			List<BeanModel> mealsModel = BeanModelLookup.get().getFactory(Meal.class).createModel((List<Meal>)event.getData());
+			List<Meal> meals = event.getData();
+			List<BeanModel> mealsModel 
+				= BeanModelLookup.get().getFactory(Meal.class).createModel(meals);
 		
 			store.add(mealsModel);
 
@@ -68,7 +70,9 @@ public class BackendView extends View {
 			ListStore<BeanModel> store = backendReplacementMealPanel.getStore();
 			store.removeAll();
 			
-			List<BeanModel> mealsModel = BeanModelLookup.get().getFactory(Meal.class).createModel((List<Meal>)event.getData());
+			List<Meal> meals = event.getData();
+			List<BeanModel> mealsModel 
+				= BeanModelLookup.get().getFactory(Meal.class).createModel(meals);
 			
 			store.add(mealsModel);
 
@@ -109,7 +113,8 @@ public class BackendView extends View {
 	    	meal.setDate(date);
 	    	meal.setMealType(MealType.PLAT);
 	    	meal.setPrice(meal.getMealType().getPrice());
-	    	BeanModel mealModel = BeanModelLookup.get().getFactory(Meal.class).createModel(meal);
+	    	BeanModel mealModel 
+	    		= BeanModelLookup.get().getFactory(Meal.class).createModel(meal);
 			
 	    	store.insert(mealModel, store.getCount());
 	    	wrapper.add(backendWeekMenuPanel);
