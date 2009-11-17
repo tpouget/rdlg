@@ -29,6 +29,7 @@ import com.extjs.gxt.ui.client.util.Margins;
 import com.extjs.gxt.ui.client.widget.LayoutContainer;
 import com.extjs.gxt.ui.client.widget.Viewport;
 import com.extjs.gxt.ui.client.widget.button.Button;
+import com.extjs.gxt.ui.client.widget.custom.ThemeSelector;
 import com.extjs.gxt.ui.client.widget.layout.BorderLayout;
 import com.extjs.gxt.ui.client.widget.layout.BorderLayoutData;
 import com.extjs.gxt.ui.client.widget.layout.FitLayout;
@@ -120,11 +121,45 @@ public class AppView extends View {
     toolBar.add(item2);
     toolBar.add(item3);
     toolBar.add(dayOrders);
+    toolBar.add(new ThemeSelector());
+    
     toolBar.add(new FillToolItem());
     
-    if (((User)Registry.get(RDLG.USER)).getUserType().equals(UserType.ADMIN)){
-    	
-	    Button item4 = new Button("Administration");
+    if (((User)Registry.get(RDLG.USER)).getUserType().equals(UserType.ADMIN))
+	    toolBar.add(getAdminMenu());
+    
+    toolBar.add(new LabelToolItem("Bienvenue "+
+    		((User)Registry.get(RDLG.USER)).getFirstname()));
+    
+    BorderLayoutData data = new BorderLayoutData(LayoutRegion.NORTH, 33);
+    data.setMargins(new Margins());
+    viewport.add(toolBar, data);
+  }
+
+  	private void createCenter() {
+	    center = new LayoutContainer();
+	    center.setLayout(new FitLayout());
+	
+	    BorderLayoutData data = new BorderLayoutData(LayoutRegion.CENTER);
+	    data.setMargins(new Margins(5, 5, 5, 5));
+	    center.setHeight(500);
+	
+	    viewport.add(center, data);
+  	}
+
+    protected void handleEvent(AppEvent event) {
+    	if (event.getType() == AppEvents.Init) {
+    		initUI();
+	  	} else if (event.getType() == AppEvents.LoginHide) {
+	  		onLoginHide();
+	  	} else if (event.getType() == AppEvents.LoginReset) {
+	  		onLoginReset();
+	  	}
+    }
+
+
+	private Button getAdminMenu(){
+	    Button item = new Button("Administration");
 	    
 	    Menu menu = new Menu();  
 	    
@@ -177,41 +212,12 @@ public class AppView extends View {
 	   
 	    menu.add(menuItem);  
 	    
-	    item4.setMenu(menu);
+	    item.setMenu(menu);
 	    
-	    toolBar.add(item4);
+	    return item;
     }
-    
-    toolBar.add(new LabelToolItem("Bienvenue "+
-    		((User)Registry.get(RDLG.USER)).getFirstname()));
-    
-    BorderLayoutData data = new BorderLayoutData(LayoutRegion.NORTH, 33);
-    data.setMargins(new Margins());
-    viewport.add(toolBar, data);
-  }
 
- 
-  private void createCenter() {
-    center = new LayoutContainer();
-    center.setLayout(new FitLayout());
-
-    BorderLayoutData data = new BorderLayoutData(LayoutRegion.CENTER);
-    data.setMargins(new Margins(5, 5, 5, 5));
-    center.setHeight(500);
-
-    viewport.add(center, data);
-  }
-
-  protected void handleEvent(AppEvent event) {
-    if (event.getType() == AppEvents.Init) {
-      initUI();
-    } else if (event.getType() == AppEvents.LoginHide) {
-      onLoginHide();
-    } else if (event.getType() == AppEvents.LoginReset) {
-      onLoginReset();
-    }
-  }
-
+  
 	private void onLoginReset() {
 		dialog.reset();
 	}

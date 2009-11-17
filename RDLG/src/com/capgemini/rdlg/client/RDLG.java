@@ -12,12 +12,20 @@ import com.capgemini.rdlg.client.service.MealService;
 import com.capgemini.rdlg.client.service.OrderService;
 import com.capgemini.rdlg.client.service.TransactionService;
 import com.capgemini.rdlg.client.service.UserService;
+import com.extjs.gxt.themes.client.Slate;
 import com.extjs.gxt.ui.client.GXT;
 import com.extjs.gxt.ui.client.Registry;
 import com.extjs.gxt.ui.client.mvc.Dispatcher;
 import com.extjs.gxt.ui.client.util.Theme;
+import com.extjs.gxt.ui.client.util.ThemeManager;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
+
+import ext.ux.theme.black.client.Black;
+import ext.ux.theme.darkgray.client.DarkGray;
+import ext.ux.theme.olive.client.Olive;
+import ext.ux.theme.purple.client.Purple;
+import ext.ux.theme.slickness.client.Slickness;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
@@ -36,12 +44,17 @@ public class RDLG implements EntryPoint {
 	 public static final String EMAIL_SERVICE = "email_service";
 
 	 public static final String USER = "user";
+	 
+	 public RDLG() {
+		// GXT.setDefaultTheme(Theme.GRAY, true);
+	}
+	 
 	/**
 	 * This is the entry point method.
 	 */
 	public void onModuleLoad() {
 		
-	  	GXT.setDefaultTheme(Theme.GRAY, true);
+		registerThemes();
 
 	    Registry.register(MEAL_SERVICE, GWT.create(MealService.class));
 	    Registry.register(USER_SERVICE, GWT.create(UserService.class));
@@ -65,6 +78,21 @@ public class RDLG implements EntryPoint {
 	    dispatcher.dispatch(AppEvents.Login);
 	    
 	    GXT.hideLoadingPanel("loading");
+	}
+
+	private void registerThemes() {
+		registerTheme(Black.BLACK);
+		registerTheme(DarkGray.DARKGRAY);
+		registerTheme(Olive.OLIVE);
+		registerTheme(Purple.PURPLE);
+		registerTheme(Slickness.SLICKNESS);
+		registerTheme(Slate.SLATE);
+	}
+
+	private void registerTheme(Theme theme) {
+		String filename = theme.getFile();
+		theme.set("file", GWT.getModuleBaseURL()+"css/"+filename);
+		ThemeManager.register(theme);
 	}
 
 }

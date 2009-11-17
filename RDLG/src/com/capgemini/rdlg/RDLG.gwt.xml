@@ -12,10 +12,18 @@
   <!-- <inherits name='com.google.gwt.user.theme.dark.Dark'/>     -->
 
   <!-- Other module inherits                                      -->
-	<inherits name='com.extjs.gxt.ui.GXT'/>
+  <inherits name='com.extjs.gxt.ui.GXT'/>
+  
+  <!-- Other GXT Themes                                           -->
+  <inherits name="com.extjs.gxt.themes.Themes" /> 
+  <inherits name='ext.ux.theme.black.Black'/>
+  <inherits name='ext.ux.theme.darkgray.DarkGray'/>
+  <inherits name='ext.ux.theme.purple.Purple'/>
+  <inherits name='ext.ux.theme.olive.Olive'/>
+  <inherits name='ext.ux.theme.slickness.Slickness'/>
 
   <!-- French in France -->
-    <extend-property name="locale" values="fr_FR"/>
+  <extend-property name="locale" values="fr_FR"/>
 	
   <!-- Specify the app entry point class.                         -->
   <entry-point class='com.capgemini.rdlg.client.RDLG'/>

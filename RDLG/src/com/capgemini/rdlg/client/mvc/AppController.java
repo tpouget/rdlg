@@ -23,31 +23,28 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public class AppController extends Controller {
 
-  private AppView appView;
-  private UserServiceAsync userService;
+	private AppView appView;
+	private UserServiceAsync userService;
   
-  public AppController() {
-	userService = Registry.get(RDLG.USER_SERVICE);
-    registerEventTypes(AppEvents.Init);
-    registerEventTypes(AppEvents.Login);
-    registerEventTypes(AppEvents.Error);
-    registerEventTypes(AppEvents.CheckLogin);
-  }
+  	public AppController() {
+  		userService = Registry.get(RDLG.USER_SERVICE);
+  		registerEventTypes(
+  			AppEvents.Init, AppEvents.Login,
+  			AppEvents.Error, AppEvents.CheckLogin);
+  	}
 
-  public void handleEvent(AppEvent event) {
-    EventType type = event.getType();
-    if (type == AppEvents.Init) {
-    	forwardToView(event);
-    } else if (type == AppEvents.Login) {
-    	forwardToView(event);
-    } else if (type == AppEvents.Error) {
-        onError(event);
-    } else if (type == AppEvents.CheckLogin) {
-        onCheckLogin(event);
-    } 
-  }
-  
-	
+  	public void handleEvent(AppEvent event) {
+  		EventType type = event.getType();
+  		if (type == AppEvents.Init) {
+  			forwardToView(event);
+  		} else if (type == AppEvents.Login) {
+  			forwardToView(event);
+  		} else if (type == AppEvents.Error) {
+  			onError(event);
+  		} else if (type == AppEvents.CheckLogin) {
+  			onCheckLogin(event);
+  		} 
+  	}
 
 	private void onCheckLogin(final AppEvent event) {
 		HashMap<String, String> data = event.getData();
@@ -68,15 +65,15 @@ public class AppController extends Controller {
 		});
 	}
 
-  public void initialize() {
-    appView = new AppView(this);
-  }
+	public void initialize() {
+		appView = new AppView(this);
+	}
 
-  protected void onError(AppEvent ae) {
-    System.out.println("error: " + ae.<Object>getData());
-  }
+	protected void onError(AppEvent ae) {
+		System.out.println("error: " + ae.<Object>getData());
+	}
 
-  private void forwardToView(AppEvent event) {
-    forwardToView(appView, event);
-  }
+	private void forwardToView(AppEvent event) {
+		forwardToView(appView, event);
+	}
 }
