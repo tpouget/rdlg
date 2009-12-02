@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<Module>
+  <ModulePrefs 
+  description="last.fm player"
+  author="Aslak Grinsted" 
+  scrolling="false"
+  category="funandgames" height="266"> 
+  <Require feature="flash" /> 
+  </ModulePrefs> 
+	<Content type="html">
+	<![CDATA[
+	<div id='swfwrapper'></div>
+	<div id='message'></div>
+	<script type="text/javascript" language="javascript"> 
+	   function myesc(s){
+		  var r=escape(s);
+		  r=r.replace(/\//gi,'%2F');
+		  r=r.replace(/ /gi,'%2520');
+		  return r;
+	   }
+	  var ok = gadgets.flash.embedFlash(http://infobot-ndi09.blog-video.tv/tele_export.swf?id=e48cfa6cc7fdf7a7175d48133cb0db8a&couleur=#1693D8', 'swfwrapper', 9, params);
+	  if (~ok) {
+		 document.getElementById('message').innerHTML='Error: Could not embed flash player!';
+	  }
+
+	</script>]]> 
+	</Content>
+</Module>
