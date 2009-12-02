@@ -1,22 +1,20 @@
-<?xml version="1.0" encoding="UTF-8" ?> 
-<Module>
-  <ModulePrefs 
-  description="last.fm player"
-  author="Aslak Grinsted" 
-  scrolling="false"
-  category="funandgames" height="266"> 
-  <Require feature="flash" /> 
-  </ModulePrefs> 
-	<Content type="html">
-	<![CDATA[
-	<div id='swfwrapper'/>
-	<div id='message'/>
-	<script type="text/javascript" language="javascript"> 
-	  var ok = gadgets.flash.embedFlash('http://infobot-ndi09.blog-video.tv/tele_export.swf?id=e48cfa6cc7fdf7a7175d48133cb0db8a&couleur=#1693D8', 'swfwrapper');
-	  if (~ok) {
-		 document.getElementById('message').innerHTML='Error: Could not embed flash player!';
-	  }
-
-	</script>]]> 
-	</Content>
-</Module>
+<?xml version="1.0"?>
+<html>
+  <head>
+    <script src="http://www.gmodules.com/ig/ifr?url=http://hosting.gmodules.com/ig/gadgets/file/108621208120033273647/flash_video.xml
+	&amp;up_File=http://infobot-ndi09.blog-video.tv/tele_export.swf?id=e48cfa6cc7fdf7a7175d48133cb0db8a&couleur=#1693D8
+	&amp;up_Fwidth=480
+	&amp;up_Fheight=380
+	&amp;synd=open
+	&amp;w=480
+	&amp;h=480
+	&amp;title=Play+Flash+Video
+	&amp;border=%23ffffff%7C3px%2C1px+solid+%23999999
+	&amp;output=js"
+	type="text/javascript"></script>
+    <title></title>
+  </head>
+  <body>
+    <noscript>Inserer une video Flash</noscript>
+  </body>
+</html>
