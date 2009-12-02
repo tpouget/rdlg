@@ -1,20 +1,90 @@
-<?xml version="1.0"?>
-<html>
-  <head>
-    <script src="http://www.gmodules.com/ig/ifr?url=http://hosting.gmodules.com/ig/gadgets/file/108621208120033273647/flash_video.xml
-	&amp;up_File=http://infobot-ndi09.blog-video.tv/tele_export.swf?id=e48cfa6cc7fdf7a7175d48133cb0db8a&couleur=#1693D8
-	&amp;up_Fwidth=480
-	&amp;up_Fheight=380
-	&amp;synd=open
-	&amp;w=480
-	&amp;h=480
-	&amp;title=Play+Flash+Video
-	&amp;border=%23ffffff%7C3px%2C1px+solid+%23999999
-	&amp;output=js"
-	type="text/javascript"></script>
-    <title></title>
-  </head>
-  <body>
-    <noscript>Inserer une video Flash</noscript>
-  </body>
-</html>
+<Content type="html"> 
+<![CDATA[ >
+
+<style type="text/css"> 
+ 
+body
+{
+	padding: 0px;
+	margin: 0px;
+	background: __UP_ContainerCol__;
+}
+  
+.my_link
+{
+font-family:Arial,sans-serif;
+font-size:11px;
+}
+ 
+.my_link:link, .my_link:visited
+{
+text-decoration: none;
+}
+ 
+.main_box
+{
+background-color: __UP_Backcol__;
+}
+ 
+</style> 
+ 
+<center> 
+<div class="main_box" style="height: 430px; width: 430px;"> 
+&nbsp;
+<div id="flashcontainer" style="text-align: center;"></div> 
+ 
+<script type="text/javascript"> 
+ 
+// Global variables
+ 
+var prefs = new _IG_Prefs(__MODULE_ID__);
+ 
+var s_fil=_unesc(_trim(prefs.getString("File")));
+ 
+var s_tit=_trim(prefs.getString("Titre"));
+var s_lnk=_trim(prefs.getString("Link"));
+var s_sub=_trim(prefs.getString("Subtitle"));
+var s_slk=_trim(prefs.getString("Sublink"));
+ 
+// Play .swf file
+function displaySlide()
+{
+// Play .swf file.
+_IG_EmbedFlash(s_fil, "flashcontainer", {
+swf_version: 9,
+id: "flashid",
+wmode: "window",
+scale: "exactfit",
+width: __UP_Fwidth__,
+height: __UP_Fheight__
+})
+}
+ 
+// When gadget first loads, display photo.
+_IG_RegisterOnloadHandler(showPhoto);
+</script> 
+ 
+<div id="my_footer" style="text-align: center; margin-top:5px;"></div> 
+<br/>&nbsp;
+ 
+ 
+<script type="text/javascript"> 
+ 
+// define footer
+ 
+var html=
+ 
+"<img src='http://www.liens-du-vin.ch/_pic061/button-start.gif' title='Start' alt='Start' onClick='displaySlide()'>" +
+"<a class='my_link' href='" + s_slk + "' target='_blank' title='" + s_sub + "'>" + "&nbsp;&nbsp;&nbsp;" + s_sub + "&nbsp;&nbsp;&nbsp;" + "</a>" +
+"<img src='http://www.liens-du-vin.ch/_pic061/button-stop.gif' title='Stop' alt='Stop' onClick='showPhoto()'>";
+ 
+_gel("my_footer").innerHTML = html;
+ 
+_IG_Analytics("UA-442758-35", "/g_video");
+  
+</script> 
+</div> 
+</center> 
+]]>
+</Content> 
+</Module>
