@@ -9,10 +9,10 @@
   </ModulePrefs> 
 	<Content type="html">
 	<![CDATA[
-	<div id='swfwrapper'></div>
-	<div id='message'></div>
+	<div id='swfwrapper'/>
+	<div id='message'/>
 	<script type="text/javascript" language="javascript"> 
-	  var ok = gadgets.flash.embedFlash(http://infobot-ndi09.blog-video.tv/tele_export.swf?id=e48cfa6cc7fdf7a7175d48133cb0db8a&couleur=#1693D8', 'swfwrapper');
+	  var ok = gadgets.flash.embedFlash('http://infobot-ndi09.blog-video.tv/tele_export.swf?id=e48cfa6cc7fdf7a7175d48133cb0db8a&couleur=#1693D8', 'swfwrapper');
 	  if (~ok) {
 		 document.getElementById('message').innerHTML='Error: Could not embed flash player!';
 	  }
