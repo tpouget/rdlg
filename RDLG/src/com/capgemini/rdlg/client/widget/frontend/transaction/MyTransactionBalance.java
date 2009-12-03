@@ -8,7 +8,6 @@ public class MyTransactionBalance extends ContentPanel{
 	private int tickets;
 	
 	public MyTransactionBalance() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public void setBalance(double balance) {

@@ -75,7 +75,7 @@ public class MyTransactionController extends Controller {
 	}
 
 	protected int getTicketNumber(double balance) {
-		return (int) Math.abs(balance/8.0);
+		return (int) Math.abs(balance/8.0)+1;
 	}
 
 }

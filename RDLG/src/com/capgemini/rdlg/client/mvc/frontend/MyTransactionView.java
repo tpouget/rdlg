@@ -3,6 +3,7 @@ package com.capgemini.rdlg.client.mvc.frontend;
 import com.capgemini.rdlg.client.AppEvents;
 import com.capgemini.rdlg.client.model.Transaction;
 import com.capgemini.rdlg.client.mvc.AppView;
+import com.capgemini.rdlg.client.widget.frontend.transaction.MyTransactionBalance;
 import com.capgemini.rdlg.client.widget.frontend.transaction.MyTransactionPanel;
 import com.extjs.gxt.ui.client.Registry;
 import com.extjs.gxt.ui.client.data.BasePagingLoader;
@@ -13,6 +14,7 @@ import com.extjs.gxt.ui.client.mvc.AppEvent;
 import com.extjs.gxt.ui.client.mvc.Controller;
 import com.extjs.gxt.ui.client.mvc.View;
 import com.extjs.gxt.ui.client.widget.LayoutContainer;
+import com.extjs.gxt.ui.client.widget.Text;
 
 public class MyTransactionView extends View {
 
@@ -46,8 +48,20 @@ public class MyTransactionView extends View {
 		
 		double balance = event.getData("balance");
 		int tickets = event.getData("tickets");
-		myTransactionPanel.getTransactionBalance().setBalance(balance);
-		myTransactionPanel.getTransactionBalance().setTickets(tickets);
+		
+		MyTransactionBalance panel = myTransactionPanel.getTransactionBalance();
+		panel.setBalance(balance);
+		panel.setTickets(tickets);
+		panel.removeAll();
+		panel.add(new Text("\n\nVotre solde est actuellement de "+balance+" €"));
+		if (panel.getBalance()<0){
+			String warning = "\n\nVotre solde est négatif, pensez à payez !" +
+					"\n\nIl vous faut au moins "+tickets+" chèque";
+			if (tickets>1) 
+				warning+="s";
+			warning+=" déjeuner pour avoir un solde positif.";
+			panel.add(new Text(warning));
+		}
 		
 		wrapper.removeAll();
 		wrapper.add(myTransactionPanel);

@@ -35,15 +35,8 @@ public class MailHandlerServlet extends HttpServlet {
     
 			MailService mailService = MailServiceFactory.getMailService();
 			mailService.send(mail);
-			
-//			ByteArrayInputStream content = (ByteArrayInputStream) message.getContent();
-//			InputStreamReader reader = new InputStreamReader(content);
-//			StringBuffer buff = new StringBuffer();
-//			int ch;
-//			while ((ch = reader.read())!=-1) {
-//				buff.append((char)ch);
-//			}
-//			System.out.println(buff);
+
+			//System.out.println(MailUtils.getMessageStringContent(message.getContent()));
 		} catch (MessagingException e) {
 			e.printStackTrace();
 		}

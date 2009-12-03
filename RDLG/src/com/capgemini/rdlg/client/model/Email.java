@@ -2,6 +2,7 @@ package com.capgemini.rdlg.client.model;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import javax.jdo.annotations.Extension;
 import javax.jdo.annotations.IdGeneratorStrategy;
@@ -14,66 +15,65 @@ import com.extjs.gxt.ui.client.data.BeanModelTag;
 
 @SuppressWarnings("serial")
 @PersistenceCapable(identityType = IdentityType.APPLICATION, detachable = "false")
-public class Meal implements BeanModelTag, Serializable{
-
+public class Email implements BeanModelTag, Serializable{
 	@PrimaryKey
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
 	@Extension(vendorName = "datanucleus", key = "gae.encoded-pk", value = "true")  
 	private String id;
 	
 	@Persistent
-	private String name;
-	
-	@Persistent
-	private Double price;
-	
-	@Persistent
-	private MealType mealType;
-	
-	@Persistent
 	private Date date;
 	
-	public Meal(){
-	}
+	@Persistent
+	private String subject;
 	
-	public Meal(String name, Double price, MealType typePlat, Date date){
-		this.setName(name);
-		this.setPrice(price);
-		this.setMealType(typePlat);
-		this.setDate(date);
-	}
+	@Persistent
+	private String content;
+	
+	@Persistent
+	private String sender;
+	
+	@Persistent
+	private List<String> recipients;
 
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setPrice(Double price) {
-		this.price = price;
-	}
-
-	public Double getPrice() {
-		return price;
-	}
-
-	public void setMealType(MealType typePlat) {
-		this.mealType = typePlat;
-		this.price = typePlat.getPrice(); 
-	}
-
-	public MealType getMealType() {
-		return mealType;
+	public String getId() {
+		return id;
 	}
 
 	public void setId(String id) {
 		this.id = id;
 	}
 
-	public String getId() {
-		return id;
+	public String getSubject() {
+		return subject;
+	}
+
+	public void setSubject(String subject) {
+		this.subject = subject;
+	}
+
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
+
+	public String getSender() {
+		return sender;
+	}
+
+	public void setSender(String sender) {
+		this.sender = sender;
+	}
+
+	public List<String> getRecipients() {
+		return recipients;
+	}
+
+	public void setRecipients(List<String> recipients) {
+		this.recipients = recipients;
 	}
 
 	public void setDate(Date date) {
@@ -84,8 +84,5 @@ public class Meal implements BeanModelTag, Serializable{
 		return date;
 	}
 	
-	@Override
-	public String toString() {
-		return name;
-	}
+	
 }

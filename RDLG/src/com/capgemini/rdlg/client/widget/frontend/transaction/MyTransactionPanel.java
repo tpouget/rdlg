@@ -19,8 +19,9 @@ public class MyTransactionPanel extends ContentPanel{
 		transactionBalance = new MyTransactionBalance();
 		transactionList = new MyTransactionList(loader);
 		
-		BorderLayoutData data = new BorderLayoutData(LayoutRegion.WEST, 120, 100, 200);
+		BorderLayoutData data = new BorderLayoutData(LayoutRegion.WEST, 180, 100, 250);
 		data.setSplit(true);
+		data.setCollapsible(true);
 		data.setMargins(new Margins(5));
 		add(transactionBalance, data);
 		data = new BorderLayoutData(LayoutRegion.CENTER);  
