@@ -10,13 +10,9 @@ import javax.jdo.annotations.PrimaryKey;
 import com.capgemini.rdlg.client.SecurityTools;
 import com.extjs.gxt.ui.client.data.BaseModel;
 
+@SuppressWarnings("serial")
 @PersistenceCapable(identityType = IdentityType.APPLICATION, detachable = "false")
 public class User extends BaseModel{
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -8443403704970649464L;
 
 	@PrimaryKey
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
